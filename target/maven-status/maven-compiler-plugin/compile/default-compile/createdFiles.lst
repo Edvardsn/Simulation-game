@@ -1,1 +1,5 @@
-org/ntnu/petteed/Unit.class
+org\ntnu\petteed\CommanderUnit.class
+org\ntnu\petteed\RangedUnit.class
+org\ntnu\petteed\InfantryUnit.class
+org\ntnu\petteed\Unit.class
+org\ntnu\petteed\CavalryUnit.class
