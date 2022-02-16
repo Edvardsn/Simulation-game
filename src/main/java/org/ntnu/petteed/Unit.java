@@ -8,10 +8,10 @@ package org.ntnu.petteed;
  */
 public abstract class Unit {
 
-  private String name;
+  private final String name;
   private int health;
-  private int attack;
-  private int armour;
+  private final int attack;
+  private final int armour;
 
   /**
    * Creates an instance of Unit
