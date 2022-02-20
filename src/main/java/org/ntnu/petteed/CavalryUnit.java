@@ -2,8 +2,6 @@ package org.ntnu.petteed;
 
 public class CavalryUnit extends Unit {
 
-  private int numberOfTimesHaveAttacked;
-
   /**
    * Creates an instance of CavalryUnit
    *
@@ -36,7 +34,7 @@ public class CavalryUnit extends Unit {
 
     int attackBonus = 2;
 
-    if (numberOfTimesHaveAttacked < 1) {
+    if (initiatedAttacks < 1) {
       attackBonus += 4;
     }
 

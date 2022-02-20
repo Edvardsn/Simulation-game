@@ -12,6 +12,8 @@ public abstract class Unit {
   private int health;
   private final int attack;
   private final int armour;
+  protected int receivedAttacks;
+  protected int initiatedAttacks;
 
   /**
    * Creates an instance of Unit
@@ -26,6 +28,8 @@ public abstract class Unit {
     this.health = health;
     this.attack = attack;
     this.armour = armour;
+    this.receivedAttacks = 0;
+    this.initiatedAttacks = 0;
   }
 
   /**
@@ -34,11 +38,35 @@ public abstract class Unit {
    * @param opponent, the unit to attack
    */
   protected void attack(Unit opponent) {
-    int damage = this.getAttack() + this.getAttackBonus();
 
-    int resistances = opponent.getHealth() + opponent.getResistBonus();
+    if(opponent != null && this.isAlive()) {
 
-    opponent.setHealth(resistances - damage);
+      int initialDamage = this.getAttack() + this.getAttackBonus();
+
+      int resistances = opponent.getResistBonus() + opponent.getArmour();
+
+      int actualDamage = initialDamage - resistances;
+
+      opponent.setHealth(opponent.getHealth() - actualDamage);
+
+      this.incrementInitiatedAttacks(); // Registers initiated attack
+      opponent.incrementReceivedAttacks(); // Registers being attacked
+    }
+
+  }
+
+  /**
+   * Increments the number of times an attack has been received
+   */
+  public void incrementReceivedAttacks() {
+    this.receivedAttacks++;
+  }
+
+  /**
+   * Increments the number of times an attack has been initiated
+   */
+  public void incrementInitiatedAttacks() {
+    this.initiatedAttacks++;
   }
 
   /**
@@ -48,6 +76,17 @@ public abstract class Unit {
    */
   protected void setHealth(int newHealth) {
     this.health = newHealth;
+  }
+
+  /**
+   * Checks whether the unit is alive
+   *
+   * @return True if the unit is alive, false if not.
+   */
+  public boolean isAlive(){
+    boolean isAlive = this.getHealth() > 0;
+
+    return isAlive;
   }
 
   /**

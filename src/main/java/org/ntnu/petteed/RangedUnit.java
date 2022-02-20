@@ -2,8 +2,6 @@ package org.ntnu.petteed;
 
 public class RangedUnit extends Unit {
 
-  private int numberOfTimesBeenAttacked;
-
   /**
    * Creates an instance of Unit
    *
@@ -32,14 +30,12 @@ public class RangedUnit extends Unit {
   @Override
   public int getResistBonus() {
 
-    int newResistBonus = 2;
+    int resistBonus = 2;
 
-    this.numberOfTimesBeenAttacked++;
-
-    if (this.numberOfTimesBeenAttacked < 2) {
-      newResistBonus = 6 - (this.numberOfTimesBeenAttacked * 2);
+    if (receivedAttacks < 2) {
+      resistBonus += 4 - (2 * receivedAttacks);
     }
 
-    return newResistBonus;
+    return resistBonus;
   }
 }
