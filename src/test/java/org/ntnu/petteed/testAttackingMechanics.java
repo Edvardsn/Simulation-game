@@ -52,6 +52,4 @@ public class testAttackingMechanics {
 
     assertEquals(2, unit1.getAttackBonus());
   }
-
-
 }

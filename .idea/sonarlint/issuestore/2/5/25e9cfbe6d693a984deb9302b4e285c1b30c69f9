@@ -1,9 +1,0 @@
-
-U
-java:S1854"?Remove this useless assignment to local variable "unitArmyTwo".(ÏÔ“ª
-F
-java:S1481"0Remove this unused "unitArmyTwo" local variable.(ÏÔ“ª
-8
-java:S2189""Add an end condition to this loop.(≤‡Â∏
-M
-java:S2589"7Remove this expression which always evaluates to "true"(≤‡Â∏

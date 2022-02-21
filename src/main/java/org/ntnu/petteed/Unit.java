@@ -23,21 +23,29 @@ public abstract class Unit {
    * @param attack, The attack value of the unit
    * @param armour, The armour value of the unit
    */
-  protected Unit(String name, int health, int attack, int armour) {
-    this.name = name;
-    this.health = health;
-    this.attack = attack;
-    this.armour = armour;
-    this.receivedAttacks = 0;
-    this.initiatedAttacks = 0;
-  }
+  protected Unit(String name, int health, int attack, int armour)throws IllegalArgumentException {
+      if (name != null){
+        this.name = name;
+      }else {
+        throw new IllegalArgumentException("Name as null is not a valid name");
+      }
+      if (health < 0){
+        throw new IllegalArgumentException("Cannot create a unit with negative health");
+      }else{
+        this.health = health;
+      }
+      this.attack = attack;
+      this.armour = armour;
+      this.receivedAttacks = 0;
+      this.initiatedAttacks = 0;
+    }
 
-  /**
+   /**
    * Attacks another unit
    *
    * @param opponent, the unit to attack
    */
-  protected void attack(Unit opponent) {
+   protected void attack(Unit opponent) {
 
     if(opponent != null && this.isAlive()) {
 

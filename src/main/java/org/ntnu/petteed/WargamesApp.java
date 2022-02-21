@@ -1,27 +1,19 @@
 package org.ntnu.petteed;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class WargamesApp {
 
-
   public static void main(String[] args) {
+    try {
+      Army humans = Army.createTestUnits("Humans", "Dude", 3, 1);
+      Army orcs = Army.createTestUnits("Orcs", "Gundabad", 5, 1);
 
-    Army test1 = new Army("Humans");
-    Army test2 = new Army("Orcs");
+      Battle battle = new Battle(humans, orcs);
 
-    List<Unit> units1 = test1.createTestUnits("Dude",10,2);
-    List<Unit> units2 = test1.createTestUnits("Orc",2,3);
+      Army winningArmy = battle.simulate();
 
-    Army humanArmy = new Army("Humans",units1);
-    Army orcishArmy = new Army("Orcs",units2);
-
-    Battle battle = new Battle(humanArmy,orcishArmy);
-
-    Army winningArmy = battle.simulate();
-
-    System.out.println(winningArmy.toString());
-
+      System.out.println(winningArmy.toString());
+    } catch (IllegalArgumentException e) {
+      System.out.println(e.getMessage());
+    }
   }
 }

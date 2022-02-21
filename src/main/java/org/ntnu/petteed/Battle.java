@@ -25,6 +25,7 @@ public class Battle {
     Army winner = null;
 
     while (battling) {
+
       Unit unitArmyOne = armyOne.getRandom();
       Unit unitArmyTwo = armyTwo.getRandom();
 
@@ -50,9 +51,6 @@ public class Battle {
       }
 
       switch (scenario) {
-        default:
-          break;
-
         case ARMY_ONE_WINNER:
           winner = armyOne;
           battling = false;
@@ -66,6 +64,10 @@ public class Battle {
         case TIE:
           battling = false;
           break;
+
+        default:
+          break;
+
       }
     }
     return winner;

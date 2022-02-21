@@ -128,8 +128,7 @@ public class Army {
     return "Army{" +
         "name='" + name + '\'' +
         ", units=" + units +
-        ", randomGenerator=" + randomGenerator +
-        '}';
+        "}'";
   }
 
   /**
@@ -141,39 +140,40 @@ public class Army {
    *
    * @param nameUnits Name of the units
    * @param quantity How many of specified unit
-   * @param klasse A number representing what class
-   * @return
+   * @param chosenClass A number representing what class to be made
+   * @return Army the army to be created
    */
-  public List<Unit> createTestUnits(String nameUnits, int quantity, int klasse) {
+  public static Army createTestUnits(String armyName, String nameUnits, int quantity, int chosenClass) {
 
     int counter = 0;
-    int nameNumber = 0;
 
     List<Unit> list = new ArrayList<>();
 
-    if (klasse == 1) {
+    if (chosenClass == 1) {
       while (counter < quantity) {
-        nameUnits += "" + counter;
-        list.add(new InfantryUnit(nameUnits, 100));
+       String numberedName = nameUnits + (counter + 1);
+        list.add(new InfantryUnit(numberedName, 100));
         counter++;
       }
     }
-      if (klasse == 2) {
+      if (chosenClass == 2) {
         while (counter < quantity) {
-          nameUnits += "" + counter;
-          list.add(new RangedUnit(nameUnits, 100));
+          String numberedName = nameUnits + (counter + 1);
+          list.add(new RangedUnit(numberedName, 100));
           counter++;
         }
       }
-        if (klasse == 3) {
+        if (chosenClass == 3) {
           while (counter < quantity) {
-            nameUnits += "" + counter;
-            list.add(new CavalryUnit(nameUnits, 100));
+            String numberedName = nameUnits + (counter + 1);
+            list.add(new CavalryUnit(numberedName, 100));
             counter++;
           }
-
         }
 
-      return list;
+        Army newArmy =  new Army(armyName,list);
+        newArmy.initializeHealthyUnits();
+
+    return new Army(armyName,list);
   }
 }
