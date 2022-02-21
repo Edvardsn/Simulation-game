@@ -14,9 +14,14 @@ public class Battle {
    * @param armyOne The first battling army
    * @param armyTwo The second battling army
    */
-  public Battle(Army armyOne, Army armyTwo) {
-    this.armyOne = armyOne;
-    this.armyTwo = armyTwo;
+  public Battle(Army armyOne, Army armyTwo) throws IllegalArgumentException {
+    if (armyOne.getAll() == null || armyTwo.getAll() == null) {
+      throw new IllegalArgumentException(
+          "Cannot arrange battle with an army who does not have any units");
+    } else {
+      this.armyOne = armyOne;
+      this.armyTwo = armyTwo;
+    }
   }
 
   public Army simulate() {
@@ -29,11 +34,12 @@ public class Battle {
       Unit unitArmyOne = armyOne.getRandom();
       Unit unitArmyTwo = armyTwo.getRandom();
 
-      if(unitArmyOne != null){
-        unitArmyOne.attack(unitArmyTwo);
-      }
       if (unitArmyTwo != null){
         unitArmyTwo.attack(unitArmyOne);
+      }
+
+      if(unitArmyOne != null){
+        unitArmyOne.attack(unitArmyTwo);
       }
 
       int scenario = 0; // Initializes the variable

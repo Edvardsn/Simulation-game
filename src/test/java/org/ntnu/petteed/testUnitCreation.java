@@ -15,6 +15,4 @@ public class testUnitCreation {
     assertEquals(15, unit.getAttack());
     assertEquals(10, unit.getArmour());
   }
-
-
 }

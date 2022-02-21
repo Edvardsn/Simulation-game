@@ -143,7 +143,7 @@ public class Army {
    * @param chosenClass A number representing what class to be made
    * @return Army the army to be created
    */
-  public static Army createTestUnits(String armyName, String nameUnits, int quantity, int chosenClass) {
+  public static Army createTestArmy(String armyName, String nameUnits, int quantity, int chosenClass) {
 
     int counter = 0;
 
@@ -151,7 +151,7 @@ public class Army {
 
     if (chosenClass == 1) {
       while (counter < quantity) {
-       String numberedName = nameUnits + (counter + 1);
+       String numberedName = nameUnits + (counter + 1); // Gives a number to created units
         list.add(new InfantryUnit(numberedName, 100));
         counter++;
       }

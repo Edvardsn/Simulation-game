@@ -47,7 +47,7 @@ public abstract class Unit {
    */
    protected void attack(Unit opponent) {
 
-    if(opponent != null && this.isAlive()) {
+    if(opponent != null && this.isAlive() && !(opponent.equals(this))) {
 
       int initialDamage = this.getAttack() + this.getAttackBonus();
 
