@@ -34,13 +34,14 @@ public class Battle {
       Unit unitArmyOne = armyOne.getRandom();
       Unit unitArmyTwo = armyTwo.getRandom();
 
-      if (unitArmyTwo != null){
+      if (unitArmyOne != null) {
+        unitArmyOne.attack(unitArmyTwo);
+      }
+
+      if (unitArmyTwo != null) {
         unitArmyTwo.attack(unitArmyOne);
       }
 
-      if(unitArmyOne != null){
-        unitArmyOne.attack(unitArmyTwo);
-      }
 
       int scenario = 0; // Initializes the variable
 
@@ -52,28 +53,22 @@ public class Battle {
         scenario = ARMY_ONE_WINNER;
       }
 
-      if(!armyOne.hasHealthyUnits() && !armyTwo.hasHealthyUnits()){
+      if (!armyOne.hasHealthyUnits() && !armyTwo.hasHealthyUnits()) {
         scenario = TIE;
       }
 
       switch (scenario) {
-        case ARMY_ONE_WINNER:
+        case ARMY_ONE_WINNER -> {
           winner = armyOne;
           battling = false;
-          break;
-
-        case ARMY_TWO_WINNER:
+        }
+        case ARMY_TWO_WINNER -> {
           winner = armyTwo;
           battling = false;
-          break;
-
-        case TIE:
-          battling = false;
-          break;
-
-        default:
-          break;
-
+        }
+        case TIE -> battling = false;
+        default -> {
+        }
       }
     }
     return winner;

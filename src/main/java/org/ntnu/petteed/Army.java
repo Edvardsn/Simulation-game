@@ -7,6 +7,14 @@ import java.util.Random;
 
 public class Army {
 
+  /**
+   * Enums for identifying what type of unit to be created
+   *
+   */
+  public enum unitType {
+    INFANTRY,CAVALRY,RANGED,COMMANDER
+  }
+
   private final String name;
   private List<Unit> units;
   private ArrayList<Unit> healthyUnits;
@@ -132,48 +140,47 @@ public class Army {
   }
 
   /**
-   *
    * Creates test units for armies
    * 1. InfantryUnit
    * 2. RangedUnit
    * 3. CavalryUnit
    *
-   * @param nameUnits Name of the units
-   * @param quantity How many of specified unit
+   * @param nameUnits   Name of the units
+   * @param quantity    How many of specified unit
    * @param chosenClass A number representing what class to be made
    * @return Army the army to be created
    */
-  public static Army createTestArmy(String armyName, String nameUnits, int quantity, int chosenClass) {
+  public static Army createTestArmy(String armyName, String nameUnits, int quantity,unitType type) {
 
     int counter = 0;
 
     List<Unit> list = new ArrayList<>();
 
-    if (chosenClass == 1) {
+    if (type == unitType.INFANTRY) {
       while (counter < quantity) {
-       String numberedName = nameUnits + (counter + 1); // Gives a number to created units
+        String numberedName = nameUnits + (counter + 1); // Gives a number to created units
         list.add(new InfantryUnit(numberedName, 100));
         counter++;
       }
     }
-      if (chosenClass == 2) {
-        while (counter < quantity) {
-          String numberedName = nameUnits + (counter + 1);
-          list.add(new RangedUnit(numberedName, 100));
-          counter++;
-        }
+    if (type == unitType.RANGED) {
+      while (counter < quantity) {
+        String numberedName = nameUnits + (counter + 1);
+        list.add(new RangedUnit(numberedName, 100));
+        counter++;
       }
-        if (chosenClass == 3) {
-          while (counter < quantity) {
-            String numberedName = nameUnits + (counter + 1);
-            list.add(new CavalryUnit(numberedName, 100));
-            counter++;
-          }
-        }
+    }
+    if (type == unitType.CAVALRY) {
+      while (counter < quantity) {
+        String numberedName = nameUnits + (counter + 1);
+        list.add(new CavalryUnit(numberedName, 100));
+        counter++;
+      }
+    }
 
-        Army newArmy =  new Army(armyName,list);
-        newArmy.initializeHealthyUnits();
+    Army newArmy = new Army(armyName, list);
+    newArmy.initializeHealthyUnits();
 
-    return new Army(armyName,list);
+    return new Army(armyName, list);
   }
 }

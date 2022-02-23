@@ -4,6 +4,17 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * Positive tests:
+ * - test whether units have correct health after attacking
+ * - test whether health is set to the right value
+ *-
+ *
+ * Negative tests:
+ * ......
+ *
+ */
+
 public class testAttackingMechanics {
 
   @Test
@@ -17,7 +28,7 @@ public class testAttackingMechanics {
   }
 
   @Test
-  public void correctHealthValue() {
+  public void setCorrectHealthValue() {
     Unit unit = new InfantryUnit("unitsen", 100);
     unit.setHealth(50);
 
@@ -52,4 +63,27 @@ public class testAttackingMechanics {
 
     assertEquals(2, unit1.getAttackBonus());
   }
+
+  @Test
+  public void testAttackingMyself(){
+    InfantryUnit unit = new InfantryUnit("unisten",100);
+    unit.attack(unit);
+    assertEquals(100,unit.getHealth());
+  }
+
+  @Test
+  public void testAttackingWhileDead(){
+    CavalryUnit unit1 = new CavalryUnit("unit1", 0);
+    CavalryUnit unit2 = new CavalryUnit("unit2", 100);
+
+    unit1.attack(unit2);
+    assertEquals(100,unit2.getHealth());
+  }
+
+  @Test
+  public void testAttackingNull(){
+    Unit unit = new InfantryUnit("unitsen", 100);
+    unit.attack(null);
+  }
+
 }
