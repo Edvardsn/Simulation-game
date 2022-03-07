@@ -12,7 +12,6 @@ public class WargamesApp {
       Army winningArmy = battle.simulate();
 
       System.out.println(winningArmy.toString());
-      System.out.println(orcs.toString());
     } catch (IllegalArgumentException e) {
       System.out.println(e.getMessage());
     }

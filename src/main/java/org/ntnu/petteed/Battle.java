@@ -1,9 +1,12 @@
 package org.ntnu.petteed;
 
+import java.util.Random;
+
 public class Battle {
 
   private final Army armyOne;
   private final Army armyTwo;
+  private final Random randomCombatGen;
   private static final int ARMY_ONE_WINNER = 1;
   private static final int ARMY_TWO_WINNER = 2;
   private static final int TIE = 3;
@@ -21,6 +24,7 @@ public class Battle {
     } else {
       this.armyOne = armyOne;
       this.armyTwo = armyTwo;
+      this.randomCombatGen = new Random();
     }
   }
 
@@ -34,14 +38,17 @@ public class Battle {
       Unit unitArmyOne = armyOne.getRandom();
       Unit unitArmyTwo = armyTwo.getRandom();
 
-      if (unitArmyOne != null) {
-        unitArmyOne.attack(unitArmyTwo);
-      }
+      int combatOrder = randomCombatGen.nextInt(2);
 
-      if (unitArmyTwo != null) {
+      if(combatOrder == 1 && unitArmyOne != null && unitArmyTwo != null){
+        unitArmyOne.attack(unitArmyTwo);
         unitArmyTwo.attack(unitArmyOne);
       }
 
+      if(combatOrder == 0 && unitArmyOne != null && unitArmyTwo != null) {
+        unitArmyTwo.attack(unitArmyOne);
+        unitArmyOne.attack(unitArmyTwo);
+      }
 
       int scenario = 0; // Initializes the variable
 
