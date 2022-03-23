@@ -92,9 +92,7 @@ public abstract class Unit {
    * @return {@code Boolean} True if the unit is alive, false if not.
    */
   public boolean isAlive() {
-    boolean isAlive = this.getHealth() > 0;
-
-    return isAlive;
+    return this.getHealth() > 0;
   }
 
   /**

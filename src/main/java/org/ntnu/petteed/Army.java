@@ -24,23 +24,33 @@ public class Army {
    * Creates and instance of an Army
    *
    * @param name The name of the army
+   * @throws IllegalArgumentException, Prohibits creating an Army without a name
    */
-  public Army(String name) {
-    this.name = name;
-
+  public Army(String name) throws IllegalArgumentException {
+    if (name != null) {
+      this.name = name;
+    } else {
+      throw new IllegalArgumentException("Cannot create an Army without a name");
+    }
   }
-
   /**
    * Creates and instance of an Army
    *
    * @param name  The name of the army
    * @param units The list of units in the army
+   * @throws IllegalArgumentException, Prohibits creating an Army without a name or units.
    */
-  public Army(String name, List<Unit> units) {
-    this.name = name;
-    this.units = units;
-    this.healthyUnits = new ArrayList<>();
-    initializeHealthyUnits();
+  public Army(String name, List<Unit> units) throws IllegalArgumentException {
+    if (name != null && units != null) {
+      this.name = name;
+      this.units = units;
+      this.healthyUnits = new ArrayList<>();
+      initializeHealthyUnits();
+    } else if (name == null) {
+      throw new IllegalArgumentException("Cannot create an Army without a name");
+    } else {
+      throw new IllegalArgumentException("Cannot create an Army without any units");
+    }
   }
 
   /**
@@ -85,7 +95,9 @@ public class Army {
    * @param unit Unit to be removed
    */
   public void remove(Unit unit) {
-    units.remove(unit);
+    if (unit != null) {
+      units.remove(unit);
+    }
   }
 
   /**
@@ -94,7 +106,7 @@ public class Army {
    * @return True if any number of units present, false if not.
    */
   public boolean hasHealthyUnits() {
-    return (!healthyUnits.isEmpty());
+    return !(healthyUnits.isEmpty());
   }
 
   /**
@@ -126,11 +138,21 @@ public class Army {
     return Objects.equals(name, army.name) && Objects.equals(units, army.units);
   }
 
+  /**
+   * Returns a hashcode representing the army
+   *
+   * @return A hashcode representing the army
+   */
   @Override
   public int hashCode() {
     return Objects.hash(name, units);
   }
 
+  /**
+   * Creates a description of the army
+   *
+   * @return A description of the army
+   */
   @Override
   public String toString() {
     return "Army{" +
@@ -140,15 +162,21 @@ public class Army {
   }
 
   /**
-   * Creates test units for armies
-   * 1. InfantryUnit
-   * 2. RangedUnit
-   * 3. CavalryUnit
+   * Returns a list of every Infantryunit in the Army
    *
-   * @param nameUnits   Name of the units
-   * @param quantity    How many of specified unit
-   * @param chosenClass A number representing what class to be made
-   * @return Army the army to be created
+   * @return {@code List<Unit>} , The list of InfantryUnits
+   */
+  public List<Unit> getInfantryUnits(){
+    return units.stream().filter(unit -> unit.getClass() != InfantryUnit.class).toList();
+  }
+
+  /**
+   * Creates a given number of units of a specified unit type.
+   *
+   * @param nameUnits ,Name of the units
+   * @param quantity ,How many of specified unit
+   * @param type ,A number representing what class to be made
+   * @return {@code Army}, the new Army created
    */
   public static Army createTestArmy(String armyName, String nameUnits, int quantity,unitType type) {
 
@@ -177,9 +205,6 @@ public class Army {
         counter++;
       }
     }
-
-    Army newArmy = new Army(armyName, list);
-    newArmy.initializeHealthyUnits();
 
     return new Army(armyName, list);
   }

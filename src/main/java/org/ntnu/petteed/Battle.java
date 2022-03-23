@@ -28,6 +28,11 @@ public class Battle {
     }
   }
 
+  /**
+   * Simulates a battle between two armies
+   *
+   * @return {@code Army}, Returns the winning army
+   */
   public Army simulate() {
 
     boolean battling = true;
@@ -52,15 +57,15 @@ public class Battle {
 
       int scenario = 0; // Initializes the variable
 
-      if (!armyOne.hasHealthyUnits()) {
+      if (armyOne.hasHealthyUnits()) {
         scenario = ARMY_TWO_WINNER;
       }
 
-      if (!armyTwo.hasHealthyUnits()) {
+      if (armyTwo.hasHealthyUnits()) {
         scenario = ARMY_ONE_WINNER;
       }
 
-      if (!armyOne.hasHealthyUnits() && !armyTwo.hasHealthyUnits()) {
+      if (armyOne.hasHealthyUnits() && armyTwo.hasHealthyUnits()) {
         scenario = TIE;
       }
 
