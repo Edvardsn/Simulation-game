@@ -1,9 +1,11 @@
-package org.ntnu.petteed;
+package org.ntnu.petteed.Model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
+import org.ntnu.petteed.Model.InfantryUnit;
+import org.ntnu.petteed.Model.Unit;
 
 /**
  * Positive tests:

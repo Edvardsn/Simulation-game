@@ -1,6 +1,15 @@
-package org.ntnu.petteed;
+package org.ntnu.petteed.Model;
 
+/**
+ * Represents a unit of the Ranged type
+ *
+ */
 public class RangedUnit extends Unit {
+
+  private final static int ATTACK_VALUE = 15;
+  private final static int ARMOUR_VALUE = 8;
+  private final static int BASE_ATTACK_BONUS = 3;
+  private final static int BASE_RESIST_BONUS = 2;
 
   /**
    * Creates an instance of Unit
@@ -9,7 +18,7 @@ public class RangedUnit extends Unit {
    * @param health, The health of the unit
    */
   public RangedUnit(String name, int health) {
-    super(name, health, 15, 8);
+    super(name, health, ATTACK_VALUE, ARMOUR_VALUE);
   }
 
   /**
@@ -19,7 +28,7 @@ public class RangedUnit extends Unit {
    */
   @Override
   public int getAttackBonus() {
-    return 3;
+    return BASE_ATTACK_BONUS;
   }
 
   /**
@@ -30,7 +39,7 @@ public class RangedUnit extends Unit {
   @Override
   public int getResistBonus() {
 
-    int resistBonus = 2;
+    int resistBonus = BASE_RESIST_BONUS;
 
     if (receivedAttacks < 2) {
       resistBonus += 4 - (2 * receivedAttacks);

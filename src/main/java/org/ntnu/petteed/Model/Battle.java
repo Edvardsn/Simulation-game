@@ -1,7 +1,11 @@
-package org.ntnu.petteed;
+package org.ntnu.petteed.Model;
 
 import java.util.Random;
 
+/**
+ * Represents a battle between two armies
+ *
+ */
 public class Battle {
 
   private final Army armyOne;
@@ -55,7 +59,7 @@ public class Battle {
         unitArmyOne.attack(unitArmyTwo);
       }
 
-      int scenario = 0; // Initializes the variable
+      int scenario = 0; // Initializes the variable to be used in switch-case
 
       if (armyOne.hasHealthyUnits()) {
         scenario = ARMY_TWO_WINNER;

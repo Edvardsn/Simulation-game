@@ -1,4 +1,4 @@
-package org.ntnu.petteed;
+package org.ntnu.petteed.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,7 @@ public class Army {
    *
    * @param name The name of the army
    * @throws IllegalArgumentException, Prohibits creating an Army without a name
+   *
    */
   public Army(String name) throws IllegalArgumentException {
     if (name != null) {
@@ -33,6 +34,7 @@ public class Army {
       throw new IllegalArgumentException("Cannot create an Army without a name");
     }
   }
+
   /**
    * Creates and instance of an Army
    *
@@ -110,9 +112,9 @@ public class Army {
   }
 
   /**
-   * Returns a random Unit from the army
+   * Returns a random healthy Unit from the army
    *
-   * @return A random unit from army
+   * @return A random healthy unit from army
    */
   public Unit getRandom() {
     updateHealthyUnits();
@@ -171,41 +173,87 @@ public class Army {
   }
 
   /**
+   * Returns a list of every Rangedunit in the Army
+   *
+   * @return {@code List<Unit>} , The list of RangedUnits
+   */
+  public List<Unit> getRangedUnits(){
+    return units.stream().filter(unit -> unit.getClass() == RangedUnit.class).toList();
+  }
+
+  /**
+   * Returns a list of every CavalryUnit in the Army
+   *
+   * @return {@code List<Unit>} , The list of CavalryUnits
+   */
+  public List<Unit> getCavalryUnits(){
+    return units.stream().filter(unit -> unit.getClass() == CavalryUnit.class).toList();
+  }
+
+  /**
+   * Returns a list of every Commanderunit in the Army
+   *
+   * @return {@code List<Unit>} , The list of Commanderunits
+   */
+  public List<Unit> getCommanderUnits(){
+    return units.stream().filter(unit -> unit.getClass() == CommanderUnit.class).toList();
+  }
+
+  /**
+   * Returns any type of unit
+   *
+   * @param unitType The type of unit to be created
+   * @return {@code List<Unit>} A list of units of the given type
+   */
+  public List<Unit> getAnyUnitType(Unit unitType){
+    return units.stream().filter(unit ->unit.getClass() == unitType.getClass()).toList();
+  }
+
+  /**
    * Creates a given number of units of a specified unit type.
    *
+   * @param armyName , The name of the Army
    * @param nameUnits ,Name of the units
    * @param quantity ,How many of specified unit
    * @param type ,A number representing what class to be made
-   * @return {@code Army}, the new Army created
+   * @return {@code List}, the new Army created
    */
-  public static Army createTestArmy(String armyName, String nameUnits, int quantity,unitType type) {
+  public static List<Unit> createUnits(String armyName, String nameUnits, int quantity, unitType type) {
 
     int counter = 0;
 
-    List<Unit> list = new ArrayList<>();
+    List<Unit> unitList = new ArrayList<>();
 
     if (type == unitType.INFANTRY) {
       while (counter < quantity) {
         String numberedName = nameUnits + (counter + 1); // Gives a number to created units
-        list.add(new InfantryUnit(numberedName, 100));
+        unitList.add(new InfantryUnit(numberedName, 100));
         counter++;
       }
     }
     if (type == unitType.RANGED) {
       while (counter < quantity) {
         String numberedName = nameUnits + (counter + 1);
-        list.add(new RangedUnit(numberedName, 100));
+        unitList.add(new RangedUnit(numberedName, 100));
         counter++;
       }
     }
     if (type == unitType.CAVALRY) {
       while (counter < quantity) {
         String numberedName = nameUnits + (counter + 1);
-        list.add(new CavalryUnit(numberedName, 100));
+        unitList.add(new CavalryUnit(numberedName, 100));
         counter++;
       }
     }
 
-    return new Army(armyName, list);
+    return unitList;
+  }
+
+  /**
+   * Writes to Army to file
+   *
+   */
+  public void writeArmyToFile(){
+
   }
 }

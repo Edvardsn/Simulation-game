@@ -1,4 +1,4 @@
-package org.ntnu.petteed;
+package org.ntnu.petteed.Model;
 
 /**
  * A class that represents a single unit and its characteristics
@@ -12,6 +12,7 @@ public abstract class Unit {
   private int health;
   private final int attack;
   private final int armour;
+
   protected int receivedAttacks;
   protected int initiatedAttacks;
 
@@ -53,14 +54,13 @@ public abstract class Unit {
 
       int resistances = opponent.getResistBonus() + opponent.getArmour();
 
-      int actualDamage = initialDamage - resistances;
+      int actualDamage = initialDamage - resistances; // The actual amount the opponents' health will change
 
       opponent.setHealth(opponent.getHealth() - actualDamage);
 
       this.incrementInitiatedAttacks(); // Registers initiated attack
-      opponent.incrementReceivedAttacks(); // Registers being attacked
+      opponent.incrementReceivedAttacks(); // Registers attacked sustained
     }
-
   }
 
   /**
@@ -97,11 +97,15 @@ public abstract class Unit {
 
   /**
    * Returns the attack bonus of the unit
+   *
+   * @return The attack bonus of the unit
    */
   public abstract int getAttackBonus();
 
   /**
    * Returns the resist bonus of the unit
+   *
+   * @return The resist bonus of the unit
    */
   public abstract int getResistBonus();
 

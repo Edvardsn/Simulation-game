@@ -1,6 +1,15 @@
-package org.ntnu.petteed;
+package org.ntnu.petteed.Model;
 
+/**
+ * Represents a unit of the Cavalry type
+ *
+ */
 public class CavalryUnit extends Unit {
+
+  private final static int ATTACK_VALUE = 20;
+  private final static int ARMOUR_VALUE = 12;
+  private final static int BASE_ATTACK_BONUS = 2;
+  private final static int BASE_RESIST_BONUS = 1;
 
   /**
    * Creates an instance of CavalryUnit
@@ -9,7 +18,7 @@ public class CavalryUnit extends Unit {
    * @param health The health of the unit
    */
   protected CavalryUnit(String name, int health) {
-    super(name, health, 20, 12);
+    super(name, health, ATTACK_VALUE, ARMOUR_VALUE);
   }
 
   /**
@@ -32,7 +41,7 @@ public class CavalryUnit extends Unit {
   @Override
   public int getAttackBonus() {
 
-    int attackBonus = 2;
+    int attackBonus = BASE_ATTACK_BONUS;
 
     if (initiatedAttacks < 1) {
       attackBonus += 4;
@@ -48,6 +57,6 @@ public class CavalryUnit extends Unit {
    */
   @Override
   public int getResistBonus() {
-    return 1;
+    return BASE_RESIST_BONUS;
   }
 }
