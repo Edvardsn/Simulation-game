@@ -5,7 +5,7 @@ import org.ntnu.petteed.Model.Battle;
 
 /**
  * The application which the program runs on
- *
+ * JDK 17.02 feil med dependencies, Java relatert
  */
 public class WargamesApp {
 

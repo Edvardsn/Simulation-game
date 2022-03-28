@@ -4,17 +4,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
-import org.ntnu.petteed.Model.InfantryUnit;
-import org.ntnu.petteed.Model.Unit;
 
 /**
  * Positive tests:
- * - testUnitCreation, tests that a unit can be created with valid fields.
- *
+ * <ul>
+ * <li>testUnitValues, tests that a unit can be created with valid fields.</li>
+ *</ul>
  * Negative tests:
- * - testUnitWithNullName, tests that a unit cannot be created with null as a name.
- * - testUnitWithNegativeAttack, tests that a unit cannot have negative attack when created.
- *
+ * <ul>
+ * <li> testUnitWithNullName, tests that a unit cannot be created with null as a name.</li>
+ * <li> testUnitWithNegativeAttack, tests that a unit cannot have negative attack when created. </li>
+ *</ul>
  */
 
 public class testUnitCreation {
@@ -24,7 +24,7 @@ public class testUnitCreation {
    *
    */
   @Test
-  public void testUnitCreation() {
+  public void testUnitValues() {
     Unit unit = new InfantryUnit("unitsen", 100);
 
     assertEquals(100, unit.getHealth());

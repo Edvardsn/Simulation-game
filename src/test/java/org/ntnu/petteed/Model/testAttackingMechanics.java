@@ -97,6 +97,10 @@ public class testAttackingMechanics {
     assertEquals(100,unit.getHealth());
   }
 
+  /**
+   * Tests that a unit cannot attack while dead
+   *
+   */
   @Test
   public void testAttackingWhileDead(){
     CavalryUnit unit1 = new CavalryUnit("unit1", 0);
@@ -106,10 +110,19 @@ public class testAttackingMechanics {
     assertEquals(100,unit2.getHealth());
   }
 
+  /**
+   * Tests that a unit cannot attack null
+   *
+   */
   @Test
   public void testAttackingNull(){
     Unit unit = new InfantryUnit("unitsen", 100);
     unit.attack(null);
   }
+//
+//  @Test
+//  public void testSetHealthUnit(){
+//
+//  }
 
 }
