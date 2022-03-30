@@ -1,8 +1,8 @@
-C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\CommanderUnit.java
-C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\InfantryUnit.java
-C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\Unit.java
-C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\Battle.java
-C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\CavalryUnit.java
+C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\Model\CommanderUnit.java
+C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\Model\InfantryUnit.java
+C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\Model\RangedUnit.java
+C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\Model\Battle.java
+C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\Model\CavalryUnit.java
 C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\WargamesApp.java
-C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\Army.java
-C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\RangedUnit.java
+C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\Model\Army.java
+C:\Users\Pette\Documents\LokaleProsjekterWindows\Java\Wargames\src\main\java\org\ntnu\petteed\Model\Unit.java

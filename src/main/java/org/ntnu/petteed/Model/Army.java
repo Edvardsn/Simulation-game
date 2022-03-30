@@ -1,5 +1,9 @@
 package org.ntnu.petteed.Model;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -169,7 +173,7 @@ public class Army {
   }
 
   /**
-   * Returns a list of every Infantryunit in the Army
+   * Returns a list of every Infantry in the Army
    *
    * @return {@code List<Unit>} , The list of InfantryUnits
    */
@@ -180,7 +184,7 @@ public class Army {
   }
 
   /**
-   * Returns a list of every Rangedunit in the Army
+   * Returns a list of every Ranged unit in the Army
    *
    * @return {@code List<Unit>} , The list of RangedUnits
    */
@@ -268,7 +272,9 @@ public class Army {
    * Writes to Army to file
    *
    */
-  public void writeArmyToFile(){
-
+  public void writeArmyToFile() throws IOException {
+    Path directory = Path.of("C:/Users/Pette/LokaleProsjekterWindows/Java/test");
+    Path newFile = Files.createFile(directory.resolve("Army.txt"));
+    Files.writeString(newFile,"this is a test string, new");
   }
 }

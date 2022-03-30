@@ -1,8 +1,9 @@
-org\ntnu\petteed\CommanderUnit.class
-org\ntnu\petteed\RangedUnit.class
-org\ntnu\petteed\Army.class
-org\ntnu\petteed\InfantryUnit.class
-org\ntnu\petteed\Battle.class
-org\ntnu\petteed\CavalryUnit.class
+org\ntnu\petteed\Model\RangedUnit.class
+org\ntnu\petteed\Model\Unit.class
+org\ntnu\petteed\Model\Army.class
+org\ntnu\petteed\Model\CavalryUnit.class
 org\ntnu\petteed\WargamesApp.class
-org\ntnu\petteed\Unit.class
+org\ntnu\petteed\Model\CommanderUnit.class
+org\ntnu\petteed\Model\InfantryUnit.class
+org\ntnu\petteed\Model\Army$unitType.class
+org\ntnu\petteed\Model\Battle.class

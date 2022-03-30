@@ -1,5 +1,6 @@
 package org.ntnu.petteed;
 
+import java.io.IOException;
 import org.ntnu.petteed.Model.Army;
 import org.ntnu.petteed.Model.Battle;
 
@@ -26,8 +27,11 @@ public class WargamesApp {
       Army winningArmy = battle.simulate();
 
       System.out.println(winningArmy.toString());
+      humans.writeArmyToFile();
     } catch (IllegalArgumentException e) {
       System.out.println(e.getMessage());
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 }

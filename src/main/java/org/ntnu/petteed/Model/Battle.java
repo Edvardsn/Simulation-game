@@ -69,7 +69,7 @@ public class Battle {
         scenario = ARMY_ONE_WINNER;
       }
 
-      if (armyOne.hasHealthyUnits() && armyTwo.hasHealthyUnits()) {
+      if (!(armyOne.hasHealthyUnits()) && !(armyTwo.hasHealthyUnits())) {
         scenario = TIE;
       }
 
