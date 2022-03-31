@@ -8,10 +8,19 @@ package org.ntnu.petteed.Model;
  */
 public abstract class Unit {
 
+  /**
+   * Enums for identifying what terrain a unit is in
+   *
+   */
+  public enum terrainBonuses{
+    HILLS,FOREST,PLAINS
+  }
+
   private final String name;
   private int health;
   private final int attack;
   private final int armour;
+  private terrainBonuses terrainbonus;
 
   protected int receivedAttacks;
   protected int initiatedAttacks;
@@ -48,9 +57,11 @@ public abstract class Unit {
    */
   protected void attack(Unit opponent) {
 
+    //get conditional bonuses from battle
+
     if (opponent != null && this.isAlive() && !(opponent.equals(this))) {
 
-      int initialDamage = this.getAttack() + this.getAttackBonus();
+      int initialDamage = this.getAttack() + this.getAttackBonus(CombatBonus bonus);
 
       int resistances = opponent.getResistBonus() + opponent.getArmour();
 
@@ -95,12 +106,16 @@ public abstract class Unit {
     return this.getHealth() > 0;
   }
 
+  public void getConditionalBonuses(){
+
+  }
+
   /**
    * Returns the attack bonus of the unit
    *
    * @return The attack bonus of the unit
    */
-  public abstract int getAttackBonus();
+  public abstract int getAttackBonus(CombatBonus bonus);
 
   /**
    * Returns the resist bonus of the unit

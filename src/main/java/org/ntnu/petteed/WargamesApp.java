@@ -22,7 +22,7 @@ public class WargamesApp {
       Army orcs = new Army("test",
           Army.createUnits("Orcs", "Urulg", 10, Army.unitType.INFANTRY));
 
-      Battle battle = new Battle(humans, orcs);
+      Battle battle = new Battle(humans, orcs,"FOREST");
 
       Army winningArmy = battle.simulate();
 

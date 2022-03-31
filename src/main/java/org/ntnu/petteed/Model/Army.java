@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * Represents an army of Units
@@ -19,7 +18,6 @@ public class Army {
   /**
    * Enums for identifying what type of unit to be created
    *
-   * @see java.lang.Enum
    */
   public enum unitType {
     INFANTRY,CAVALRY,RANGED,COMMANDER
@@ -272,8 +270,10 @@ public class Army {
    * Writes to Army to file
    *
    */
+  // Hva med når andre skal kjøre samme filen?, deres mappestruktur er annerledes.
+  //
   public void writeArmyToFile() throws IOException {
-    Path directory = Path.of("C:/Users/Pette/LokaleProsjekterWindows/Java/test");
+    Path directory = Path.of("Wargames");
     Path newFile = Files.createFile(directory.resolve("Army.txt"));
     Files.writeString(newFile,"this is a test string, new");
   }
