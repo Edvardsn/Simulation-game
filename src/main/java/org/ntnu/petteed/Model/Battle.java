@@ -17,7 +17,7 @@ public class Battle {
   private static final int ARMY_ONE_WINNER = 1;
   private static final int ARMY_TWO_WINNER = 2;
   private static final int TIE = 3;
-  private final String terrain;
+  private static final String terrain;
 
   private final String[] terrains = {"HILLS","FOREST","PLAINS"};
 
