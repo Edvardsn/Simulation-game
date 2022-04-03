@@ -8,19 +8,11 @@ package org.ntnu.petteed.Model;
  */
 public abstract class Unit {
 
-  /**
-   * Enums for identifying what terrain a unit is in
-   *
-   */
-  public enum terrainBonuses{
-    HILLS,FOREST,PLAINS
-  }
-
   private final String name;
   private int health;
   private final int attack;
   private final int armour;
-  private terrainBonuses terrainbonus;
+  private BattleCondition battleCondition;
 
   protected int receivedAttacks;
   protected int initiatedAttacks;
@@ -57,17 +49,15 @@ public abstract class Unit {
    */
   protected void attack(Unit opponent) {
 
-    //get conditional bonuses from battle
-
     if (opponent != null && this.isAlive() && !(opponent.equals(this))) {
 
-      int initialDamage = this.getAttack() + this.getAttackBonus(CombatBonus bonus);
+      int attackDamage = this.getAttack() + this.getAttackBonus();
 
       int resistances = opponent.getResistBonus() + opponent.getArmour();
 
-      int actualDamage = initialDamage - resistances; // The actual amount the opponents' health will change
+      int trueDamage = attackDamage - resistances; // The actual amount deducted from the opponents health
 
-      opponent.setHealth(opponent.getHealth() - actualDamage);
+      opponent.setHealth(opponent.getHealth() - trueDamage);
 
       this.incrementInitiatedAttacks(); // Registers initiated attack
       opponent.incrementReceivedAttacks(); // Registers attacked sustained
@@ -89,7 +79,7 @@ public abstract class Unit {
   }
 
   /**
-   * Sets a new value to the health of a unit
+   * Assigns a new value to the health of a unit
    *
    * @param newHealth, the new value of health
    */
@@ -106,16 +96,12 @@ public abstract class Unit {
     return this.getHealth() > 0;
   }
 
-  public void getConditionalBonuses(){
-
-  }
-
   /**
    * Returns the attack bonus of the unit
    *
    * @return The attack bonus of the unit
    */
-  public abstract int getAttackBonus(CombatBonus bonus);
+  public abstract int getAttackBonus();
 
   /**
    * Returns the resist bonus of the unit
@@ -123,6 +109,24 @@ public abstract class Unit {
    * @return The resist bonus of the unit
    */
   public abstract int getResistBonus();
+
+  /**
+   * Assigns the unit a status effect
+   *
+   * @return A status effect
+   */
+  public void setBattleCondition(BattleCondition battleCondition){
+    this.battleCondition = battleCondition;
+  };
+
+  /**
+   * Returns the current battle conditions of the user
+   *
+   * @return The current battle conditions of the user
+   */
+  public BattleCondition getBattleCondition() {
+    return this.battleCondition;
+  }
 
   /**
    * Returns a description of the characteristics of the unit

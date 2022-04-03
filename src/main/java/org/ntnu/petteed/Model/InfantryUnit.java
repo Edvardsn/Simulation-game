@@ -12,9 +12,9 @@ public class InfantryUnit extends Unit {
   private final static int BASE_RESIST_BONUS = 1;
 
   /**
-   * Creates an instance of a infantry unit
+   * Creates an instance of an infantry unit
    *
-   * @param name,   The name of the unit
+   * @param name, The name of the unit
    * @param health, The health of the unit
    */
   protected InfantryUnit(String name, int health) {
@@ -28,7 +28,12 @@ public class InfantryUnit extends Unit {
    */
   @Override
   public int getAttackBonus() {
-    return BASE_ATTACK_BONUS;
+    int finalAttackBonus = BASE_ATTACK_BONUS;
+
+    if(this.getBattleCondition().getTerrain().equals("FOREST")){
+      finalAttackBonus += 2;
+    }
+    return finalAttackBonus;
   }
 
   /**
@@ -38,6 +43,11 @@ public class InfantryUnit extends Unit {
    */
   @Override
   public int getResistBonus() {
-    return BASE_RESIST_BONUS;
+    int finalResistanceBonus = BASE_RESIST_BONUS;
+
+    if(this.getBattleCondition().getTerrain().equals("FOREST")){
+      finalResistanceBonus += 2;
+    }
+    return finalResistanceBonus;
   }
 }

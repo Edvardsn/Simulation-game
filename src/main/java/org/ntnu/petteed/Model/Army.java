@@ -1,6 +1,5 @@
 package org.ntnu.petteed.Model;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +24,7 @@ public class Army {
 
   private final String name;
   private List<Unit> units;
-  private ArrayList<Unit> healthyUnits;
+  private ArrayList<Unit> healthyUnits; // Fjern refaktoriser
   private final Random randomGenerator = new Random();
 
   /**
@@ -63,7 +62,7 @@ public class Army {
   }
 
   /**
-   * Updates the status of healthy units in the army
+   * Creates the list of healthy units in the army
    */
   public void initializeHealthyUnits() {
     for (Unit unit : units) {
@@ -229,13 +228,12 @@ public class Army {
   /**
    * Creates a given number of units of a specified unit type.
    *
-   * @param armyName , The name of the Army
    * @param nameUnits ,Name of the units
    * @param quantity ,How many of specified unit
    * @param type ,A number representing what class to be made
    * @return {@code List}, the new Army created
    */
-  public static List<Unit> createUnits(String armyName, String nameUnits, int quantity, unitType type) {
+  public static List<Unit> createUnits(String nameUnits, int quantity, unitType type) {
 
     int counter = 0;
 

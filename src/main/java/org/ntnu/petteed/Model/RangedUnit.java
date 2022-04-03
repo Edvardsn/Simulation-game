@@ -11,6 +11,7 @@ public class RangedUnit extends Unit {
   private final static int BASE_ATTACK_BONUS = 3;
   private final static int BASE_RESIST_BONUS = 2;
 
+
   /**
    * Creates an instance of Unit
    *
@@ -28,7 +29,17 @@ public class RangedUnit extends Unit {
    */
   @Override
   public int getAttackBonus() {
-    return BASE_ATTACK_BONUS;
+    int finalAttackBonus = BASE_ATTACK_BONUS;
+
+    if(this.getBattleCondition().getTerrain().equals("FOREST")){
+      finalAttackBonus -= 1;
+    }
+
+    if(this.getBattleCondition().getTerrain().equals("HILLS")){
+      finalAttackBonus += 2;
+    }
+
+    return finalAttackBonus;
   }
 
   /**

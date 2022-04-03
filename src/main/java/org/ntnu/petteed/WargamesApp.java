@@ -3,6 +3,9 @@ package org.ntnu.petteed;
 import java.io.IOException;
 import org.ntnu.petteed.Model.Army;
 import org.ntnu.petteed.Model.Battle;
+import org.ntnu.petteed.Model.BattleCondition;
+import org.ntnu.petteed.Model.InfantryUnit;
+import org.ntnu.petteed.Model.Unit;
 
 /**
  * The application which the program runs on
@@ -17,21 +20,15 @@ public class WargamesApp {
    */
   public static void main(String[] args) {
     try {
-      Army humans = new Army("test",
-          Army.createUnits("Humans", "Dude", 10, Army.unitType.INFANTRY));
-      Army orcs = new Army("test",
-          Army.createUnits("Orcs", "Urulg", 10, Army.unitType.INFANTRY));
-
+      Army humans = new Army("Humans", Army.createUnits("Dude", 10, Army.unitType.INFANTRY));
+      Army orcs = new Army("Orcs", Army.createUnits( "Urulg", 10, Army.unitType.INFANTRY));
       Battle battle = new Battle(humans, orcs,"FOREST");
 
       Army winningArmy = battle.simulate();
 
-      System.out.println(winningArmy.toString());
-      humans.writeArmyToFile();
+     winningArmy.getInfantryUnits().forEach(System.out::println);
     } catch (IllegalArgumentException e) {
       System.out.println(e.getMessage());
-    } catch (IOException e) {
-      e.printStackTrace();
     }
   }
 }

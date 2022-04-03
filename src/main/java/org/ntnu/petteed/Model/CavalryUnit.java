@@ -41,13 +41,17 @@ public class CavalryUnit extends Unit {
   @Override
   public int getAttackBonus() {
 
-    int attackBonus = BASE_ATTACK_BONUS;
+    int finalAttackBonus = BASE_ATTACK_BONUS;
 
-    if (initiatedAttacks < 1) {
-      attackBonus += 4;
+    if(this.getBattleCondition().getTerrain().equals("PLAINS")){
+      finalAttackBonus += 2;
     }
 
-    return attackBonus;
+    if (initiatedAttacks < 1) {
+      finalAttackBonus += 4;
+    }
+
+    return finalAttackBonus;
   }
 
   /**
@@ -57,6 +61,11 @@ public class CavalryUnit extends Unit {
    */
   @Override
   public int getResistBonus() {
-    return BASE_RESIST_BONUS;
+    int finalResistanceBonus = BASE_RESIST_BONUS;
+
+    if(this.getBattleCondition().getTerrain().equals("FOREST")){
+      finalResistanceBonus = 0;
+    }
+    return finalResistanceBonus;
   }
 }

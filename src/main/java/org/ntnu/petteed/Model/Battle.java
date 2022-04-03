@@ -1,6 +1,8 @@
 package org.ntnu.petteed.Model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -15,8 +17,9 @@ public class Battle {
   private static final int ARMY_ONE_WINNER = 1;
   private static final int ARMY_TWO_WINNER = 2;
   private static final int TIE = 3;
-  private static final String[] terrains = {"HILLS","FOREST","PLAINS"};
   private final String terrain;
+
+  private final String[] terrains = {"HILLS","FOREST","PLAINS"};
 
   /**
    * Creates an instance of a battle
@@ -34,6 +37,8 @@ public class Battle {
       this.armyTwo = armyTwo;
       this.terrain = battleTerrain;
       this.randomCombatGen = new Random();
+
+      assignBattleConditions();
     }
   }
 
@@ -45,6 +50,81 @@ public class Battle {
    */
   private boolean validTerrain(String battleTerrain) {
     return Arrays.asList(terrains).contains(battleTerrain);
+  }
+
+  /**
+   * Returns a collection of the members of the battle
+   *
+   * @return A collection of the battling members
+   */
+  public Collection<Army> getBattlingMembers(){
+    ArrayList<Army> armies = new ArrayList<>();
+    armies.add(armyOne);
+    armies.add(armyTwo);
+
+    return armies;
+  }
+
+  /**
+   * Initializes every member in the battle
+   *
+   */
+  public void assignBattleConditions(){
+    getBattlingMembers().forEach(army -> army.getAll()
+        .forEach(unit -> unit.setBattleCondition(BattleCondition.getBuilder()
+            .setTerrain(this.terrain) // Sets all current battle effects on units here
+            .build())));
+  }
+
+  /**
+   * Returns the terrain of the battle
+   *
+   * @return The terrain of the battle
+   */
+  public String getTerrain() {
+    return terrain;
+  }
+
+  /**
+   * Checks what type of scenario represented by an integer value
+   *
+   * @return A value representing the scenario of the combat
+   */
+  private int getScenarioCombat() {
+
+    int scenario;
+
+    if (!this.armyOne.hasHealthyUnits()) {
+      scenario = ARMY_TWO_WINNER;
+    }
+    else if (!this.armyTwo.hasHealthyUnits()) {
+      scenario = ARMY_ONE_WINNER;
+    }
+    else if (!(this.armyOne.hasHealthyUnits()) && !(this.armyTwo.hasHealthyUnits())) {
+      scenario = TIE;
+    }
+    else{
+      scenario = 0;
+    }
+    return scenario;
+  }
+
+  /**
+   * Carries out a duel between two units
+   *
+   * @param unitArmyOne First unit of the duel
+   * @param unitArmyTwo Second unit of the duel
+   * @param combatOrder An integer representing the order of combat
+   */
+  private void unitBattle(Unit unitArmyOne, Unit unitArmyTwo, int combatOrder) {
+    if(combatOrder == 1 && unitArmyOne != null && unitArmyTwo != null){
+      unitArmyOne.attack(unitArmyTwo);
+      unitArmyTwo.attack(unitArmyOne);
+    }
+    else if(unitArmyOne != null && unitArmyTwo != null) {
+      unitArmyTwo.attack(unitArmyOne);
+      unitArmyOne.attack(unitArmyTwo);
+    }
   }
 
   /**
@@ -64,31 +144,11 @@ public class Battle {
 
       int combatOrder = randomCombatGen.nextInt(2);
 
-      if(combatOrder == 1 && unitArmyOne != null && unitArmyTwo != null){
-        unitArmyOne.attack(unitArmyTwo);
-        unitArmyTwo.attack(unitArmyOne);
-      }
+      unitBattle(unitArmyOne, unitArmyTwo, combatOrder);
 
-      if(combatOrder == 0 && unitArmyOne != null && unitArmyTwo != null) {
-        unitArmyTwo.attack(unitArmyOne);
-        unitArmyOne.attack(unitArmyTwo);
-      }
+      int battleScenario = getScenarioCombat();
 
-      int scenario = 0; // Initializes the variable to be used in switch-case
-
-      if (armyOne.hasHealthyUnits()) {
-        scenario = ARMY_TWO_WINNER;
-      }
-
-      if (armyTwo.hasHealthyUnits()) {
-        scenario = ARMY_ONE_WINNER;
-      }
-
-      if (!(armyOne.hasHealthyUnits()) && !(armyTwo.hasHealthyUnits())) {
-        scenario = TIE;
-      }
-
-      switch (scenario) {
+      switch (battleScenario) {
         case ARMY_ONE_WINNER -> {
           winner = armyOne;
           battling = false;
@@ -104,4 +164,5 @@ public class Battle {
     }
     return winner;
   }
+
 }
