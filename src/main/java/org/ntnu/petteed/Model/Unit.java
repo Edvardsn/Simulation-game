@@ -46,7 +46,7 @@ public abstract class Unit {
    * Attacks another unit
    *
    * @param opponent {@code Unit} opponent, the unit to attack
-   */
+   */ // Restructure!!!
   protected void attack(Unit opponent) {
 
     if (opponent != null && this.isAlive() && !(opponent.equals(this))) {

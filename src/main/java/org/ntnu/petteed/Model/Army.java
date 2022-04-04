@@ -272,7 +272,8 @@ public class Army {
   //
   public void writeArmyToFile() throws IOException {
     Path directory = Path.of("Wargames");
-    Path newFile = Files.createFile(directory.resolve("Army.txt"));
+    Path newFile = Files.createFile("/Wargames/Army.txt");
     Files.writeString(newFile,"this is a test string, new");
+    getResource();
   }
 }
