@@ -1,3 +1,16 @@
 
 7
 pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
+p
+@src/test/java/org/ntnu/petteed/Model/testAttackingMechanics.java,3/c/3c755f741584b6866feff9e70e16ebd3ee97e81d
+j
+:src/test/java/org/ntnu/petteed/Model/testArmyCreation.java,5/e/5e8eaf3870452447b053066be1dd45f4a28b1f98
+j
+:src/test/java/org/ntnu/petteed/Model/testUnitCreation.java,3/6/36d855f28aa7a797a9ab87b35626a34334bee530
+d
+4src/main/java/org/ntnu/petteed/Model/RangedUnit.java,6/c/6ce3a7a77c71df0a838dce2b0dca657328b46a5a
+f
+6src/main/java/org/ntnu/petteed/Model/InfantryUnit.java,3/3/33bcc1192832d18b1b0e88d650bb0365f9459ed1
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302

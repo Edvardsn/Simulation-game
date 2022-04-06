@@ -1,6 +1,8 @@
 package org.ntnu.petteed;
 
 import java.io.IOException;
+import java.net.URL;
+import java.security.SecureClassLoader;
 import org.ntnu.petteed.Model.Army;
 import org.ntnu.petteed.Model.Battle;
 import org.ntnu.petteed.Model.BattleCondition;
@@ -19,16 +21,26 @@ public class WargamesApp {
    * @param args List of arguments
    */
   public static void main(String[] args) {
-    try {
-      Army humans = new Army("Humans", Army.createUnits("Dude", 10, Army.unitType.INFANTRY));
-      Army orcs = new Army("Orcs", Army.createUnits( "Urulg", 10, Army.unitType.INFANTRY));
-      Battle battle = new Battle(humans, orcs,"FOREST");
+//    try {
+//      Army humans = new Army("Humans", Army.createUnits("Dude", 10, Army.unitType.INFANTRY));
+//      Army orcs = new Army("Orcs", Army.createUnits( "Urulg", 10, Army.unitType.INFANTRY));
+//      Battle battle = new Battle(humans, orcs,"FOREST");
+//
+//      Army winningArmy = battle.simulate();
+//
+//     winningArmy.getInfantryUnits().forEach(System.out::println);
+//    } catch (IllegalArgumentException e) {
+//      System.out.println(e.getMessage());
+//    }
 
-      Army winningArmy = battle.simulate();
+    Class[] classes = Unit.class.getPermittedSubclasses().;
 
-     winningArmy.getInfantryUnits().forEach(System.out::println);
-    } catch (IllegalArgumentException e) {
-      System.out.println(e.getMessage());
+    SecureClassLoader loader = new SecureClassLoader();
+
+    for(Class c : classes){
+      System.out.println(c.getSimpleName());
+      // get constructor på  class
+      // Class loader
     }
   }
 }

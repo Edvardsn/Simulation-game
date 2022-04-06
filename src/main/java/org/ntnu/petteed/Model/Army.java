@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import javax.swing.text.html.HTMLDocument;
 
 /**
  * Represents an army of Units
@@ -93,7 +96,7 @@ public class Army {
    *
    * @return The unis in the army
    */
-  public List<Unit> getAll() {
+  public Collection<Unit> getAll() {
     return units;
   }
 
@@ -265,15 +268,11 @@ public class Army {
   }
 
   /**
-   * Writes to Army to file
+   * Returns an iterator of the collection of units
    *
+   * @return The iterator of the collection of units
    */
-  // Hva med når andre skal kjøre samme filen?, deres mappestruktur er annerledes.
-  //
-  public void writeArmyToFile() throws IOException {
-    Path directory = Path.of("Wargames");
-    Path newFile = Files.createFile("/Wargames/Army.txt");
-    Files.writeString(newFile,"this is a test string, new");
-    getResource();
+  public Iterator<Unit> getUnitIterator(){
+    return getAll().iterator();
   }
 }
