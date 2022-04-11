@@ -1,7 +1,8 @@
 package org.ntnu.petteed.Model;
 
 /**
- * Represents a battle condition which holds information about a battle
+ * Represents a battle condition which holds information about a battle. Anything that can impact
+ * the combat during the battle and alter a unit's capabilities.
  *
  * @author Petter Edvardsen
  * @version 02/04/22

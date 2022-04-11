@@ -14,9 +14,11 @@ public class Battle {
   private final Army armyOne;
   private final Army armyTwo;
   private final Random randomCombatGen;
+
   private static final int ARMY_ONE_WINNER = 1;
   private static final int ARMY_TWO_WINNER = 2;
   private static final int TIE = 3;
+
   private final String terrain;
 
   private final String[] terrains = {"HILLS","FOREST","PLAINS"};
@@ -43,46 +45,33 @@ public class Battle {
   }
 
   /**
-   * Checks if a given String is a valid terrain
-   *
-   * @param battleTerrain The proposed terrain
-   * @return A boolean value which is True if given a valid terrain, false if not.
-   */
-  private boolean validTerrain(String battleTerrain) {
-    return Arrays.asList(terrains).contains(battleTerrain);
-  }
-
-  /**
-   * Returns a collection of the members of the battle
-   *
-   * @return A collection of the battling members
-   */
-  public Collection<Army> getBattlingMembers(){
-    ArrayList<Army> armies = new ArrayList<>();
-    armies.add(armyOne);
-    armies.add(armyTwo);
-
-    return armies;
-  }
-
-  /**
    * Initializes every member in the battle
    *
    */
   public void assignBattleConditions(){
     getBattlingMembers().forEach(army -> army.getAll()
-        .forEach(unit -> unit.setBattleCondition(BattleCondition.getBuilder()
-            .setTerrain(this.terrain) // Sets all current battle effects on units here
+        .forEach(unit -> unit.addBattleCondition(BattleCondition.getBuilder()
+            .setTerrain(terrain) // Sets all current battle effects on units here
             .build())));
   }
 
+
   /**
-   * Returns the terrain of the battle
+   * Carries out a duel between two units
    *
-   * @return The terrain of the battle
+   * @param unitArmyOne First unit of the duel
+   * @param unitArmyTwo Second unit of the duel
+   * @param combatOrder An integer representing the order of combat
    */
-  public String getTerrain() {
-    return terrain;
+  private void unitsBattle(Unit unitArmyOne, Unit unitArmyTwo, int combatOrder) {
+    if(combatOrder == 1 && unitArmyOne != null && unitArmyTwo != null){
+      unitArmyOne.attack(unitArmyTwo);
+      unitArmyTwo.attack(unitArmyOne);
+    }
+    else if(unitArmyOne != null && unitArmyTwo != null) {
+      unitArmyTwo.attack(unitArmyOne);
+      unitArmyOne.attack(unitArmyTwo);
+    }
   }
 
   /**
@@ -110,59 +99,76 @@ public class Battle {
   }
 
   /**
-   * Carries out a duel between two units
+     * Simulates a battle between two armies
+     *
+     * @return {@code Army}, Returns the winning army
+     */
+    public Army simulate() {
+
+      boolean battling = true;
+      Army winner = null;
+
+      while (battling) {
+
+        Unit unitArmyOne = armyOne.getRandom();
+        Unit unitArmyTwo = armyTwo.getRandom();
+
+        int combatOrder = randomCombatGen.nextInt(2);
+
+        unitsBattle(unitArmyOne, unitArmyTwo, combatOrder);
+
+        int battleScenario = getScenarioCombat();
+
+        switch (battleScenario) {
+          case ARMY_ONE_WINNER -> {
+            winner = armyOne;
+            battling = false;
+          }
+          case ARMY_TWO_WINNER -> {
+            winner = armyTwo;
+            battling = false;
+          }
+          case TIE -> battling = false;
+          default -> {
+          }
+        }
+      }
+      return winner;
+    }
+
+
+  /**
+   * Checks if a given String is a valid terrain
    *
-   * @param unitArmyOne First unit of the duel
-   * @param unitArmyTwo Second unit of the duel
-   * @param combatOrder An integer representing the order of combat
+   * @param battleTerrain The proposed terrain
+   * @return A boolean value which is True if given a valid terrain, false if not.
    */
-  private void unitBattle(Unit unitArmyOne, Unit unitArmyTwo, int combatOrder) {
-    if(combatOrder == 1 && unitArmyOne != null && unitArmyTwo != null){
-      unitArmyOne.attack(unitArmyTwo);
-      unitArmyTwo.attack(unitArmyOne);
-    }
-    else if(unitArmyOne != null && unitArmyTwo != null) {
-      unitArmyTwo.attack(unitArmyOne);
-      unitArmyOne.attack(unitArmyTwo);
-    }
+  private boolean validTerrain(String battleTerrain) {
+    return Arrays.asList(terrains).contains(battleTerrain);
   }
 
   /**
-   * Simulates a battle between two armies
+   * Returns a collection of the members of the battle
    *
-   * @return {@code Army}, Returns the winning army
+   * @return A collection of the battling members
    */
-  public Army simulate() {
+  public Collection<Army> getBattlingMembers(){
+    ArrayList<Army> armies = new ArrayList<>();
+    armies.add(armyOne);
+    armies.add(armyTwo);
 
-    boolean battling = true;
-    Army winner = null;
+    return armies;
+  }
 
-    while (battling) {
 
-      Unit unitArmyOne = armyOne.getRandom();
-      Unit unitArmyTwo = armyTwo.getRandom();
 
-      int combatOrder = randomCombatGen.nextInt(2);
-
-      unitBattle(unitArmyOne, unitArmyTwo, combatOrder);
-
-      int battleScenario = getScenarioCombat();
-
-      switch (battleScenario) {
-        case ARMY_ONE_WINNER -> {
-          winner = armyOne;
-          battling = false;
-        }
-        case ARMY_TWO_WINNER -> {
-          winner = armyTwo;
-          battling = false;
-        }
-        case TIE -> battling = false;
-        default -> {
-        }
-      }
-    }
-    return winner;
+  /**
+   * Returns the terrain of the battle
+   *
+   * @return The terrain of the battle
+   */
+  public String getTerrain() {
+    return terrain;
   }
 
 }

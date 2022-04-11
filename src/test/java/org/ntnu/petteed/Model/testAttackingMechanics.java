@@ -3,10 +3,7 @@ package org.ntnu.petteed.Model;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.ntnu.petteed.Model.CavalryUnit;
-import org.ntnu.petteed.Model.InfantryUnit;
-import org.ntnu.petteed.Model.RangedUnit;
-import org.ntnu.petteed.Model.Unit;
+
 
 /**
  * Positive tests:
@@ -44,7 +41,7 @@ public class testAttackingMechanics {
   @Test
   public void testSetCorrectHealthValue() {
     Unit unit = new InfantryUnit("unitsen", 100);
-    unit.setHealth(50);
+    unit.setHealth(50,unit);
 
     assertEquals(50, unit.getHealth());
   }

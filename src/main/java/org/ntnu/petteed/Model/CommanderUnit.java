@@ -1,7 +1,5 @@
 package org.ntnu.petteed.Model;
 
-import org.ntnu.petteed.Model.CavalryUnit;
-
 /**
  * Represents a unit of the Commander type
  *

@@ -1,15 +1,12 @@
 package org.ntnu.petteed.Model;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import javax.swing.text.html.HTMLDocument;
+
 
 /**
  * Represents an army of Units
@@ -27,7 +24,6 @@ public class Army {
 
   private final String name;
   private List<Unit> units;
-  private ArrayList<Unit> healthyUnits; // Fjern refaktoriser
   private final Random randomGenerator = new Random();
 
   /**
@@ -55,40 +51,11 @@ public class Army {
     if (name != null && units != null) {
       this.name = name;
       this.units = units;
-      this.healthyUnits = new ArrayList<>();
-      initializeHealthyUnits();
     } else if (name == null) {
       throw new IllegalArgumentException("Cannot create an Army without a name");
     } else {
       throw new IllegalArgumentException("Cannot create an Army without any units");
     }
-  }
-
-  /**
-   * Creates the list of healthy units in the army
-   */
-  public void initializeHealthyUnits() {
-    for (Unit unit : units) {
-      if (unit.isAlive()) {
-        healthyUnits.add(unit);
-      }
-    }
-  }
-
-  /**
-   * Removes any units who are not alive in the collection healthy units
-   */
-  public void updateHealthyUnits() {
-    healthyUnits.removeIf(unit -> !unit.isAlive());
-  }
-
-  /**
-   * Returns the name of the army
-   *
-   * @return The name of the army
-   */
-  public String getName() {
-    return name;
   }
 
   /**
@@ -98,6 +65,26 @@ public class Army {
    */
   public Collection<Unit> getAll() {
     return units;
+  }
+
+  /**
+   * Returns an iterator of the collection of units
+   *
+   * @return The iterator of the collection of units
+   */
+  public Iterator<Unit> getUnitIterator(){
+    return getAll().iterator();
+  }
+
+  /**
+   * Adds a unit to the army
+   *
+   * @param unit The unit to be added
+   */
+  public void addUnit(Unit unit){
+    if(unit != null){
+      getAll().add(unit);
+    }
   }
 
   /**
@@ -117,7 +104,7 @@ public class Army {
    * @return True if any number of units present, false if not.
    */
   public boolean hasHealthyUnits() {
-    return !(healthyUnits.isEmpty());
+    return (units.stream().anyMatch(Unit::isAlive));
   }
 
   /**
@@ -126,50 +113,32 @@ public class Army {
    * @return A random healthy unit from army
    */
   public Unit getRandom() {
-    updateHealthyUnits();
-    Unit randomUnit;
+    if(!this.hasHealthyUnits()){ // Guard condition
+      return null;
+    }
+    boolean found = false;
 
-    if (healthyUnits.isEmpty()) {
-      randomUnit = null;
-    } else {
-      randomUnit = healthyUnits.get(randomGenerator.nextInt(healthyUnits.size()));
-    }
-    return randomUnit;
-  }
+    Unit desiredUnit = null;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    while(!found) {
+      Unit randomUnit = units.get(randomGenerator.nextInt(units.size()));
+
+      if (randomUnit.isAlive()) {
+        desiredUnit = randomUnit;
+        found = true;
+      }
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Army army = (Army) o;
-    return Objects.equals(name, army.name) && Objects.equals(units, army.units);
+
+    return desiredUnit;
   }
 
   /**
-   * Returns a hashcode representing the army
+   * Returns the name of the army
    *
-   * @return A hashcode representing the army
+   * @return The name of the army
    */
-  @Override
-  public int hashCode() {
-    return Objects.hash(name, units);
-  }
-
-  /**
-   * Creates a description of the army
-   *
-   * @return A description of the army
-   */
-  @Override
-  public String toString() {
-    return "Army{" +
-        "name='" + name + '\'' +
-        ", units=" + units +
-        "}'";
+  public String getName() {
+    return name;
   }
 
   /**
@@ -216,16 +185,39 @@ public class Army {
         .toList();
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Army army = (Army) o;
+    return Objects.equals(name, army.name) && Objects.equals(units, army.units);
+  }
+
   /**
-   * Returns any type of unit
+   * Returns a hashcode representing the army
    *
-   * @param unitType The type of unit to be created
-   * @return {@code List<Unit>} A list of units of the given type
+   * @return A hashcode representing the army
    */
-  public List<Unit> getAnyUnitType(Unit unitType){
-    return units.stream()
-        .filter(unit ->unit.getClass() == unitType.getClass())
-        .toList();
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, units);
+  }
+
+  /**
+   * Creates a description of the army
+   *
+   * @return A description of the army
+   */
+  @Override
+  public String toString() {
+    return "Army{" +
+        "name='" + name + '\'' +
+        ", units=" + units +
+        "}'";
   }
 
   /**
@@ -265,14 +257,5 @@ public class Army {
     }
 
     return unitList;
-  }
-
-  /**
-   * Returns an iterator of the collection of units
-   *
-   * @return The iterator of the collection of units
-   */
-  public Iterator<Unit> getUnitIterator(){
-    return getAll().iterator();
   }
 }

@@ -3,11 +3,16 @@ package org.ntnu.petteed;
 import java.io.IOException;
 import java.net.URL;
 import java.security.SecureClassLoader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.ntnu.petteed.Model.Army;
 import org.ntnu.petteed.Model.Battle;
 import org.ntnu.petteed.Model.BattleCondition;
 import org.ntnu.petteed.Model.InfantryUnit;
 import org.ntnu.petteed.Model.Unit;
+import org.reflections.Reflections;
 
 /**
  * The application which the program runs on
@@ -33,14 +38,22 @@ public class WargamesApp {
 //      System.out.println(e.getMessage());
 //    }
 
-    Class[] classes = Unit.class.getPermittedSubclasses().;
+    Reflections reflections  = new Reflections("org.ntnu.petteed");
 
-    SecureClassLoader loader = new SecureClassLoader();
+    Set<Class<?extends Unit>> subTypes =  reflections.getSubTypesOf(Unit.class);
 
-    for(Class c : classes){
-      System.out.println(c.getSimpleName());
+
+    ArrayList<String> strings = new ArrayList<>();
+
+    subTypes.forEach(unit ->
+    {
+      strings.add(unit.getSimpleName());
+    });
+
+    strings.stream().forEach(System.out::println);
+
       // get constructor på  class
       // Class loader
-    }
   }
 }
+

@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import org.reflections.Reflections;
 
 
 public class FileHandler {
@@ -48,6 +50,15 @@ public class FileHandler {
     Army importedArmy = new Army(fileLines.get(0)); // Name of army on the first line
 
     int index = 1;
+
+    Reflections reflections  = new Reflections("org.ntnu.petteed"); // Selve reflections i mappen
+
+    Set<Class<?extends Unit>> subTypes =  reflections.getSubTypesOf(Unit.class); // Alle underklasser av Unit
+
+    String unitTypeFromFile = "InfantryUnit"; // Vilkårlig Unit type lest inn fra fil
+
+    boolean validUnit = subTypes.stream().anyMatch(unit -> unit.getSimpleName().equals(unitTypeFromFile)); // Verifiserer at unitTypen finnes
+
 
     while(index < fileLines.size()){
       String[] unitInformation = fileLines.get(index).split(INFO_SEPARATOR);

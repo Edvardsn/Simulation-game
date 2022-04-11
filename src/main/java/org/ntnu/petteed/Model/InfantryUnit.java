@@ -30,7 +30,7 @@ public class InfantryUnit extends Unit {
   public int getAttackBonus() {
     int finalAttackBonus = BASE_ATTACK_BONUS;
 
-    if(this.getBattleCondition().getTerrain().equals("FOREST")){
+    if(hasConditionEffect("FOREST")){
       finalAttackBonus += 2;
     }
     return finalAttackBonus;
@@ -45,7 +45,7 @@ public class InfantryUnit extends Unit {
   public int getResistBonus() {
     int finalResistanceBonus = BASE_RESIST_BONUS;
 
-    if(this.getBattleCondition().getTerrain().equals("FOREST")){
+    if(this.hasConditionEffect("FOREST")){
       finalResistanceBonus += 2;
     }
     return finalResistanceBonus;

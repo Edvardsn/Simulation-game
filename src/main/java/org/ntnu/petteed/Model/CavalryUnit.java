@@ -43,7 +43,7 @@ public class CavalryUnit extends Unit {
 
     int finalAttackBonus = BASE_ATTACK_BONUS;
 
-    if(this.getBattleCondition().getTerrain().equals("PLAINS")){
+    if(this.hasConditionEffect("PLAINS")){
       finalAttackBonus += 2;
     }
 
@@ -63,7 +63,7 @@ public class CavalryUnit extends Unit {
   public int getResistBonus() {
     int finalResistanceBonus = BASE_RESIST_BONUS;
 
-    if(this.getBattleCondition().getTerrain().equals("FOREST")){
+    if(this.hasConditionEffect("FOREST")){
       finalResistanceBonus = 0;
     }
     return finalResistanceBonus;
