@@ -5,9 +5,6 @@ A game called Wargame
 Spørsmål:
 Unit modyfier ?? grei løsning
 
-
-@Utdyp
-Battle opplyser unit om hva terreng battle er?
-(Innhente informasjon om hvem som kaller metoden)
+Buffered reader or Read all lines
 
 Army simulate metode, kort eller deskriptiv.
