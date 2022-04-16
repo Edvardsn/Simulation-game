@@ -53,6 +53,19 @@ public class Battle {
   }
 
   /**
+   * Returns a collection of the members of the battle
+   *
+   * @return A collection of the battling members
+   */
+  public Collection<Army> getBattlingMembers(){
+    Set<Army> armies = new HashSet<>();
+    armies.add(armyOne);
+    armies.add(armyTwo);
+
+    return armies;
+  }
+
+  /**
    * Carries out a duel between two units
    *
    * @param unitArmyOne First unit of the duel
@@ -68,6 +81,15 @@ public class Battle {
       unitArmyTwo.attack(unitArmyOne);
       unitArmyOne.attack(unitArmyTwo);
     }
+  }
+
+  /**
+   * Returns a random value between 0 and 1 representing combat order
+   *
+   * @return {@code Integer} Random value between 0 and 1
+   */
+  private int getRandomCombatOrder() {
+    return randomCombatGen.nextInt(2);
   }
 
   /**
@@ -120,43 +142,16 @@ public class Battle {
             winner = armyTwo;
             battling = false;
           }
-          case TIE -> battling = false;
+          case TIE -> {
+            battling = false;
+          }
           default -> {
+
           }
         }
       }
       return winner;
     }
 
-  /**
-   * Returns a random value between 0 and 1 representing combat order
-   *
-   * @return {@code Integer} Random value between 0 and 1
-   */
-  private int getRandomCombatOrder() {
-    return randomCombatGen.nextInt(2);
-  }
-
-  /**
-   * Returns a collection of the members of the battle
-   *
-   * @return A collection of the battling members
-   */
-  public Collection<Army> getBattlingMembers(){
-    Set<Army> armies = new HashSet<>();
-    armies.add(armyOne);
-    armies.add(armyTwo);
-
-    return armies;
-  }
-
-  /**
-   * Returns the terrain of the battle
-   *
-   * @return The terrain of the battle
-   */
-  public Terrain getTerrain() {
-    return terrain;
-  }
 
 }

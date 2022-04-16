@@ -8,9 +8,15 @@ j
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
-9
-	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-^
-.src/main/java/org/ntnu/petteed/Model/Army.java,0/e/0edff465e2c76a1702e2c56e22a0918394beab6e
+f
+6src/main/java/org/ntnu/petteed/Model/StatusEffect.java,0/9/093bab5afb004356ddf197bce62f73da1aa32972
+e
+5src/main/java/org/ntnu/petteed/Model/CavalryUnit.java,4/1/41b9c963d04e65de7b4e773d39189dad387cac7d
+p
+@src/test/java/org/ntnu/petteed/Model/testAttackingMechanics.java,3/c/3c755f741584b6866feff9e70e16ebd3ee97e81d
+d
+4src/main/java/org/ntnu/petteed/Model/RangedUnit.java,6/c/6ce3a7a77c71df0a838dce2b0dca657328b46a5a
+`
+0src/main/java/org/ntnu/petteed/Model/Freeze.java,b/5/b5e104a7b502065415f3ffbeb778932e2c95794c
 g
 7src/main/java/org/ntnu/petteed/Model/CommanderUnit.java,e/e/ee551e33fcd167e552717f5815a80dc9f3691390

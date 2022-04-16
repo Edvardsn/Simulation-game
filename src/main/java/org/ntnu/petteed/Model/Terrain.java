@@ -23,7 +23,18 @@ public class Terrain{
    *
    * @param terrainName The name of the terrain
    */
-  public Terrain(String terrainName) {
+  public Terrain(int test) {
+    this.terrainName = "test";
+    terrainValues = new HashMap<>();
+    Arrays.stream(terrains).forEach(terrainId -> terrainValues.put(terrainId,STANDARD_TERRAIN));
+  }
+
+  /**
+   * Creates an instance of a Terrain
+   *
+   * @param terrainName The name of the terrain
+   */
+  public Terrain(String terrainName,int test) {
     this.terrainName = terrainName;
     terrainValues = new HashMap<>();
     Arrays.stream(terrains).forEach(terrainId -> terrainValues.put(terrainId,STANDARD_TERRAIN));

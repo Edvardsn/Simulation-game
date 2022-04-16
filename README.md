@@ -8,3 +8,6 @@ Unit modyfier ?? grei løsning
 Buffered reader or Read all lines
 
 Army simulate metode, kort eller deskriptiv.
+
+
+Handle exceptions og testing

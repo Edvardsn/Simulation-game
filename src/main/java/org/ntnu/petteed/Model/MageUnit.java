@@ -1,7 +1,8 @@
 package org.ntnu.petteed.Model;
 
 import java.util.Arrays;
-import java.util.Set;
+import java.util.List;
+import java.util.Random;
 
 /**
  * This class represents a Mage Unit
@@ -9,13 +10,22 @@ import java.util.Set;
  */
 public class MageUnit extends Unit{
 
-  private static final int ATTACK_VALUE = 10;
+  private static final int ATTACK_VALUE = 5;
   private static final int ARMOUR_VALUE = 5;
+  private final Random randomGenerator = new Random();
 
-  private final String[] availableSpells = {"BURN","FREEZE"};
+  private final StatusEffect[] spells = {new Burn(),new Freeze()};
 
-  private Set<String> spells;
-
+  /**
+   * Does a roll on all available spells and returns a statusEffect
+   *
+   * @return A random status effect from the available spells
+   */
+  public StatusEffect castRandomSpell(){
+    List<StatusEffect> spellList = Arrays.stream(spells).toList();
+    int randomSpellIndex = randomGenerator.nextInt(spellList.size());
+    return spellList.get(randomSpellIndex);
+  }
   /**
    * Creates a mage unit
    *
@@ -24,7 +34,6 @@ public class MageUnit extends Unit{
    */
   public MageUnit(String name, int health){
     super(name,health,ATTACK_VALUE,ARMOUR_VALUE);
-    spells.addAll(Arrays.asList(availableSpells));
   }
 
   /**
@@ -43,7 +52,7 @@ public class MageUnit extends Unit{
       int trueDamage = totalAttackDamage - totalResistances; // The actual amount deducted from the opponents health
 
       opponent.setHealth(opponent.getHealth() - trueDamage,this);
-      opponent.addStatusEffect(new Burn());
+      opponent.addStatusEffect(castRandomSpell());
 
       this.incrementInitiatedAttacks(); // Registers initiated attack
     }

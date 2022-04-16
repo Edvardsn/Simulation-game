@@ -13,15 +13,7 @@ import java.util.Random;
  *
  */
 public class Army {
-
-  /**
-   * Enums for identifying what type of unit to be created
-   *
-   */
-  public enum unitType {
-    INFANTRY,CAVALRY,RANGED,COMMANDER
-  }
-
+  
   private final String name;
   private List<Unit> units;
   private final Random randomGenerator = new Random();
@@ -220,42 +212,4 @@ public class Army {
         "}'";
   }
 
-  /**
-   * Creates a given number of units of a specified unit type.
-   *
-   * @param nameUnits ,Name of the units
-   * @param quantity ,How many of specified unit
-   * @param type ,A number representing what class to be made
-   * @return {@code List}, the new Army created
-   */
-  public static List<Unit> createUnits(String nameUnits, int quantity, unitType type) {
-
-    int counter = 0;
-
-    List<Unit> unitList = new ArrayList<>();
-
-    if (type == unitType.INFANTRY) {
-      while (counter < quantity) {
-        String numberedName = nameUnits + (counter + 1); // Gives a number to created units
-        unitList.add(new InfantryUnit(numberedName, 100));
-        counter++;
-      }
-    }
-    if (type == unitType.RANGED) {
-      while (counter < quantity) {
-        String numberedName = nameUnits + (counter + 1);
-        unitList.add(new RangedUnit(numberedName, 100));
-        counter++;
-      }
-    }
-    if (type == unitType.CAVALRY) {
-      while (counter < quantity) {
-        String numberedName = nameUnits + (counter + 1);
-        unitList.add(new CavalryUnit(numberedName, 100));
-        counter++;
-      }
-    }
-
-    return unitList;
-  }
 }
