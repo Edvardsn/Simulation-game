@@ -1,9 +1,10 @@
 package org.ntnu.petteed.Model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Represents a battle between two armies
@@ -18,10 +19,8 @@ public class Battle {
   private static final int ARMY_ONE_WINNER = 1;
   private static final int ARMY_TWO_WINNER = 2;
   private static final int TIE = 3;
+  private final Terrain terrain;
 
-  private final String terrain;
-
-  private final String[] terrains = {"HILLS","FOREST","PLAINS"};
 
   /**
    * Creates an instance of a battle
@@ -29,9 +28,9 @@ public class Battle {
    * @param armyOne The first battling army
    * @param armyTwo The second battling army
    */
-  public Battle(Army armyOne, Army armyTwo,String battleTerrain) throws IllegalArgumentException {
+  public Battle(Army armyOne, Army armyTwo,Terrain battleTerrain) throws IllegalArgumentException {
     if (armyOne.getAll() == null ||
-        !(armyTwo.getAll() != null || !validTerrain(battleTerrain))) {
+        armyTwo.getAll() == null) {
       throw new IllegalArgumentException(
           "Invalid parameters in constructor for Battle");
     } else {
@@ -40,21 +39,18 @@ public class Battle {
       this.terrain = battleTerrain;
       this.randomCombatGen = new Random();
 
-      assignBattleConditions();
+      assignTerrain();
     }
   }
 
   /**
-   * Initializes every member in the battle
+   * Assigns the terrain of the battle to its members
    *
    */
-  public void assignBattleConditions(){
+  public void assignTerrain(){
     getBattlingMembers().forEach(army -> army.getAll()
-        .forEach(unit -> unit.addBattleCondition(BattleCondition.getBuilder()
-            .setTerrain(terrain) // Sets all current battle effects on units here
-            .build())));
+        .forEach(unit -> unit.setCurrentTerrain(this.terrain)));
   }
-
 
   /**
    * Carries out a duel between two units
@@ -113,13 +109,9 @@ public class Battle {
         Unit unitArmyOne = armyOne.getRandom();
         Unit unitArmyTwo = armyTwo.getRandom();
 
-        int combatOrder = randomCombatGen.nextInt(2);
+        unitsBattle(unitArmyOne, unitArmyTwo, getRandomCombatOrder());
 
-        unitsBattle(unitArmyOne, unitArmyTwo, combatOrder);
-
-        int battleScenario = getScenarioCombat();
-
-        switch (battleScenario) {
+        switch (getScenarioCombat()) {
           case ARMY_ONE_WINNER -> {
             winner = armyOne;
             battling = false;
@@ -136,15 +128,13 @@ public class Battle {
       return winner;
     }
 
-
   /**
-   * Checks if a given String is a valid terrain
+   * Returns a random value between 0 and 1 representing combat order
    *
-   * @param battleTerrain The proposed terrain
-   * @return A boolean value which is True if given a valid terrain, false if not.
+   * @return {@code Integer} Random value between 0 and 1
    */
-  private boolean validTerrain(String battleTerrain) {
-    return Arrays.asList(terrains).contains(battleTerrain);
+  private int getRandomCombatOrder() {
+    return randomCombatGen.nextInt(2);
   }
 
   /**
@@ -153,21 +143,19 @@ public class Battle {
    * @return A collection of the battling members
    */
   public Collection<Army> getBattlingMembers(){
-    ArrayList<Army> armies = new ArrayList<>();
+    Set<Army> armies = new HashSet<>();
     armies.add(armyOne);
     armies.add(armyTwo);
 
     return armies;
   }
 
-
-
   /**
    * Returns the terrain of the battle
    *
    * @return The terrain of the battle
    */
-  public String getTerrain() {
+  public Terrain getTerrain() {
     return terrain;
   }
 

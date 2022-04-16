@@ -31,12 +31,12 @@ public class RangedUnit extends Unit {
   public int getAttackBonus() {
     int finalAttackBonus = BASE_ATTACK_BONUS;
 
-    if(this.hasConditionEffect("FOREST")){
-      finalAttackBonus -= 1;
+    if(occupiesTerrain("FOREST")){
+      finalAttackBonus -= getCurrentTerrain().getSpecificTerrainCondition("FOREST");
     }
 
-    if(this.hasConditionEffect("HILLS")){
-      finalAttackBonus += 2;
+    if(occupiesTerrain("HILLS")){
+      finalAttackBonus += getCurrentTerrain().getSpecificTerrainCondition("HILLS");
     }
 
     return finalAttackBonus;

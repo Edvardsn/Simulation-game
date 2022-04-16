@@ -6,10 +6,10 @@ package org.ntnu.petteed.Model;
  */
 public class InfantryUnit extends Unit {
 
-  private final static int ATTACK_VALUE = 15;
-  private final static int ARMOUR_VALUE = 10;
-  private final static int BASE_ATTACK_BONUS = 2;
-  private final static int BASE_RESIST_BONUS = 1;
+  private static final int ATTACK_VALUE = 15;
+  private static final int ARMOUR_VALUE = 10;
+  private static final int BASE_ATTACK_BONUS = 2;
+  private static final int BASE_RESIST_BONUS = 1;
 
   /**
    * Creates an instance of an infantry unit
@@ -30,8 +30,8 @@ public class InfantryUnit extends Unit {
   public int getAttackBonus() {
     int finalAttackBonus = BASE_ATTACK_BONUS;
 
-    if(hasConditionEffect("FOREST")){
-      finalAttackBonus += 2;
+    if(occupiesTerrain("FOREST")){
+      finalAttackBonus += getCurrentTerrain().getSpecificTerrainCondition("FOREST");
     }
     return finalAttackBonus;
   }
@@ -45,8 +45,8 @@ public class InfantryUnit extends Unit {
   public int getResistBonus() {
     int finalResistanceBonus = BASE_RESIST_BONUS;
 
-    if(this.hasConditionEffect("FOREST")){
-      finalResistanceBonus += 2;
+    if(occupiesTerrain("FOREST")){
+      finalResistanceBonus += getCurrentTerrain().getSpecificTerrainCondition("FOREST");
     }
     return finalResistanceBonus;
   }

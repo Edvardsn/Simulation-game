@@ -1,6 +1,7 @@
 package org.ntnu.petteed.Model;
 
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import org.reflections.Reflections;
 
@@ -16,7 +17,11 @@ public abstract class Unit {
   private int health;
   private final int attack;
   private final int armour;
-  private Collection<BattleCondition> battleConditions;
+  private Terrain currentTerrain = null;
+
+  private int conditionalAttack = 0;
+  private int conditionalDefense = 0;
+  private Set<StatusEffect> statusEffects;
 
   protected int receivedAttacks;
   protected int initiatedAttacks;
@@ -45,6 +50,7 @@ public abstract class Unit {
     this.armour = armour;
     this.receivedAttacks = 0;
     this.initiatedAttacks = 0;
+    this.statusEffects = new HashSet<>();
   }
 
   /**
@@ -82,7 +88,6 @@ public abstract class Unit {
     this.initiatedAttacks++;
   }
 
-
   /**
    * Attacks another unit
    *
@@ -90,11 +95,13 @@ public abstract class Unit {
    */
   protected void attack(Unit opponent) {
 
+    statusEffects.forEach(statusEffect -> statusEffect.apply(this));
+
     if (opponent != null && this.isAlive() && !(opponent.equals(this))) {
 
-      int totalAttackDamage = this.getAttack() + this.getAttackBonus();
+      int totalAttackDamage = this.getAttack() + this.getAttackBonus() + conditionalAttack;
 
-      int totalResistances = opponent.getResistBonus() + opponent.getArmour();
+      int totalResistances = opponent.getResistBonus() + opponent.getArmour() + conditionalDefense;
 
       int trueDamage = totalAttackDamage - totalResistances; // The actual amount deducted from the opponents health
 
@@ -114,41 +121,48 @@ public abstract class Unit {
   }
 
   /**
-   * Assigns the unit a status effect
-   *
-   * @return A status effect
-   */
-  public void addBattleCondition(BattleCondition battleCondition){
-    battleConditions.add(battleCondition);
-  };
-
-  /**
    * Returns the current battle conditions of the user
    *
    * @return The current battle conditions of the user
    */
-  public Collection<BattleCondition> getBattleCondition() {
-    return this.battleConditions;
+  public Set<StatusEffect> getStatusEffects() {
+    return this.statusEffects;
+  }
+
+  public void addStatusEffect(StatusEffect effect){
+    this.statusEffects.add(effect);
   }
 
   /**
-   * Checks for a match on given battle condition effect
+   * Checks if the unit is in given terrain
    *
-   * @param condition The condition to check for
-   * @return {@code Boolean} True if present, false if not.
+   * @param terrainIdentity Identifier of the terrain to check
+   * @return True if identity matches, false if not.
    */
-  public boolean hasConditionEffect(String condition) {
-    boolean hasCondition;
+  public boolean occupiesTerrain(String terrainIdentity){
+    boolean occupiesTerrain = false;
 
-    if(this.getBattleCondition() != null && this.getBattleCondition()
-        .stream()
-        .anyMatch(battleCondition ->
-            battleCondition.getTerrain().equals(condition))){
-      hasCondition = true;
-    } else{
-      hasCondition = false;
+    if(this.currentTerrain != null){
+      occupiesTerrain = terrainIdentity.equals(getCurrentTerrain().getTerrainName());
     }
-    return hasCondition;
+
+    return occupiesTerrain;
+  }
+
+  public int getConditionalAttack() {
+    return conditionalAttack;
+  }
+
+  public int getConditionalDefense() {
+    return conditionalDefense;
+  }
+
+  public void setConditionalAttack(int conditionalAttack) {
+    this.conditionalAttack = conditionalAttack;
+  }
+
+  public void setConditionalDefense(int conditionalDefense) {
+    this.conditionalDefense = conditionalDefense;
   }
 
   /**
@@ -160,6 +174,16 @@ public abstract class Unit {
   public String toString() {
     return "Unit{" + "name='" + name + '\'' + ", health=" + health + ", attack=" + attack +
         ", armour=" + armour + '}';
+  }
+
+
+
+  public Terrain getCurrentTerrain() {
+    return currentTerrain;
+  }
+
+  public void setCurrentTerrain(Terrain currentTerrain) {
+    this.currentTerrain = currentTerrain;
   }
 
   /**
