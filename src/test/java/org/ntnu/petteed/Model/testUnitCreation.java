@@ -29,7 +29,7 @@ public class testUnitCreation {
 
     assertEquals(100, unit.getHealth());
     assertEquals("unitsen", unit.getName());
-    assertEquals(15, unit.getAttack());
+    assertEquals(15, unit.getAttackValue());
     assertEquals(10, unit.getArmour());
   }
 

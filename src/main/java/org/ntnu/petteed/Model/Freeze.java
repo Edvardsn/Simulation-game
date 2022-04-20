@@ -12,18 +12,33 @@ public class Freeze implements StatusEffect {
 
   private int attackDebuff = -5;
 
+
   /**
-   * Applies the debuff
+   * Registers that a unit has initiated an acton
+   *
+   * @param unitInitiatingAction The object which initiates an action
+   */
+  @Override
+  public void initiatesAction(Unit unitInitiatingAction) {
+    apply(unitInitiatingAction);
+  }
+
+
+  /**
+   * Applies the freeze debuff to given unit
    *
    * @param unit The unit which the effect if applied to
    */
   @Override
   public void apply(Unit unit) {
-    while(ticks < DURATION){
+    if(ticks < DURATION){
       attackDebuff += 1;
 
-      unit.setConditionalAttack(unit.getConditionalAttack() + attackDebuff);
+      unit.setConditionalAttackValue(unit.getConditionalAttackValue() + attackDebuff);
       ticks++;
+    }
+    else{
+      unit.removeStatusEffect(this);
     }
   }
 }

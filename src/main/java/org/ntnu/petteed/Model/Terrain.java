@@ -13,31 +13,27 @@ public class Terrain{
 
   private final String terrainName;
 
-  private final int STANDARD_TERRAIN = 2;
-  private static final String[] terrains = {"FOREST","PLAINS","HILLS"};
+  private final int STANDARD_TERRAIN = 4;
+  private static final String[] terrainIdentities = {"FOREST","PLAINS","HILLS"};
 
   private final HashMap<String,Integer> terrainValues;
 
-  /**
-   * Creates an instance of a Terrain
-   *
-   * @param terrainName The name of the terrain
-   */
-  public Terrain(int test) {
-    this.terrainName = "test";
-    terrainValues = new HashMap<>();
-    Arrays.stream(terrains).forEach(terrainId -> terrainValues.put(terrainId,STANDARD_TERRAIN));
-  }
 
   /**
    * Creates an instance of a Terrain
    *
    * @param terrainName The name of the terrain
+   * @throws IllegalArgumentException If user creates terrain with name null or invalid terrain name
    */
-  public Terrain(String terrainName,int test) {
-    this.terrainName = terrainName;
-    terrainValues = new HashMap<>();
-    Arrays.stream(terrains).forEach(terrainId -> terrainValues.put(terrainId,STANDARD_TERRAIN));
+  public Terrain(String terrainName) {
+    if(validTerrain(terrainName) && terrainName != null && !terrainName.isBlank())  {
+      this.terrainName = terrainName;
+      terrainValues = new HashMap<>();
+      Arrays.stream(terrainIdentities).forEach(terrainId -> terrainValues.put(terrainId, STANDARD_TERRAIN));
+    }
+    else{
+      throw new IllegalArgumentException("Invalid name in Terrain Constructor");
+    }
   }
 
   /**
@@ -47,7 +43,7 @@ public class Terrain{
    * @return A boolean value which is True if given a valid terrain, false if not.
    */
   private boolean validTerrain(String battleTerrain) {
-    return Arrays.asList(terrains).contains(battleTerrain);
+    return Arrays.asList(terrainIdentities).contains(battleTerrain);
   }
 
   /**
@@ -67,14 +63,5 @@ public class Terrain{
    */
   public int getSpecificTerrainCondition(String terrainIdentity){
     return terrainValues.get(terrainIdentity);
-  }
-
-  /**
-   * Returns the value assigned to this terrain
-   *
-   * @return The value assigned to this terrain
-   */
-  public int getThisTerrainCondition(){
-    return terrainValues.get(this.getTerrainName());
   }
 }

@@ -13,7 +13,7 @@ import java.util.Random;
  *
  */
 public class Army {
-  
+
   private final String name;
   private List<Unit> units;
   private final Random randomGenerator = new Random();
@@ -177,6 +177,12 @@ public class Army {
         .toList();
   }
 
+  /**
+   * Checks whether an army is equal to this
+   *
+   * @param o The object to check if equal to this
+   * @return True if the same, false if not.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {

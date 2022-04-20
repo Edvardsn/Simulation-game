@@ -11,15 +11,28 @@ public class Burn implements StatusEffect {
   private int ticks = 0;
 
   /**
+   * Registers that a unit has initiated an acton
+   *
+   * @param unitInitiatingAction The object which initiates an action
+   */
+  @Override
+  public void initiatesAction(Unit unitInitiatingAction) {
+    apply(unitInitiatingAction);
+  }
+
+  /**
    * Applies the burn debuff to given unit.
    *
    * @param unit The unit which the effect if applied to
    */
   @Override
   public void apply(Unit unit) {
-    while (ticks < DURATION) {
+    if (ticks < DURATION) {
       unit.setHealth(unit.getHealth() - 2, this);
       ticks++;
+    }
+    else{
+      unit.removeStatusEffect(this);
     }
   }
 }

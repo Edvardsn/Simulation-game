@@ -4,10 +4,19 @@ A game called Wargame
 
 Spørsmål:
 Unit modyfier ?? grei løsning
+Modyfiers generelt som parameterere.
+Status effect også
+
+Random klasse, random factory
+Randomizer foxes and rabbits
 
 Buffered reader or Read all lines
 
 Army simulate metode, kort eller deskriptiv.
 
-
 Handle exceptions og testing
+
+Main window
+husk return home med sende inn primarystage
+Send inn sensorer i hver scene, ikke deale med full løsning
+insatnce of.

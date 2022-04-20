@@ -60,18 +60,18 @@ public class UnitFactory {
   public static List<Unit> createUnits(int numberOfUnits,String name,int health, Class<?extends Unit> desiredClass)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException,
       IllegalAccessException {
+
     ArrayList<Unit> listOfUnits = new ArrayList<>();
     int counter = 0;
-
-    Class[] paramaterArray = { String.class ,Integer.TYPE};
+    Class[] constructorType = { String.class ,Integer.TYPE};
 
     while(counter < numberOfUnits){
 
-      Constructor<?extends Unit> constructor = desiredClass.getConstructor(paramaterArray);
-
+      Constructor<?extends Unit> constructor = desiredClass.getConstructor(constructorType);
       Unit newUnit = constructor.newInstance(name,health);
 
       listOfUnits.add(newUnit);
+
       counter++;
     }
 

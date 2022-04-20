@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -35,6 +33,22 @@ public class FileHandler {
     Reflections reflections = new Reflections("org.ntnu.petteed"); // Selve reflections i mappen
     return reflections.getSubTypesOf(Unit.class).stream().toList();
   }
+
+  Unit instanceof
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /**
    * Creates a directory in the at the specified path
@@ -161,11 +175,17 @@ public class FileHandler {
       String unitName = unitInformation.get(1);
       String unitHealth = unitInformation.get(2);
 
-      Class<? extends Unit> currentSubtype = this.subTypes.get(getSubTypeclassIndex(unitType)); // Subtype som samsvarer med dette navnet
 
-      Constructor<?> consturctor = Arrays.stream(currentSubtype.getConstructors()).toList().get(0); // Henter konstruktøren til den subtypen
+      //infantryReader etc.. tolker alle typer infantry info
+     // Csv reader...
 
-      Unit newUnit = (Unit) consturctor.newInstance(unitName,unitHealth); // Kall deretter konstruktøren til denne typen unit med informasjonen
+
+
+//      Class<? extends Unit> currentSubtype = this.subTypes.get(getSubTypeclassIndex(unitType)); // Subtype som samsvarer med dette navnet
+//
+//      Constructor<?> consturctor = Arrays.stream(currentSubtype.getConstructors()).toList().get(0); // Henter konstruktøren til den subtypen
+//
+//      Unit newUnit = (Unit) consturctor.newInstance(unitName,unitHealth); // Kall deretter konstruktøren til denne typen unit med informasjonen
 
       newArmy.addUnit(newUnit);
 

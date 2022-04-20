@@ -48,7 +48,8 @@ public class Battle {
    *
    */
   public void assignTerrain(){
-    getBattlingMembers().forEach(army -> army.getAll()
+    getBattlingMembers()
+        .forEach(army -> army.getAll()
         .forEach(unit -> unit.setCurrentTerrain(this.terrain)));
   }
 

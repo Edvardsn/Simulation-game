@@ -2,20 +2,12 @@ package org.ntnu.petteed;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import org.ntnu.petteed.Model.Army;
-import org.ntnu.petteed.Model.Battle;
-import org.ntnu.petteed.Model.FileHandler;
 import org.ntnu.petteed.Model.InfantryUnit;
 import org.ntnu.petteed.Model.MageUnit;
-import org.ntnu.petteed.Model.RangedUnit;
-import org.ntnu.petteed.Model.Terrain;
 import org.ntnu.petteed.Model.Unit;
 import org.ntnu.petteed.Model.UnitFactory;
-import org.reflections.Reflections;
+
 
 /**
  * The application which the program runs on
@@ -48,12 +40,12 @@ public class WargamesApp {
     //List<Unit> units = factory.createUnits(10,"dude",100, InfantryUnit.class);
     //units.forEach(System.out::println);
 
-
-    Class clsarray[] = {String.class,Integer.TYPE};  //creating array
+    Class clsarray[] =  {String.class,Integer.TYPE};  //creating array
     Constructor cnstrctr = InfantryUnit.class.getConstructor(clsarray); //get the constructor
     InfantryUnit petter = (InfantryUnit) cnstrctr.newInstance("Petter",100);
-    System.out.println(petter.getName() + petter.getAttack());
+    System.out.println(petter.getName() + petter.getAttackValue());
     System.out.println(cnstrctr); //print the constructor
+
 
     List<Unit> unitList = UnitFactory.createUnits(5,"test",100, MageUnit.class);
     unitList.forEach(System.out::println);

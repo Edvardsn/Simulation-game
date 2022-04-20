@@ -26,6 +26,7 @@ public class MageUnit extends Unit{
     int randomSpellIndex = randomGenerator.nextInt(spellList.size());
     return spellList.get(randomSpellIndex);
   }
+
   /**
    * Creates a mage unit
    *
@@ -37,7 +38,7 @@ public class MageUnit extends Unit{
   }
 
   /**
-   * Attacks another unit
+   * Attacks another unit and casts spell
    *
    * @param opponent {@code Unit} opponent, the unit to attack
    */
@@ -45,7 +46,7 @@ public class MageUnit extends Unit{
   protected void attack(Unit opponent) {
     if (opponent != null && this.isAlive() && !(opponent.equals(this))) {
 
-      int totalAttackDamage = this.getAttack() + this.getAttackBonus();
+      int totalAttackDamage = this.getAttackValue() + this.getAttackBonus();
 
       int totalResistances = opponent.getResistBonus() + opponent.getArmour();
 

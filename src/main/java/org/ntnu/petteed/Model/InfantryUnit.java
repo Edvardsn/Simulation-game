@@ -10,6 +10,8 @@ public class InfantryUnit extends Unit {
   private static final int ARMOUR_VALUE = 10;
   private static final int BASE_ATTACK_BONUS = 2;
   private static final int BASE_RESIST_BONUS = 1;
+  private static final String FOREST_TERRAIN_ID = "FOREST";
+
 
   /**
    * Creates an instance of an infantry unit
@@ -30,8 +32,8 @@ public class InfantryUnit extends Unit {
   public int getAttackBonus() {
     int finalAttackBonus = BASE_ATTACK_BONUS;
 
-    if(occupiesTerrain("FOREST")){
-      finalAttackBonus += getCurrentTerrain().getSpecificTerrainCondition("FOREST");
+    if(occupiesTerrain(FOREST_TERRAIN_ID)){
+      finalAttackBonus += getCurrentTerrain().getSpecificTerrainCondition(FOREST_TERRAIN_ID);
     }
     return finalAttackBonus;
   }
@@ -45,8 +47,8 @@ public class InfantryUnit extends Unit {
   public int getResistBonus() {
     int finalResistanceBonus = BASE_RESIST_BONUS;
 
-    if(occupiesTerrain("FOREST")){
-      finalResistanceBonus += getCurrentTerrain().getSpecificTerrainCondition("FOREST");
+    if(occupiesTerrain(FOREST_TERRAIN_ID)){
+      finalResistanceBonus += getCurrentTerrain().getSpecificTerrainCondition(FOREST_TERRAIN_ID);
     }
     return finalResistanceBonus;
   }

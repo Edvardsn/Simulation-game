@@ -1,6 +1,5 @@
 package org.ntnu.petteed.Model;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import org.reflections.Reflections;
@@ -13,14 +12,14 @@ import org.reflections.Reflections;
  */
 public abstract class Unit {
 
-  private final String name;
-  private int health;
-  private final int attack;
-  private final int armour;
-  private Terrain currentTerrain = null;
+  protected final String name;
+  protected int health;
+  protected final int attackValue;
+  protected final int armour;
+  protected Terrain currentTerrain = null;
 
-  private int conditionalAttack = 0;
-  private int conditionalDefense = 0;
+  private int conditionalAttackValue = 0;
+  private int conditionalDefenseValue = 0;
   private Set<StatusEffect> statusEffects;
 
   protected int receivedAttacks;
@@ -31,11 +30,11 @@ public abstract class Unit {
    *
    * @param name,   The name of the unit
    * @param health, The health of the unit
-   * @param attack, The attack value of the unit
+   * @param attackValue, The attack value of the unit
    * @param armour, The armour value of the unit
    * @throws IllegalArgumentException If there are any invalid parameters
    */
-  protected Unit(String name, int health, int attack, int armour) {
+  protected Unit(String name, int health, int attackValue, int armour) {
     if (name != null) {
       this.name = name;
     } else {
@@ -46,7 +45,7 @@ public abstract class Unit {
     } else {
       this.health = health;
     }
-    this.attack = attack;
+    this.attackValue = attackValue;
     this.armour = armour;
     this.receivedAttacks = 0;
     this.initiatedAttacks = 0;
@@ -59,18 +58,16 @@ public abstract class Unit {
    * @param newHealth, the new value of health
    */
   protected void setHealth(int newHealth, Object modifier) {
-    Reflections reflections  = new Reflections("org.ntnu.petteed"); // Selve reflections i mappen
 
-    Set<Class<?extends Unit>> subTypes =  reflections.getSubTypesOf(Unit.class); // Alle underklasser av Unit
+    boolean unit = modifier instanceof Unit;
 
-    if(subTypes.stream().anyMatch(type -> type == modifier.getClass())){ // Makes it so the unit itself keeps track of received attacks
-      this.receivedAttacks++;
-    }
-    if(newHealth > 0) {
-      this.health = newHealth;
-    }
-    else{
-      newHealth = 0;
+    if (subTypes.stream().anyMatch(type -> type == modifier.getClass())) {
+      if (newHealth > 0) {
+        this.health = newHealth;
+      }
+      else {
+        newHealth = 0;
+      }
     }
   }
 
@@ -95,17 +92,22 @@ public abstract class Unit {
    */
   protected void attack(Unit opponent) {
 
-    statusEffects.forEach(statusEffect -> statusEffect.apply(this));
-
     if (opponent != null && this.isAlive() && !(opponent.equals(this))) {
 
-      int totalAttackDamage = this.getAttack() + this.getAttackBonus() + conditionalAttack;
+      statusEffects.forEach(statusEffect -> statusEffect.initiatesAction(this));
 
-      int totalResistances = opponent.getResistBonus() + opponent.getArmour() + conditionalDefense;
+      int totalAttackDamage = this.getAttackValue() + this.getAttackBonus() + conditionalAttackValue;
+
+      int totalResistances = opponent.getResistBonus() + opponent.getArmour() +
+          conditionalDefenseValue;
 
       int trueDamage = totalAttackDamage - totalResistances; // The actual amount deducted from the opponents health
 
       opponent.setHealth(opponent.getHealth() - trueDamage,this);
+      opponent.incrementReceivedAttacks();
+
+
+      // Greit å si ifra
 
       this.incrementInitiatedAttacks(); // Registers initiated attack
     }
@@ -133,6 +135,11 @@ public abstract class Unit {
     this.statusEffects.add(effect);
   }
 
+  public void removeStatusEffect(StatusEffect effect){
+    // Modifyer?
+    this.statusEffects.remove(effect);
+  }
+
   /**
    * Checks if the unit is in given terrain
    *
@@ -149,20 +156,20 @@ public abstract class Unit {
     return occupiesTerrain;
   }
 
-  public int getConditionalAttack() {
-    return conditionalAttack;
+  public int getConditionalAttackValue() {
+    return conditionalAttackValue;
   }
 
-  public int getConditionalDefense() {
-    return conditionalDefense;
+  public int getConditionalDefenseValue() {
+    return conditionalDefenseValue;
   }
 
-  public void setConditionalAttack(int conditionalAttack) {
-    this.conditionalAttack = conditionalAttack;
+  public void setConditionalAttackValue(int conditionalAttackValue) {
+    this.conditionalAttackValue = conditionalAttackValue;
   }
 
-  public void setConditionalDefense(int conditionalDefense) {
-    this.conditionalDefense = conditionalDefense;
+  public void setConditionalDefenseValue(int conditionalDefenseValue) {
+    this.conditionalDefenseValue = conditionalDefenseValue;
   }
 
   /**
@@ -172,7 +179,7 @@ public abstract class Unit {
    */
   @Override
   public String toString() {
-    return "Unit{" + "name='" + name + '\'' + ", health=" + health + ", attack=" + attack +
+    return "Unit{" + "name='" + name + '\'' + ", health=" + health + ", attack=" + attackValue +
         ", armour=" + armour + '}';
   }
 
@@ -209,8 +216,8 @@ public abstract class Unit {
    *
    * @return the attack of the unit
    */
-  public int getAttack() {
-    return attack;
+  public int getAttackValue() {
+    return attackValue;
   }
 
   /**

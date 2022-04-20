@@ -4,10 +4,19 @@ package org.ntnu.petteed.Model;
  * Represents a collection of effects which holds information about anything that can impact
  * the combat during battle or alter a unit's capabilities.
  *
+ * Opp et nivå
+ *
  * @author Petter Edvardsen
  * @version 02/04/22
  */
 public interface StatusEffect {
+
+  /**
+   * Notifies a status effect that an action is being initiated
+   *
+   * @param unitInitiatingAction The unit which initiates an action
+   */
+  void initiatesAction(Unit unitInitiatingAction);
 
   /**
    * Applies the status effect to given unit
