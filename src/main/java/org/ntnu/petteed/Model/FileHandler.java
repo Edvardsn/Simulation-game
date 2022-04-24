@@ -20,7 +20,8 @@ import java.util.random.RandomGenerator;
  */
 public class FileHandler {
 
-  private static final Class<?>[] validInputClasses = {InfantryUnit.class,RangedUnit.class,CavalryUnit.class,CommanderUnit.class,MageUnit.class};
+  // All available inputTypes to be read in from file, has to be manually changed
+  private static final String[] validInputTypes = {"InfantryUnit","RangedUnit","CavalryUnit","MageUnit","CommanderUnit"};
   private static final String INFO_SEPARATOR = ",";
 
   //private final List<Class<? extends Unit>> subTypes = getSubTypesOfUnit();
