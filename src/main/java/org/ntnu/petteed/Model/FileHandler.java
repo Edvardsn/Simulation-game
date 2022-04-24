@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import org.reflections.Reflections;
+import java.util.random.RandomGenerator;
 
 /**
  * This class handles all file-related tasks
@@ -20,35 +20,10 @@ import org.reflections.Reflections;
  */
 public class FileHandler {
 
+  private static final Class<?>[] validInputClasses = {InfantryUnit.class,RangedUnit.class,CavalryUnit.class,CommanderUnit.class,MageUnit.class};
   private static final String INFO_SEPARATOR = ",";
 
-  private final List<Class<? extends Unit>> subTypes = getSubTypesOfUnit();
-
-  /**
-   * Returns the subtypes of the Unit class
-   *
-   * @return List of the subtypes of the Unit class
-   */
-  private List<Class<? extends Unit>> getSubTypesOfUnit() {
-    Reflections reflections = new Reflections("org.ntnu.petteed"); // Selve reflections i mappen
-    return reflections.getSubTypesOf(Unit.class).stream().toList();
-  }
-
-  Unit instanceof
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  //private final List<Class<? extends Unit>> subTypes = getSubTypesOfUnit();
 
   /**
    * Creates a directory in the at the specified path
@@ -101,6 +76,7 @@ public class FileHandler {
 
       printWriter.println(unit.getHealth());
     }
+    int number = RandomGenerator.getDefault().nextInt(2);
     printWriter.close();
   }
 
@@ -149,13 +125,11 @@ public class FileHandler {
    * @param file The file to be read
    * @return The army created from the file
    * @throws IOException
-   * @throws InvocationTargetException
    * @throws InstantiationException
    * @throws IllegalAccessException
    */
   public Army readArmyFromFile(File file)
-      throws IOException, InvocationTargetException, InstantiationException,
-      IllegalAccessException {
+      throws IOException {
 
     if (!checkValidFileInfo(file)) {
       return null;
