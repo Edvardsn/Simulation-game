@@ -24,8 +24,6 @@ public class FileHandler {
   private static final String[] validInputTypes = {"InfantryUnit","RangedUnit","CavalryUnit","MageUnit","CommanderUnit"};
   private static final String INFO_SEPARATOR = ",";
 
-  //private final List<Class<? extends Unit>> subTypes = getSubTypesOfUnit();
-
   /**
    * Creates a directory in the at the specified path
    *
