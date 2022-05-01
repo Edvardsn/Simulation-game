@@ -14,15 +14,15 @@ public class MageUnit extends Unit{
   private static final int ARMOUR_VALUE = 5;
   private final Random randomGenerator = new Random();
 
-  private final StatusEffect[] spells = {new Burn(),new Freeze()};
+  private final ActionListener[] spells = {(ActionListener) new BurnEffect(),new FreezeEffect()};
 
   /**
    * Does a roll on all available spells and returns a statusEffect
    *
    * @return A random status effect from the available spells
    */
-  public StatusEffect castRandomSpell(){
-    List<StatusEffect> spellList = Arrays.stream(spells).toList();
+  public ActionListener castRandomSpell(){
+    List<ActionListener> spellList = Arrays.stream(spells).toList();
     int randomSpellIndex = randomGenerator.nextInt(spellList.size());
     return spellList.get(randomSpellIndex);
   }
@@ -52,7 +52,7 @@ public class MageUnit extends Unit{
 
       int trueDamage = totalAttackDamage - totalResistances; // The actual amount deducted from the opponents health
 
-      opponent.setHealth(opponent.getHealth() - trueDamage,this);
+      opponent.setHealth(opponent.getHealth() - trueDamage);
       opponent.addStatusEffect(castRandomSpell());
 
       this.incrementInitiatedAttacks(); // Registers initiated attack

@@ -1,9 +1,5 @@
 package org.ntnu.petteed.Model;
 
-import java.util.HashSet;
-import java.util.Set;
-import org.reflections.Reflections;
-
 /**
  * A class that represents a single unit and its characteristics
  *
@@ -16,11 +12,12 @@ public abstract class Unit {
   protected int health;
   protected final int attackValue;
   protected final int armour;
-  protected Terrain currentTerrain = null;
+  protected int conditionalAttackValue = 0;
+  protected int conditionalDefenseValue = 0;
 
-  private int conditionalAttackValue = 0;
-  private int conditionalDefenseValue = 0;
-  private Set<StatusEffect> statusEffects;
+  protected Terrain currentTerrain = null;
+  public EventManager eventManager;
+
 
   protected int receivedAttacks;
   protected int initiatedAttacks;
@@ -49,7 +46,7 @@ public abstract class Unit {
     this.armour = armour;
     this.receivedAttacks = 0;
     this.initiatedAttacks = 0;
-    this.statusEffects = new HashSet<>();
+    this.eventManager = new EventManager();
   }
 
   /**
@@ -57,18 +54,9 @@ public abstract class Unit {
    *
    * @param newHealth, the new value of health
    */
-  protected void setHealth(int newHealth, Object modifier) {
+  protected void setHealth(int newHealth) {
+    this.health = newHealth;
 
-    boolean unit = modifier instanceof Unit;
-
-    if (subTypes.stream().anyMatch(type -> type == modifier.getClass())) {
-      if (newHealth > 0) {
-        this.health = newHealth;
-      }
-      else {
-        newHealth = 0;
-      }
-    }
   }
 
   /**
@@ -94,21 +82,13 @@ public abstract class Unit {
 
     if (opponent != null && this.isAlive() && !(opponent.equals(this))) {
 
-      statusEffects.forEach(statusEffect -> statusEffect.initiatesAction(this));
+      eventManager.notifyListeners(EventIdentifyer.ATTACK,this);
 
-      int totalAttackDamage = this.getAttackValue() + this.getAttackBonus() + conditionalAttackValue;
+      int trueDamage = getTotalAttackDamage() - getTotalResistances(opponent); // The actual amount deducted from the opponents health
 
-      int totalResistances = opponent.getResistBonus() + opponent.getArmour() +
-          conditionalDefenseValue;
+      opponent.setHealth(opponent.getHealth() - trueDamage);
 
-      int trueDamage = totalAttackDamage - totalResistances; // The actual amount deducted from the opponents health
-
-      opponent.setHealth(opponent.getHealth() - trueDamage,this);
       opponent.incrementReceivedAttacks();
-
-
-      // Greit å si ifra
-
       this.incrementInitiatedAttacks(); // Registers initiated attack
     }
   }
@@ -122,23 +102,7 @@ public abstract class Unit {
     return this.getHealth() > 0;
   }
 
-  /**
-   * Returns the current battle conditions of the user
-   *
-   * @return The current battle conditions of the user
-   */
-  public Set<StatusEffect> getStatusEffects() {
-    return this.statusEffects;
-  }
 
-  public void addStatusEffect(StatusEffect effect){
-    this.statusEffects.add(effect);
-  }
-
-  public void removeStatusEffect(StatusEffect effect){
-    // Modifyer?
-    this.statusEffects.remove(effect);
-  }
 
   /**
    * Checks if the unit is in given terrain
@@ -243,4 +207,22 @@ public abstract class Unit {
    */
   public abstract int getResistBonus();
 
+  /**
+   * Returns the total resistances of a unit
+   *
+   * @param unit The unit which resistances to get
+   * @return The value of the total resistance
+   */
+  public int getTotalResistances(Unit unit) {
+    return unit.getResistBonus() + unit.getArmour() + conditionalDefenseValue;
+  }
+
+  /**
+   * Returns the total attack value of the unit
+   *
+   * @return The total attack value of the unit
+   */
+  public int getTotalAttackDamage() {
+    return this.getAttackValue() + this.getAttackBonus() + conditionalAttackValue;
+  }
 }

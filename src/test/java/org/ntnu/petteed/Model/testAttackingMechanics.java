@@ -1,5 +1,7 @@
 package org.ntnu.petteed.Model;
 
+
+
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -41,7 +43,7 @@ public class testAttackingMechanics {
   @Test
   public void testSetCorrectHealthValue() {
     Unit unit = new InfantryUnit("unitsen", 100);
-    unit.setHealth(50,unit);
+    unit.setHealth(50);
 
     assertEquals(50, unit.getHealth());
   }

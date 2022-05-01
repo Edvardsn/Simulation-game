@@ -4,27 +4,31 @@ package org.ntnu.petteed.Model;
  * Represents a collection of effects which holds information about anything that can impact
  * the combat during battle or alter a unit's capabilities.
  *
- * Opp et nivå
- *
  * @author Petter Edvardsen
  * @version 02/04/22
  */
-public interface StatusEffect {
+public interface ActionListener {
+
+  EventIdentifyer EVENT_IDENTIFYER = null;
 
   /**
-   * Notifies a status effect that an action is being initiated
+   * Notifies that an action has been initiated
    *
-   * @param unitInitiatingAction The unit which initiates an action
+   * @param source Unit which to be acted upon
    */
-  void initiatesAction(Unit unitInitiatingAction);
+  void handleEvent(Unit source);
 
   /**
-   * Applies the status effect to given unit
+   * Returns the value of the listeners identifyer
    *
-   * @param unit The unit which the effect if applied to
+   * @return The value of the listeners identifyer
    */
-    void apply(Unit unit);
+  EventIdentifyer getIdentifyer();
 
+  /**
+   * Sets the identifyer for the listener
+   */
+  void setEventIdentifyer();
 
 //  private Collection<String> currentEffects;
 //

@@ -155,4 +155,12 @@ public class Battle {
     }
 
 
+    public void armiesBattle(Army armyOne,Army armyTwo){
+      Unit unitArmyOne = armyOne.getRandom();
+      Unit unitArmyTwo = armyTwo.getRandom();
+
+      unitsBattle(unitArmyOne, unitArmyTwo, getRandomCombatOrder());
+    }
+
+
 }

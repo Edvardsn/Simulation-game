@@ -81,119 +81,119 @@ public class FileHandler {
     printWriter.close();
   }
 
-  /**
-   * Checks if given file has valid information in each line
-   *
-   * @param file The file to check included info
-   * @return True if a valid file, false if not.
-   * @throws IOException
-   */
-  public boolean checkValidFileInfo(File file) throws IOException {
-
-    boolean validFile = true;
-
-    int LineErrorIndex = 0;
-
-    List<String> fileLines = Files.readAllLines(file.toPath());
-
-    for (int i = 1; i < fileLines.size(); i++) {
-      List<String> unitInformation = Arrays.stream(fileLines.get(i).split(INFO_SEPARATOR)).toList();
-
-      boolean validUnitType =
-          this.subTypes.stream().anyMatch(type -> type.getSimpleName().equals(unitInformation.get(0)));
-
-      boolean validUnitName =
-          (unitInformation.get(1) != null) && !(unitInformation.get(1).isBlank());
-
-      boolean validUnitHealth;
-
-      if (unitInformation.get(2) != null && !unitInformation.get(2).isBlank()) {
-        int healthValue = Integer.parseInt(unitInformation.get(2));
-        validUnitHealth = healthValue > 0;
-      } else {
-        validUnitHealth = false;
-      }
-
-      validFile = validUnitType && validUnitName &&
-          validUnitHealth; // Makes the file invalid if it dosent meet the conditions
-    }
-    return validFile;
-  }
-
-  /**
-   * Reads an Army from a given file
-   *
-   * @param file The file to be read
-   * @return The army created from the file
-   * @throws IOException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
-   */
-  public Army readArmyFromFile(File file)
-      throws IOException {
-
-    if (!checkValidFileInfo(file)) {
-      return null;
-    }
-
-    List<String> fileLines = Files.readAllLines(file.toPath());
-
-    Army newArmy = new Army(fileLines.get(0), new ArrayList<>()); // Name of army on the first line
-
-    int lineIndex = 0;
-
-    while (lineIndex < fileLines.size()) {
-
-      List<String> unitInformation = Arrays.stream(fileLines.get(lineIndex + 1).split(INFO_SEPARATOR)).toList(); // Informasjon på linjen
-
-      String unitType = unitInformation.get(0);
-      String unitName = unitInformation.get(1);
-      String unitHealth = unitInformation.get(2);
-
-
-      //infantryReader etc.. tolker alle typer infantry info
-     // Csv reader...
-
-
-
-//      Class<? extends Unit> currentSubtype = this.subTypes.get(getSubTypeclassIndex(unitType)); // Subtype som samsvarer med dette navnet
+//  /**
+//   * Checks if given file has valid information in each line
+//   *
+//   * @param file The file to check included info
+//   * @return True if a valid file, false if not.
+//   * @throws IOException
+//   */
+//  public boolean checkValidFileInfo(File file) throws IOException {
 //
-//      Constructor<?> consturctor = Arrays.stream(currentSubtype.getConstructors()).toList().get(0); // Henter konstruktøren til den subtypen
+//    boolean validFile = true;
 //
-//      Unit newUnit = (Unit) consturctor.newInstance(unitName,unitHealth); // Kall deretter konstruktøren til denne typen unit med informasjonen
+//    int LineErrorIndex = 0;
+//
+//    List<String> fileLines = Files.readAllLines(file.toPath());
+//
+//    for (int i = 1; i < fileLines.size(); i++) {
+//      List<String> unitInformation = Arrays.stream(fileLines.get(i).split(INFO_SEPARATOR)).toList();
+//
+//      boolean validUnitType =
+//          this.subTypes.stream().anyMatch(type -> type.getSimpleName().equals(unitInformation.get(0)));
+//
+//      boolean validUnitName =
+//          (unitInformation.get(1) != null) && !(unitInformation.get(1).isBlank());
+//
+//      boolean validUnitHealth;
+//
+//      if (unitInformation.get(2) != null && !unitInformation.get(2).isBlank()) {
+//        int healthValue = Integer.parseInt(unitInformation.get(2));
+//        validUnitHealth = healthValue > 0;
+//      } else {
+//        validUnitHealth = false;
+//      }
+//
+//      validFile = validUnitType && validUnitName &&
+//          validUnitHealth; // Makes the file invalid if it dosent meet the conditions
+//    }
+//    return validFile;
+//  }
 
-      newArmy.addUnit(newUnit);
+//  /**
+//   * Reads an Army from a given file
+//   *
+//   * @param file The file to be read
+//   * @return The army created from the file
+//   * @throws IOException
+//   * @throws InstantiationException
+//   * @throws IllegalAccessException
+//   */
+//  public Army readArmyFromFile(File file)
+//      throws IOException {
+//
+//    if (!checkValidFileInfo(file)) {
+//      return null;
+//    }
+//
+//    List<String> fileLines = Files.readAllLines(file.toPath());
+//
+//    Army newArmy = new Army(fileLines.get(0), new ArrayList<>()); // Name of army on the first line
+//
+//    int lineIndex = 0;
+//
+//    while (lineIndex < fileLines.size()) {
+//
+//      List<String> unitInformation = Arrays.stream(fileLines.get(lineIndex + 1).split(INFO_SEPARATOR)).toList(); // Informasjon på linjen
+//
+//      String unitType = unitInformation.get(0);
+//      String unitName = unitInformation.get(1);
+//      String unitHealth = unitInformation.get(2);
+//
+//
+//      //infantryReader etc.. tolker alle typer infantry info
+//     // Csv reader...
+//
+//
+//
+////      Class<? extends Unit> currentSubtype = this.subTypes.get(getSubTypeclassIndex(unitType)); // Subtype som samsvarer med dette navnet
+////
+////      Constructor<?> consturctor = Arrays.stream(currentSubtype.getConstructors()).toList().get(0); // Henter konstruktøren til den subtypen
+////
+////      Unit newUnit = (Unit) consturctor.newInstance(unitName,unitHealth); // Kall deretter konstruktøren til denne typen unit med informasjonen
+//
+//      newArmy.addUnit(newUnit);
+//
+//      lineIndex++;
+//    }
+//
+//    return newArmy;
+//  }
 
-      lineIndex++;
-    }
-
-    return newArmy;
-  }
-
-  /**
-   * Retruns the index of specified subclass by its name
-   *
-   * @param unitType The name of the subclass
-   * @return Number representing the index
-   */
-  public int getSubTypeclassIndex(String unitType) {
-
-    int index = 0;
-
-    boolean foundExistingUnitType = false;
-
-    int counter = 0;
-
-    while (!foundExistingUnitType && counter < this.subTypes.size()) {
-
-      if (subTypes.get(counter).getSimpleName().equals(unitType)) {
-        index = counter;
-        foundExistingUnitType = true;
-      }
-
-      counter++;
-    }
-      return index;
-
-  }
+//  /**
+//   * Retruns the index of specified subclass by its name
+//   *
+//   * @param unitType The name of the subclass
+//   * @return Number representing the index
+//   */
+//  public int getSubTypeclassIndex(String unitType) {
+//
+//    int index = 0;
+//
+//    boolean foundExistingUnitType = false;
+//
+//    int counter = 0;
+//
+//    while (!foundExistingUnitType && counter < this.subTypes.size()) {
+//
+//      if (subTypes.get(counter).getSimpleName().equals(unitType)) {
+//        index = counter;
+//        foundExistingUnitType = true;
+//      }
+//
+//      counter++;
+//    }
+//      return index;
+//
+//  }
 }
