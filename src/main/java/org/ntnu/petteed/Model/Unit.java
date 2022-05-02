@@ -54,7 +54,7 @@ public abstract class Unit {
    *
    * @param newHealth, the new value of health
    */
-  protected void setHealth(int newHealth) {
+  public void setHealth(int newHealth) {
     this.health = newHealth;
 
   }
@@ -82,7 +82,7 @@ public abstract class Unit {
 
     if (opponent != null && this.isAlive() && !(opponent.equals(this))) {
 
-      eventManager.notifyListeners(EventIdentifyer.ATTACK,this);
+      eventManager.notifyListeners(new ActionEvent(this));
 
       int trueDamage = getTotalAttackDamage() - getTotalResistances(opponent); // The actual amount deducted from the opponents health
 

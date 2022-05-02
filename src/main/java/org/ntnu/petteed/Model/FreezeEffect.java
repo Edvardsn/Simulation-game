@@ -5,11 +5,10 @@ package org.ntnu.petteed.Model;
  * assigns an attackdebuff to an object.
  *
  */
-public class FreezeEffect implements ActionListener {
+public class FreezeEffect implements ActionEventListener {
 
   private static final int DURATION = 5;
   private int ticks = 0;
-
   private int attackDebuff = -5;
 
   /**
@@ -33,18 +32,14 @@ public class FreezeEffect implements ActionListener {
 
       this.ticks++;
     } else {
-      unit.eventManager.removeEventListener(EventIdentifyer.ATTACK, this);
+      unit.eventManager.removeEventListener(this);
     }
   }
 
-  /**
-   * Applies the freeze debuff to given unit
-   *
-   * @param unit The unit which the effect if applied to
-   */
   @Override
-  public void handleEvent(Unit unit) {
-    applyEffect(unit);
+  public void handleEvent(ActionEvent event) {
+    if(event.getEvent() == "Commandword"){
+      applyEffect((Unit) event.getContext());
+    }
   }
-
 }

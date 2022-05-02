@@ -3,10 +3,10 @@ package org.ntnu.petteed;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import org.ntnu.petteed.Model.InfantryUnit;
-import org.ntnu.petteed.Model.MageUnit;
 import org.ntnu.petteed.Model.Unit;
 import org.ntnu.petteed.Model.UnitFactory;
+import org.ntnu.petteed.Model.Units.InfantryUnit;
+import org.ntnu.petteed.Model.Units.MageUnit;
 
 
 /**

@@ -1,4 +1,4 @@
-package org.ntnu.petteed.Model;
+package org.ntnu.petteed.Model.Units;
 
 /**
  * Represents a unit of the Commander type

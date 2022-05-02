@@ -1,4 +1,6 @@
-package org.ntnu.petteed.Model;
+package org.ntnu.petteed.Model.Units;
+
+import org.ntnu.petteed.Model.Unit;
 
 /**
  * Represents a unit of the Cavalry type

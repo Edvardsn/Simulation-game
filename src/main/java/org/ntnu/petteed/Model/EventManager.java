@@ -1,19 +1,19 @@
 package org.ntnu.petteed.Model;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
+import java.util.HashSet;
+
 
 
 public class EventManager {
 
-  private final Map<EventIdentifyer,List<ActionListener>> listeners;
+  private Collection<ActionEventListener> listeners;
 
   public EventManager() {
-    this.listeners = new HashMap<>();
-
+    listeners = new HashSet<>();
   }
+
   /**
    * This method allows the registration of event listeners on the event
    * target. If an <code>EventListener</code> is added to an
@@ -27,14 +27,12 @@ public class EventManager {
    * discarded they do not need to be removed with the
    * <code>removeEventListener</code> method.
    *
-   * @param id       The event type for which the user is registering
    * @param listener   The <code>listener</code> parameter takes an interface
    *                   implemented by the user which contains the methods to be called
    *                   when the event occurs.
    */
-  public void addEventListener(EventIdentifyer id, ActionListener listener) {
-    List<ActionListener> specifiedEvents = listeners.get(id);
-    specifiedEvents.add(listener);
+  public void addEventListener(ActionEventListener listener) {
+    listeners.add(listener);
   }
 
   /**
@@ -52,22 +50,21 @@ public class EventManager {
    * @param listener   The <code>EventListener</code> parameter indicates the
    *                   <code>Listener </code> to be removed.
    */
-  public void removeEventListener(EventIdentifyer id, ActionListener listener) {
-    this.listeners.get(id).add(listener);
+  public void removeEventListener(ActionEventListener listener) {
+    this.listeners.remove(listener);
   }
 
   /**
    * Notifies all listeners of a specified id
    *
-   * @param id The id of the listeners to notify
-   * @param context Context for the listeners regarding the event
+   * @param event The event to notify the listeners
+   * @param context Optional context for the listeners regarding the event
    */
-  public void notifyListeners(EventIdentifyer id, Object context){
-    List<ActionListener> matchingListeners = this.listeners.get(id);
-
-    for (ActionListener events : matchingListeners){
-        events.handleEvent(unit);
-
+  public void notifyListeners(Event event){
+    if(event instanceof ActionEvent actionEvent){
+      for (ActionEventListener actionEventListener : listeners){
+        actionEventListener.handleEvent(actionEvent);
+      }
     }
   }
 }

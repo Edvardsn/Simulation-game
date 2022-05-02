@@ -8,11 +8,11 @@ Randomizer foxes and rabbits
 
 mange klasser, mapper for units f.eks?
 
-test units
+Når streams og når for each
 
-Buffered reader or Read all lines
+Documentere stjålet kode
 
-Army simulate metode, kort eller deskriptiv.
+test unit
 
 Handle exceptions og testing
 
@@ -26,4 +26,3 @@ husk return home med sende inn primarystage
 Send inn sensorer i hver scene, ikke deale med full løsning
 insatnce of.
 
-test unit

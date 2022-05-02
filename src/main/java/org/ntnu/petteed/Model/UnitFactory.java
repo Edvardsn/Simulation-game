@@ -4,6 +4,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import org.ntnu.petteed.Model.Units.CavalryUnit;
+import org.ntnu.petteed.Model.Units.CommanderUnit;
+import org.ntnu.petteed.Model.Units.InfantryUnit;
+import org.ntnu.petteed.Model.Units.RangedUnit;
 
 public class UnitFactory {
 
