@@ -1,6 +1,5 @@
 package org.ntnu.petteed.Model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
@@ -8,6 +7,12 @@ import java.util.Set;
 
 /**
  * Represents a battle between two armies
+ *
+ * Info:
+ * - Armies
+ * - Army dead?
+ * - Armies fight
+ * - Terrain of battle
  *
  */
 public class Battle {
@@ -44,16 +49,6 @@ public class Battle {
   }
 
   /**
-   * Assigns the terrain of the battle to its members
-   *
-   */
-  public void assignTerrain(){
-    getBattlingMembers()
-        .forEach(army -> army.getAll()
-        .forEach(unit -> unit.setCurrentTerrain(this.terrain)));
-  }
-
-  /**
    * Returns a collection of the members of the battle
    *
    * @return A collection of the battling members
@@ -67,6 +62,14 @@ public class Battle {
   }
 
   /**
+   * Assigns the terrain of the battle to its members
+   *
+   */
+  public void assignTerrain(){
+    getBattlingMembers().forEach(army -> army.setCurrentTerrain(this.terrain));
+  }
+
+  /**!!!!!!!!!!!!!!!!! attack mellom armies istede, battle veit ikke om units
    * Carries out a duel between two units
    *
    * @param unitArmyOne First unit of the duel
@@ -129,10 +132,7 @@ public class Battle {
 
       while (battling) {
 
-        Unit unitArmyOne = armyOne.getRandom();
-        Unit unitArmyTwo = armyTwo.getRandom();
-
-        unitsBattle(unitArmyOne, unitArmyTwo, getRandomCombatOrder());
+        armiesBattle(this.armyOne,this.armyTwo);
 
         switch (getScenarioCombat()) {
           case ARMY_ONE_WINNER -> {
@@ -147,7 +147,6 @@ public class Battle {
             battling = false;
           }
           default -> {
-
           }
         }
       }

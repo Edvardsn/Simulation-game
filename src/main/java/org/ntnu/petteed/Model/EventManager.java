@@ -1,15 +1,25 @@
 package org.ntnu.petteed.Model;
 
-
 import java.util.Collection;
 import java.util.HashSet;
 
-
-
+/**
+ * This class serves the purpose of managing subscribers/listeners that wishes to be notified in the
+ * event of any change in state regarding other objects.
+ *
+ * Only deals with actionEvents for now, but can easily be expanded.
+ *
+ * @author Student number
+ * @version 02/05/22
+ */
 public class EventManager {
 
   private Collection<ActionEventListener> listeners;
 
+  /**
+   * Creates an event manager
+   *
+   */
   public EventManager() {
     listeners = new HashSet<>();
   }
@@ -45,8 +55,6 @@ public class EventManager {
    * not identify any currently registered <code>EventListener</code> on
    * the <code>EventTarget</code> has no effect.
    *
-   * @param id       Specifies the event type of the <code>EventListener</code>
-   *                   being removed.
    * @param listener   The <code>EventListener</code> parameter indicates the
    *                   <code>Listener </code> to be removed.
    */
@@ -58,12 +66,11 @@ public class EventManager {
    * Notifies all listeners of a specified id
    *
    * @param event The event to notify the listeners
-   * @param context Optional context for the listeners regarding the event
    */
   public void notifyListeners(Event event){
     if(event instanceof ActionEvent actionEvent){
       for (ActionEventListener actionEventListener : listeners){
-        actionEventListener.handleEvent(actionEvent);
+        actionEventListener.handleActionEvent(actionEvent);
       }
     }
   }

@@ -11,14 +11,26 @@ public class BurnEffect implements ActionEventListener {
   private int ticks = 0;
 
   /**
-   * Applies the burn debuff to given unit.
+   * Applies the burn effect to a given unit
    *
-   * @param context The unit which the effect if applied to
+   * @param unit The unit to apply the effect to
    */
-  public void handleEvent(Object context) {
-    if (ticks < DURATION && context instanceof Unit unit) {
-      unit.setHealth((unit).getHealth() - 2);
+  public void applyEffect(Unit unit){
+    if (ticks < DURATION){
+      unit.setHealth(unit.getHealth() - 1);
       ticks++;
+    }
+  }
+
+  /**
+   * Reacts to the action event by applying its effects
+   *
+   * @param event The action event
+   */
+  @Override
+  public void handleActionEvent(ActionEvent event) {
+    if (event.getContext() instanceof Unit unit) {
+      applyEffect(unit);
     }
   }
 }

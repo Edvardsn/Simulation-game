@@ -28,18 +28,25 @@ public class FreezeEffect implements ActionEventListener {
       minimizeDebuff();
 
       int newAttackValue = unit.getConditionalAttackValue() + attackDebuff;
+
       unit.setConditionalAttackValue(newAttackValue);
 
       this.ticks++;
+
     } else {
       unit.eventManager.removeEventListener(this);
     }
   }
 
+  /**
+   * Reacts to the action event by applying its effects
+   *
+   * @param event The action event
+   */
   @Override
-  public void handleEvent(ActionEvent event) {
-    if(event.getEvent() == "Commandword"){
-      applyEffect((Unit) event.getContext());
+  public void handleActionEvent(ActionEvent event) {
+    if(event.getContext() instanceof  Unit unit){
+      applyEffect(unit);
     }
   }
 }

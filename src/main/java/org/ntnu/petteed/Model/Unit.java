@@ -1,10 +1,10 @@
 package org.ntnu.petteed.Model;
 
 /**
- * A class that represents a single unit and its characteristics
+ * A class that represents a single unit and all of its characteristics
  *
  * @author Petter Edvardsen
- * @version 16/02/22
+ * @version 03/05/22
  */
 public abstract class Unit {
 
@@ -12,15 +12,14 @@ public abstract class Unit {
   protected int health;
   protected final int attackValue;
   protected final int armour;
+
   protected int conditionalAttackValue = 0;
   protected int conditionalDefenseValue = 0;
-
-  protected Terrain currentTerrain = null;
-  public EventManager eventManager;
-
-
   protected int receivedAttacks;
   protected int initiatedAttacks;
+  protected Terrain currentTerrain = null;
+  public final EventManager eventManager;
+
 
   /**
    * Creates an instance of Unit
@@ -56,7 +55,6 @@ public abstract class Unit {
    */
   public void setHealth(int newHealth) {
     this.health = newHealth;
-
   }
 
   /**
@@ -84,13 +82,24 @@ public abstract class Unit {
 
       eventManager.notifyListeners(new ActionEvent(this));
 
-      int trueDamage = getTotalAttackDamage() - getTotalResistances(opponent); // The actual amount deducted from the opponents health
+      opponent.receiveAttack(new Attack(this.getTotalAttackDamage()));
 
-      opponent.setHealth(opponent.getHealth() - trueDamage);
-
-      opponent.incrementReceivedAttacks();
       this.incrementInitiatedAttacks(); // Registers initiated attack
     }
+  }
+
+  /**
+   * Receives an attack from a source, can be overridden if chosen.
+   *
+   * @param attack The attack to receive
+   */
+  public void receiveAttack(Attack attack){
+    int trueDamage = attack.damage() - getTotalResistances();
+
+    this.setHealth(this.getHealth() - trueDamage);
+
+    incrementReceivedAttacks();
+    // Attack dør her?
   }
 
   /**
@@ -101,8 +110,6 @@ public abstract class Unit {
   public boolean isAlive() {
     return this.getHealth() > 0;
   }
-
-
 
   /**
    * Checks if the unit is in given terrain
@@ -120,18 +127,38 @@ public abstract class Unit {
     return occupiesTerrain;
   }
 
+  /**
+   * Returns the value of the units conditional defense
+   *
+   * @return The value of the units conditional attack
+   */
   public int getConditionalAttackValue() {
     return conditionalAttackValue;
   }
 
+  /**
+   * Returns the value of the units conditional defense
+   *
+   * @return The value of the units conditional defense
+   */
   public int getConditionalDefenseValue() {
     return conditionalDefenseValue;
   }
 
+  /**
+   * Sets a new value for the conditional attack value of the unit
+   *
+   * @param conditionalAttackValue A new value for the conditional attack value of the unit
+   */
   public void setConditionalAttackValue(int conditionalAttackValue) {
     this.conditionalAttackValue = conditionalAttackValue;
   }
 
+  /**
+   * Sets a new value for the conditional defense of the unit
+   *
+   * @param conditionalDefenseValue A new value for the conditional defense of the unit
+   */
   public void setConditionalDefenseValue(int conditionalDefenseValue) {
     this.conditionalDefenseValue = conditionalDefenseValue;
   }
@@ -147,12 +174,20 @@ public abstract class Unit {
         ", armour=" + armour + '}';
   }
 
-
-
+  /**
+   * Returns the current terrain a unit occupies
+   *
+   * @return The current terrain of the unit
+   */
   public Terrain getCurrentTerrain() {
     return currentTerrain;
   }
 
+  /**
+   * Sets a new value for the currents terrain
+   *
+   * @param currentTerrain The new value of terrain
+   */
   public void setCurrentTerrain(Terrain currentTerrain) {
     this.currentTerrain = currentTerrain;
   }
@@ -210,11 +245,10 @@ public abstract class Unit {
   /**
    * Returns the total resistances of a unit
    *
-   * @param unit The unit which resistances to get
    * @return The value of the total resistance
    */
-  public int getTotalResistances(Unit unit) {
-    return unit.getResistBonus() + unit.getArmour() + conditionalDefenseValue;
+  public int getTotalResistances() {
+    return getResistBonus() + getArmour() + conditionalDefenseValue;
   }
 
   /**

@@ -8,10 +8,10 @@ import org.ntnu.petteed.Model.Unit;
  */
 public class CavalryUnit extends Unit {
 
-  private final static int ATTACK_VALUE = 20;
-  private final static int ARMOUR_VALUE = 12;
-  private final static int BASE_ATTACK_BONUS = 2;
-  private final static int BASE_RESIST_BONUS = 1;
+  private static final int ATTACK_VALUE = 20;
+  private static final int ARMOUR_VALUE = 12;
+  private static final int BASE_ATTACK_BONUS = 2;
+  private static final int BASE_RESIST_BONUS = 1;
 
   /**
    * Creates an instance of CavalryUnit
@@ -19,7 +19,7 @@ public class CavalryUnit extends Unit {
    * @param name   The name of the unit
    * @param health The health of the unit
    */
-  protected CavalryUnit(String name, int health) {
+  public CavalryUnit(String name, int health) {
     super(name, health, ATTACK_VALUE, ARMOUR_VALUE);
   }
 

@@ -6,7 +6,9 @@ Spørsmål:
 Random klasse, random factory
 Randomizer foxes and rabbits
 
-mange klasser, mapper for units f.eks?
+Tar et Attack object for mye minne? Record?
+
+Deler terrain. Felles?
 
 Når streams og når for each
 

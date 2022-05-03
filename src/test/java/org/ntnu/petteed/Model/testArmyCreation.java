@@ -1,9 +1,10 @@
 package org.ntnu.petteed.Model;
 
-import static org.junit.Assert.assertThrows;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.ntnu.petteed.Model.Army;
 import org.ntnu.petteed.Model.Unit;
 
@@ -31,14 +32,14 @@ import org.ntnu.petteed.Model.Unit;
  *
  */
 
-public class testArmyCreation {
+class testArmyCreation {
 
   /**
    * Tests that an Army can be created with valid fields
    *
    */
   @Test
-  public void testCreatingArmy(){
+   void testCreatingArmy(){
     ArrayList<Unit> testList = new ArrayList<>();
     Army testArmy = new Army("test",testList);
   }
@@ -48,7 +49,7 @@ public class testArmyCreation {
    *
    */
   @Test
-  public void testArmyWithNullName(){
+   void testArmyWithNullName(){
     ArrayList<Unit> testList = new ArrayList<>();
     assertThrows(IllegalArgumentException.class, () -> {
       new Army(null,testList);
@@ -60,7 +61,7 @@ public class testArmyCreation {
    *
    */
   @Test
-  public void testArmyWithoutUnits(){
+  void testArmyWithoutUnits(){
     assertThrows(IllegalArgumentException.class,()->{
       new Army("test",null);
     });

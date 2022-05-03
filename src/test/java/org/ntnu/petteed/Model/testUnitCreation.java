@@ -1,9 +1,10 @@
 package org.ntnu.petteed.Model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.ntnu.petteed.Model.Units.InfantryUnit;
 
 /**
  * Positive tests:
@@ -17,14 +18,14 @@ import org.junit.Test;
  *</ul>
  */
 
-public class testUnitCreation {
+ class testUnitCreation {
 
   /**
    * Tests that a unit can be created with valid fields.
    *
    */
   @Test
-  public void testUnitValues() {
+   void testUnitValues() {
     Unit unit = new InfantryUnit("unitsen", 100);
 
     assertEquals(100, unit.getHealth());
@@ -38,7 +39,7 @@ public class testUnitCreation {
    *
    */
   @Test
-  public void testUnitWithNullName() {
+   void testUnitWithNullName() {
       assertThrows(IllegalArgumentException.class, ()-> {
         Unit unit = new InfantryUnit(null, 100);
       });
@@ -49,7 +50,7 @@ public class testUnitCreation {
    *
    */
   @Test
-  public void testUnitWithNegativeAttack(){
+   void testUnitWithNegativeAttack(){
     assertThrows(IllegalArgumentException.class, ()->{
       Unit unit = new InfantryUnit("Test",-100);
     });

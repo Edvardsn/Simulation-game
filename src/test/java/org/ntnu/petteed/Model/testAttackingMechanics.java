@@ -2,9 +2,11 @@ package org.ntnu.petteed.Model;
 
 
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import org.ntnu.petteed.Model.Units.CavalryUnit;
+import org.ntnu.petteed.Model.Units.InfantryUnit;
+import org.ntnu.petteed.Model.Units.RangedUnit;
 
 
 /**
@@ -41,7 +43,7 @@ public class testAttackingMechanics {
    *
    */
   @Test
-  public void testSetCorrectHealthValue() {
+   void testSetCorrectHealthValue() {
     Unit unit = new InfantryUnit("unitsen", 100);
     unit.setHealth(50);
 
@@ -53,7 +55,7 @@ public class testAttackingMechanics {
    *
    */
   @Test
-  public void testRangedUnitDefensiveBonus() {
+   void testRangedUnitDefensiveBonus() {
     RangedUnit unit1 = new RangedUnit("unisten", 100);
     RangedUnit unit2 = new RangedUnit("test", 100);
 
@@ -74,7 +76,7 @@ public class testAttackingMechanics {
    *
    */
   @Test
-  public void testCavalryUnitAttackBonus() {
+   void testCavalryUnitAttackBonus() {
     CavalryUnit unit1 = new CavalryUnit("unit1", 100);
     CavalryUnit unit2 = new CavalryUnit("unit2", 100);
 
@@ -90,7 +92,7 @@ public class testAttackingMechanics {
    *
    */
   @Test
-  public void testAttackingMyself(){
+   void testAttackingMyself(){
     InfantryUnit unit = new InfantryUnit("unisten",100);
     unit.attack(unit);
     assertEquals(100,unit.getHealth());
@@ -101,7 +103,7 @@ public class testAttackingMechanics {
    *
    */
   @Test
-  public void testAttackingWhileDead(){
+   void testAttackingWhileDead(){
     CavalryUnit unit1 = new CavalryUnit("unit1", 0);
     CavalryUnit unit2 = new CavalryUnit("unit2", 100);
 
@@ -114,14 +116,8 @@ public class testAttackingMechanics {
    *
    */
   @Test
-  public void testAttackingNull(){
+   void testAttackingNull(){
     Unit unit = new InfantryUnit("unitsen", 100);
     unit.attack(null);
   }
-//
-//  @Test
-//  public void testSetHealthUnit(){
-//
-//  }
-
 }

@@ -10,9 +10,9 @@ package org.ntnu.petteed.Model;
 public interface ActionEventListener {
 
   /**
-   * Notifies that an action has been initiated
+   * A reaction to given action event
    *
    * @param event Necessary context of the event
    */
-  void handleEvent(ActionEvent event);
+  void handleActionEvent(ActionEvent event);
 }

@@ -16,6 +16,7 @@ public class Army {
 
   private final String name;
   private List<Unit> units;
+  private Terrain currentTerrain;
   private final Random randomGenerator = new Random();
 
   /**
@@ -97,6 +98,24 @@ public class Army {
    */
   public boolean hasHealthyUnits() {
     return (units.stream().anyMatch(Unit::isAlive));
+  }
+
+  /**
+   * Assigns the terrain to the units in the army
+   *
+   */
+  public void assignTerrain(){
+    units.forEach(unit -> unit.setCurrentTerrain(this.currentTerrain));
+  }
+
+  /**
+   * Sets the current terrain the army is occupying
+   *
+   * @param currentTerrain The new value of terrain
+   */
+  public void setCurrentTerrain(Terrain currentTerrain) {
+    this.currentTerrain = currentTerrain;
+    assignTerrain();
   }
 
   /**

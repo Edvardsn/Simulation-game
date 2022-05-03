@@ -18,7 +18,7 @@ public class MageUnit extends Unit {
   private static final int ARMOUR_VALUE = 5;
   private final Random randomGenerator = new Random();
 
-  private final ActionEventListener[] spells = {(ActionEventListener) new BurnEffect(),new FreezeEffect()};
+  private final ActionEventListener[] spells = {new BurnEffect(),new FreezeEffect()};
 
   /**
    * Does a roll on all available spells and returns a statusEffect
@@ -48,18 +48,8 @@ public class MageUnit extends Unit {
    */
   @Override
   protected void attack(Unit opponent) {
-    if (opponent != null && this.isAlive() && !(opponent.equals(this))) {
-
-      int totalAttackDamage = this.getAttackValue() + this.getAttackBonus();
-
-      int totalResistances = opponent.getResistBonus() + opponent.getArmour();
-
-      int trueDamage = totalAttackDamage - totalResistances; // The actual amount deducted from the opponents health
-
-      opponent.setHealth(opponent.getHealth() - trueDamage);
-
-      this.incrementInitiatedAttacks(); // Registers initiated attack
-    }
+    super.attack(opponent);
+    opponent.eventManager.addEventListener(castRandomSpell());
   }
 
   /**

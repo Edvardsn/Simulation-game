@@ -13,7 +13,7 @@ public class Terrain{
 
   private final String terrainName;
 
-  private final int STANDARD_TERRAIN = 4;
+  private final int STANDARD_TERRAIN_VALUE = 4;
   private static final String[] terrainIdentities = {"FOREST","PLAINS","HILLS"};
 
   private final HashMap<String,Integer> terrainValue;
@@ -29,7 +29,8 @@ public class Terrain{
     if(validTerrain(terrainName) && terrainName != null && !terrainName.isBlank())  {
       this.terrainName = terrainName;
       terrainValue = new HashMap<>();
-      Arrays.stream(terrainIdentities).forEach(terrainId -> terrainValue.put(terrainId, STANDARD_TERRAIN));
+      Arrays.stream(terrainIdentities).forEach(terrainId -> terrainValue.put(terrainId,
+          STANDARD_TERRAIN_VALUE));
     }
     else{
       throw new IllegalArgumentException("Invalid name in Terrain Constructor");

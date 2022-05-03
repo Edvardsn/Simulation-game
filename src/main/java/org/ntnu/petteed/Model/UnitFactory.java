@@ -1,25 +1,28 @@
 package org.ntnu.petteed.Model;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import org.ntnu.petteed.Model.Units.CavalryUnit;
 import org.ntnu.petteed.Model.Units.CommanderUnit;
 import org.ntnu.petteed.Model.Units.InfantryUnit;
+import org.ntnu.petteed.Model.Units.MageUnit;
 import org.ntnu.petteed.Model.Units.RangedUnit;
 
 public class UnitFactory {
 
   private static UnitFactory instance = null;
 
+  /**
+   * Creates a unit factory
+   *
+   */
   private UnitFactory(){
   }
 
   /**
    * Creates an instance of UnitFactory given that no other instance exists.
    *
-   * @return The unit factory
+   * @return The new or existing unit factory
    */
   public static UnitFactory getInstance() {
     if (instance == null) {
@@ -51,40 +54,29 @@ public class UnitFactory {
   /**
    * Creates a list of units of specified type, Name and Health.
    *
-   * @param numberOfUnits The number of units to create
+   * @param numberOfUnits The number of units to create exclusive given number
    * @param name The name of the units
    * @param health The health of the units
-   * @param desiredClass The class of the units
-   * @return A list of the units created
-   * @throws NoSuchMethodException If the method of given class does not exist.
-   * @throws InvocationTargetException Exception thrown by any of the methods
-   * @throws InstantiationException Thrown if given class does not have a Constructor
-   * @throws IllegalAccessException Thrown if user does not have access to reflective commands
+   * @param unitType The class of the units
+   * @return A {@code List} of the units created
    */
-  public static List<Unit> createUnits(int numberOfUnits,String name,int health, Class<?extends Unit> desiredClass)
-      throws NoSuchMethodException, InvocationTargetException, InstantiationException,
-      IllegalAccessException {
+  public static List<Unit> createUnits(int numberOfUnits,String name,int health, UnitType unitType)
+     {
+       int counter = 0;
+       List<Unit> listOfUnits = new ArrayList<>();
 
-    ArrayList<Unit> listOfUnits = new ArrayList<>();
-    int counter = 0;
-    Class[] constructorType = { String.class ,Integer.TYPE};
+       while(counter < numberOfUnits) {
+         switch (unitType) {
+           case INFANTRYUNIT -> listOfUnits.add(new InfantryUnit(name, health));
+           case RANGEDUNIT -> listOfUnits.add(new RangedUnit(name, health));
+           case CAVALRYUNIT -> listOfUnits.add(new CavalryUnit(name, health));
+           case COMMANDERUNIT -> listOfUnits.add(new CommanderUnit(name, health));
+           case MAGEUNIT -> listOfUnits.add(new MageUnit(name, health));
+         }
 
-    while(counter < numberOfUnits){
-
-      Constructor<?extends Unit> constructor = desiredClass.getConstructor(constructorType);
-      Unit newUnit = constructor.newInstance(name,health);
-
-      listOfUnits.add(newUnit);
-
-      counter++;
-    }
-
+         counter++;
+       }
 
     return listOfUnits;
   }
-
-
-
-
-
 }
