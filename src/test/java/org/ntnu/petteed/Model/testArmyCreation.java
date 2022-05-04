@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
-import org.ntnu.petteed.Model.Army;
 import org.ntnu.petteed.Model.Unit;
 
 /**

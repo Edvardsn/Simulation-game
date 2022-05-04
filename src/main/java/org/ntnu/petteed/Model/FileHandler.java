@@ -17,64 +17,64 @@ import java.util.random.RandomGenerator;
  */
 public class FileHandler {
 
-  // All available inputTypes to be read in from file, has to be manually changed
-  private static final String[] validInputTypes = {"InfantryUnit","RangedUnit","CavalryUnit","MageUnit","CommanderUnit"};
-  private static final String INFO_SEPARATOR = ",";
+//  // All available inputTypes to be read in from file, has to be manually changed
+//  private static final String[] validInputTypes = {"InfantryUnit","RangedUnit","CavalryUnit","MageUnit","CommanderUnit"};
+//  private static final String INFO_SEPARATOR = ",";
+//
+//  /**
+//   * Creates a directory in the at the specified path
+//   *
+//   * @param path The path in which the directory will be created
+//   * @throws IOException If path is not found
+//   */
+//  public void createFileDirectory(Path path) throws IOException {
+//    //Path directory = Files.createDirectory(rootDirectory.resolve());
+//    Path directory = Files.createDirectory(path.getParent().resolve("ArmyFiles"));
+//  }
 
-  /**
-   * Creates a directory in the at the specified path
-   *
-   * @param path The path in which the directory will be created
-   * @throws IOException If path is not found
-   */
-  public void createFileDirectory(Path path) throws IOException {
-    //Path directory = Files.createDirectory(rootDirectory.resolve());
-    Path directory = Files.createDirectory(path.getParent().resolve("ArmyFiles"));
-  }
+//  /**
+//   * Creates a file at the specified path
+//   *
+//   * @param fileName  The name of the new file
+//   * @param directory The path to create the file at
+//   * @throws IOException If path is not found
+//   */
+//  public void createArmyFile(String fileName, Path directory) throws IOException {
+//    Path newFile = Files.createFile(directory.resolve(fileName + ".txt"));
+//  }
 
-  /**
-   * Creates a file at the specified path
-   *
-   * @param fileName  The name of the new file
-   * @param directory The path to create the file at
-   * @throws IOException If path is not found
-   */
-  public void createArmyFile(String fileName, Path directory) throws IOException {
-    Path newFile = Files.createFile(directory.resolve(fileName + ".txt"));
-  }
-
-  /**
-   * Writes the specifications of an Army to a given file
-   *
-   * @param file The file to write to
-   * @param army The army which specifications are to be written
-   * @throws IOException If no file is not found
-   */
-  public void writeToFile(File file, Army army) throws IOException {
-    FileWriter writer = new FileWriter(file);
-    PrintWriter printWriter = new PrintWriter(writer);
-
-    printWriter.println(army.getName());
-
-    Iterator<Unit> unitIterator =
-        army.getUnitIterator(); // Uses and iterator to only give access to reading information
-
-    while (unitIterator.hasNext()) {
-      Unit unit = unitIterator.next();
-
-      String unitName = unit.getName() + INFO_SEPARATOR;
-
-
-      Files.write(file.toPath(), unitName.getBytes());
-
-      printWriter.print(unit.getClass().getSimpleName() + INFO_SEPARATOR + unit.getName() +
-          INFO_SEPARATOR);
-
-      printWriter.println(unit.getHealth());
-    }
-    int number = RandomGenerator.getDefault().nextInt(2);
-    printWriter.close();
-  }
+//  /**
+//   * Writes the specifications of an Army to a given file
+//   *
+//   * @param file The file to write to
+//   * @param army The army which specifications are to be written
+//   * @throws IOException If no file is not found
+//   */
+//  public void writeToFile(File file, Army army) throws IOException {
+//    FileWriter writer = new FileWriter(file);
+//    PrintWriter printWriter = new PrintWriter(writer);
+//
+//    printWriter.println(army.getName());
+//
+//    Iterator<Actor> unitIterator =
+//        army.getUnitIterator(); // Uses and iterator to only give access to reading information
+//
+//    while (unitIterator.hasNext()) {
+//      Actor unit = unitIterator.next();
+//
+//      String unitName = unit.getName() + INFO_SEPARATOR;
+//
+//
+//      Files.write(file.toPath(), unitName.getBytes());
+//
+//      printWriter.print(unit.getClass().getSimpleName() + INFO_SEPARATOR + unit.getName() +
+//          INFO_SEPARATOR);
+//
+//      printWriter.println(unit.getHealth());
+//    }
+//    int number = RandomGenerator.getDefault().nextInt(2);
+//    printWriter.close();
+//  }
 
 //  /**
 //   * Checks if given file has valid information in each line

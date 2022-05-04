@@ -1,16 +1,11 @@
 package org.ntnu.petteed;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import org.ntnu.petteed.Model.Army;
 import org.ntnu.petteed.Model.Battle;
 import org.ntnu.petteed.Model.Terrain;
 import org.ntnu.petteed.Model.Unit;
 import org.ntnu.petteed.Model.UnitFactory;
 import org.ntnu.petteed.Model.UnitType;
-import org.ntnu.petteed.Model.Units.InfantryUnit;
-import org.ntnu.petteed.Model.Units.MageUnit;
 
 
 /**

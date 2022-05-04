@@ -1,5 +1,7 @@
 package org.ntnu.petteed.Model.Units;
 
+import java.util.Collection;
+import org.ntnu.petteed.Model.Actor;
 import org.ntnu.petteed.Model.Unit;
 
 /**
@@ -33,6 +35,28 @@ public class CavalryUnit extends Unit {
    */
   protected CavalryUnit(String name, int health, int attack, int armour) {
     super(name, health, attack, armour);
+  }
+
+  /**
+   * Acts on given target
+   *
+   * @param target The target to act upon
+   */
+  @Override
+  public void act(Object target) {
+    if(target instanceof Unit unit){
+      this.attack(unit);
+    }
+  }
+
+  /**
+   * Registers who are considered friendly to the actor
+   *
+   * @param actors The actors to be considered friendly
+   */
+  @Override
+  public void setFriendlyActors(Collection<Actor> actors) {
+    friendlyActors = actors;
   }
 
   /**
@@ -70,4 +94,5 @@ public class CavalryUnit extends Unit {
     }
     return finalResistanceBonus;
   }
+
 }

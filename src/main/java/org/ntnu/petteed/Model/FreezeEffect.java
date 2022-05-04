@@ -2,7 +2,7 @@ package org.ntnu.petteed.Model;
 
 /**
  * This class represents a Freeze debuff which is a Status effect that
- * assigns an attackdebuff to an object.
+ * assigns an attackdebuff to a unit.
  *
  */
 public class FreezeEffect implements ActionEventListener {

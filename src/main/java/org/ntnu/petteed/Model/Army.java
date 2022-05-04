@@ -15,7 +15,7 @@ import org.ntnu.petteed.Model.Units.*;
 public class Army {
 
   private final String name;
-  private List<Unit> units;
+  private Collection<Actor> actors;
   private Terrain currentTerrain;
   private final Random randomGenerator = new Random();
 
@@ -37,13 +37,16 @@ public class Army {
    * Creates and instance of an Army
    *
    * @param name  The name of the army
-   * @param units The list of units in the army
+   * @param actors The list of units in the army
    *
    */
-  public Army(String name, List<Unit> units) throws IllegalArgumentException {
-    if (name != null && units != null) {
+  public Army(String name, Collection<Actor> actors) throws IllegalArgumentException {
+    if (name != null && actors != null) {
       this.name = name;
-      this.units = units;
+      this.actors = actors;
+
+      initializeArmy();
+
     } else if (name == null) {
       throw new IllegalArgumentException("Cannot create an Army without a name");
     } else {
@@ -52,12 +55,25 @@ public class Army {
   }
 
   /**
+   * Initializes the army by giving information to its actors
+   *
+   */
+  private void initializeArmy() {
+    this.actors.forEach(actor -> {
+      if (actor instanceof Unit unit ){
+        unit.setFriendlyActors(this.getAll());
+        unit.setCurrentTerrain(this.currentTerrain);
+      }
+    });
+  }
+
+  /**
    * Returns the Units in the army
    *
    * @return The unis in the army
    */
-  public Collection<Unit> getAll() {
-    return units;
+  public Collection<Actor> getAll() {
+    return actors;
   }
 
   /**
@@ -65,7 +81,7 @@ public class Army {
    *
    * @return The iterator of the collection of units
    */
-  public Iterator<Unit> getUnitIterator(){
+  public Iterator<Actor> getUnitIterator(){
     return getAll().iterator();
   }
 
@@ -87,7 +103,7 @@ public class Army {
    */
   public void remove(Unit unit) {
     if (unit != null) {
-      units.remove(unit);
+      actors.remove(unit);
     }
   }
 
@@ -96,8 +112,8 @@ public class Army {
    *
    * @return True if any number of units present, false if not.
    */
-  public boolean hasHealthyUnits() {
-    return (units.stream().anyMatch(Unit::isAlive));
+  public boolean hasHealthyActors() {
+    return (actors.stream().anyMatch(actor -> (actor instanceof Unit && ((Unit) actor).isAlive())));
   }
 
   /**
@@ -105,7 +121,11 @@ public class Army {
    *
    */
   public void assignTerrain(){
-    units.forEach(unit -> unit.setCurrentTerrain(this.currentTerrain));
+    actors.forEach(actor -> {
+      if(actor instanceof Unit unit){
+        unit.setCurrentTerrain(this.currentTerrain);}
+    })
+    ;
   }
 
   /**
@@ -123,24 +143,24 @@ public class Army {
    *
    * @return A random healthy unit from army
    */
-  public Unit getRandom() {
-    if(!this.hasHealthyUnits()){ // Guard condition
+  public Actor getRandom() {
+    if(!this.hasHealthyActors()){ // Guard condition
       return null;
     }
     boolean found = false;
 
-    Unit desiredUnit = null;
+    Actor desiredActor = null;
 
     while(!found) {
-      Unit randomUnit = units.get(randomGenerator.nextInt(units.size()));
+      Actor randomActor = actors.stream().toList().get(randomGenerator.nextInt(actors.size()));
 
-      if (randomUnit.isAlive()) {
-        desiredUnit = randomUnit;
+      if (randomActor.isAlive()) {
+        desiredActor = randomActor;
         found = true;
       }
     }
 
-    return desiredUnit;
+    return desiredActor;
   }
 
   /**
@@ -155,44 +175,44 @@ public class Army {
   /**
    * Returns a list of every Infantry in the Army
    *
-   * @return {@code List<Unit>} , The list of InfantryUnits
+   * @return {@code List<Actor>} , The list of InfantryUnits
    */
-  public List<Unit> getInfantryUnits(){
-    return units.stream()
-        .filter(unit -> unit.getClass() == InfantryUnit.class)
+  public List<Actor> getInfantryUnits(){
+    return actors.stream()
+        .filter(actor -> actor.getClass() == InfantryUnit.class)
         .toList();
   }
 
   /**
    * Returns a list of every Ranged unit in the Army
    *
-   * @return {@code List<Unit>} , The list of RangedUnits
+   * @return {@code List<Actor>} , The list of RangedUnits
    */
-  public List<Unit> getRangedUnits(){
-    return units.stream()
-        .filter(unit -> unit.getClass() == RangedUnit.class)
+  public List<Actor> getRangedUnits(){
+    return actors.stream()
+        .filter(actor -> actor.getClass() == RangedUnit.class)
         .toList();
   }
 
   /**
    * Returns a list of every CavalryUnit in the Army
    *
-   * @return {@code List<Unit>} , The list of CavalryUnits
+   * @return {@code List<Actor>} , The list of CavalryUnits
    */
-  public List<Unit> getCavalryUnits(){
-    return units.stream()
-        .filter(unit -> unit.getClass() == CavalryUnit.class)
+  public List<Actor> getCavalryUnits(){
+    return actors.stream()
+        .filter(actor -> actor.getClass() == CavalryUnit.class)
         .toList();
   }
 
   /**
    * Returns a list of every Commanderunit in the Army
    *
-   * @return {@code List<Unit>} , The list of Commanderunits
+   * @return {@code List<Actor>} , The list of Commanderunits
    */
-  public List<Unit> getCommanderUnits(){
-    return units.stream()
-        .filter(unit -> unit.getClass() == CommanderUnit.class)
+  public List<Actor> getCommanderUnits(){
+    return actors.stream()
+        .filter(actor -> actor.getClass() == CommanderUnit.class)
         .toList();
   }
 
@@ -211,7 +231,7 @@ public class Army {
       return false;
     }
     Army army = (Army) o;
-    return Objects.equals(name, army.name) && Objects.equals(units, army.units);
+    return Objects.equals(name, army.name) && Objects.equals(actors, army.actors);
   }
 
   /**
@@ -221,7 +241,7 @@ public class Army {
    */
   @Override
   public int hashCode() {
-    return Objects.hash(name, units);
+    return Objects.hash(name, actors);
   }
 
   /**
@@ -233,7 +253,7 @@ public class Army {
   public String toString() {
     return "Army{" +
         "name='" + name + '\'' +
-        ", units=" + units +
+        ", units=" + actors +
         "}'";
   }
 

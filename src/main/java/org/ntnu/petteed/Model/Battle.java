@@ -105,13 +105,13 @@ public class Battle {
 
     int scenario;
 
-    if (!this.armyOne.hasHealthyUnits()) {
+    if (!this.armyOne.hasHealthyActors()) {
       scenario = ARMY_TWO_WINNER;
     }
-    else if (!this.armyTwo.hasHealthyUnits()) {
+    else if (!this.armyTwo.hasHealthyActors()) {
       scenario = ARMY_ONE_WINNER;
     }
-    else if (!(this.armyOne.hasHealthyUnits()) && !(this.armyTwo.hasHealthyUnits())) {
+    else if (!(this.armyOne.hasHealthyActors()) && !(this.armyTwo.hasHealthyActors())) {
       scenario = TIE;
     }
     else{
@@ -155,10 +155,10 @@ public class Battle {
 
 
     public void armiesBattle(Army armyOne,Army armyTwo){
-      Unit unitArmyOne = armyOne.getRandom();
-      Unit unitArmyTwo = armyTwo.getRandom();
+      Actor actorArmyOne = armyOne.getRandom();
+      Actor actorArmyTwo = armyTwo.getRandom();
 
-      unitsBattle(unitArmyOne, unitArmyTwo, getRandomCombatOrder());
+      unitsBattle((Unit) actorArmyOne, (Unit) actorArmyTwo, getRandomCombatOrder());
     }
 
 

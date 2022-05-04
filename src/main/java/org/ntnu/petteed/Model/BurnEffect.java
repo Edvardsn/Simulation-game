@@ -15,8 +15,8 @@ public class BurnEffect implements ActionEventListener {
    *
    * @param unit The unit to apply the effect to
    */
-  public void applyEffect(Unit unit){
-    if (ticks < DURATION){
+  public void applyEffect(Unit unit) {
+    if (ticks < DURATION) {
       unit.setHealth(unit.getHealth() - 1);
       ticks++;
     }
@@ -33,4 +33,6 @@ public class BurnEffect implements ActionEventListener {
       applyEffect(unit);
     }
   }
+
+
 }

@@ -1,7 +1,7 @@
 package org.ntnu.petteed.Model;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import org.ntnu.petteed.Model.Units.CavalryUnit;
 import org.ntnu.petteed.Model.Units.CommanderUnit;
 import org.ntnu.petteed.Model.Units.InfantryUnit;
@@ -60,10 +60,10 @@ public class UnitFactory {
    * @param unitType The class of the units
    * @return A {@code List} of the units created
    */
-  public static List<Unit> createUnits(int numberOfUnits,String name,int health, UnitType unitType)
+  public static Collection<Actor> createUnits(int numberOfUnits, String name, int health, UnitType unitType)
      {
        int counter = 0;
-       List<Unit> listOfUnits = new ArrayList<>();
+       Collection<Actor> listOfUnits = new ArrayList<>();
 
        while(counter < numberOfUnits) {
          switch (unitType) {

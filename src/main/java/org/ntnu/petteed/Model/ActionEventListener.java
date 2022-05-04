@@ -7,7 +7,7 @@ package org.ntnu.petteed.Model;
  * @author Petter Edvardsen
  * @version 02/04/22
  */
-public interface ActionEventListener {
+public interface ActionEventListener extends EventListener {
 
   /**
    * A reaction to given action event

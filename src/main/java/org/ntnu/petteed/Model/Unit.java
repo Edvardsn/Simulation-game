@@ -1,17 +1,30 @@
 package org.ntnu.petteed.Model;
 
+import java.util.Collection;
+
 /**
  * A class that represents a single unit and all of its characteristics
  *
- * @author Petter Edvardsen
+ * @author Student number
  * @version 03/05/22
  */
-public abstract class Unit {
+public abstract class Unit implements Actor {
 
   protected final String name;
   protected int health;
   protected final int attackValue;
   protected final int armour;
+  protected boolean isAlive = true;
+
+  Collection<Actor> friendlyActors;
+
+  public Collection<Actor> getFriendlyActors() {
+    return friendlyActors;
+  }
+
+  public void setFriendlyActors(Collection<Actor> friendlyActors) {
+    this.friendlyActors = friendlyActors;
+  }
 
   protected int conditionalAttackValue = 0;
   protected int conditionalDefenseValue = 0;
@@ -54,7 +67,15 @@ public abstract class Unit {
    * @param newHealth, the new value of health
    */
   public void setHealth(int newHealth) {
-    this.health = newHealth;
+    if (newHealth < 0) { // Could e.g be a death event
+      this.health = 0;
+      isAlive = false;
+
+    } else if(newHealth < getHealth()){ // In the event that a unit loses health
+      eventManager.notifyListeners(new HealthEvent(this));
+
+      this.setHealth(newHealth);
+    }
   }
 
   /**
@@ -71,6 +92,7 @@ public abstract class Unit {
     this.initiatedAttacks++;
   }
 
+
   /**
    * Attacks another unit
    *
@@ -82,7 +104,7 @@ public abstract class Unit {
 
       eventManager.notifyListeners(new ActionEvent(this));
 
-      opponent.receiveAttack(new Attack(this.getTotalAttackDamage()));
+      opponent.receiveAttack(new Attack(this.getTotalAttackDamage())); // endre navn
 
       this.incrementInitiatedAttacks(); // Registers initiated attack
     }
@@ -96,7 +118,9 @@ public abstract class Unit {
   public void receiveAttack(Attack attack){
     int trueDamage = attack.damage() - getTotalResistances();
 
-    this.setHealth(this.getHealth() - trueDamage);
+    if(trueDamage > 0) {
+      this.setHealth(this.getHealth() - trueDamage);
+    }
 
     incrementReceivedAttacks();
     // Attack dør her?
@@ -108,7 +132,7 @@ public abstract class Unit {
    * @return {@code Boolean} True if the unit is alive, false if not.
    */
   public boolean isAlive() {
-    return this.getHealth() > 0;
+    return this.isAlive;
   }
 
   /**

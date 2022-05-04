@@ -3,6 +3,7 @@ prosjekt-wargames-2022-Edvardsn created by GitHub Classroom
 A game called Wargame
 
 Spørsmål:
+
 Random klasse, random factory
 Randomizer foxes and rabbits
 
@@ -13,8 +14,6 @@ Deler terrain. Felles?
 Når streams og når for each
 
 Documentere stjålet kode
-
-test unit
 
 Handle exceptions og testing
 

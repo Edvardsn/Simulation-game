@@ -14,7 +14,7 @@ import java.util.HashSet;
  */
 public class EventManager {
 
-  private Collection<ActionEventListener> listeners;
+  private final Collection<EventListener> listeners;
 
   /**
    * Creates an event manager
@@ -41,7 +41,7 @@ public class EventManager {
    *                   implemented by the user which contains the methods to be called
    *                   when the event occurs.
    */
-  public void addEventListener(ActionEventListener listener) {
+  public void addEventListener(EventListener listener) {
     listeners.add(listener);
   }
 
@@ -58,20 +58,25 @@ public class EventManager {
    * @param listener   The <code>EventListener</code> parameter indicates the
    *                   <code>Listener </code> to be removed.
    */
-  public void removeEventListener(ActionEventListener listener) {
+  public void removeEventListener(EventListener listener) {
     this.listeners.remove(listener);
   }
 
   /**
-   * Notifies all listeners of a specified id
+   * Notifies all listeners of a specified event
    *
    * @param event The event to notify the listeners
    */
   public void notifyListeners(Event event){
     if(event instanceof ActionEvent actionEvent){
-      for (ActionEventListener actionEventListener : listeners){
-        actionEventListener.handleActionEvent(actionEvent);
-      }
+      listeners.stream()
+          .filter(ActionEventListener.class::isInstance)
+          .forEach(eventListener -> ((ActionEventListener) eventListener).handleActionEvent(actionEvent));
+    }
+    if(event instanceof HealthEvent healthEvent){
+      listeners.stream()
+          .filter(HealthEventListener.class::isInstance)
+          .forEach(eventListener -> ((HealthEventListener) eventListener).handleHealthEvent(healthEvent));
     }
   }
 }
