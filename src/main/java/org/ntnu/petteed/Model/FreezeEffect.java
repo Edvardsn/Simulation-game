@@ -1,4 +1,8 @@
-package org.ntnu.petteed.Model;
+package org.ntnu.petteed.Model.Effects;
+
+import org.ntnu.petteed.Model.ActionEvent;
+import org.ntnu.petteed.Model.ActionEventListener;
+import org.ntnu.petteed.Model.Unit;
 
 /**
  * This class represents a Freeze debuff which is a Status effect that
@@ -27,9 +31,9 @@ public class FreezeEffect implements ActionEventListener {
     if (ticks < DURATION) {
       minimizeDebuff();
 
-      int newAttackValue = unit.getConditionalAttackValue() + attackDebuff;
+      int newAttackValue = unit.getTemporaryAttackValue() + attackDebuff;
 
-      unit.setConditionalAttackValue(newAttackValue);
+      unit.setTemporaryAttackValue(newAttackValue);
 
       this.ticks++;
 

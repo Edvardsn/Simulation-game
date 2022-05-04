@@ -1,4 +1,8 @@
-package org.ntnu.petteed.Model;
+package org.ntnu.petteed.Model.Effects;
+
+import org.ntnu.petteed.Model.ActionEvent;
+import org.ntnu.petteed.Model.ActionEventListener;
+import org.ntnu.petteed.Model.Unit;
 
 /**
  * This class represents the Burn debuff which is a status effect that
