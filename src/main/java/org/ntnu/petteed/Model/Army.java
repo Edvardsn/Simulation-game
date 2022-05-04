@@ -4,12 +4,15 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import org.ntnu.petteed.Model.Units.*;
 
 
 /**
  * Represents an army of Units
+ *
+ * - Actors
+ * - Terrain
+ *
  *
  */
 public class Army {
@@ -17,7 +20,6 @@ public class Army {
   private final String name;
   private Collection<Actor> actors;
   private Terrain currentTerrain;
-  private final Random randomGenerator = new Random();
 
   /**
    * Creates and instance of an Army
@@ -47,7 +49,7 @@ public class Army {
 
       initializeArmy();
 
-    } else if (name == null) {
+    } else if (name == null) { // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! OR BLANK
       throw new IllegalArgumentException("Cannot create an Army without a name");
     } else {
       throw new IllegalArgumentException("Cannot create an Army without any units");
@@ -55,7 +57,7 @@ public class Army {
   }
 
   /**
-   * Initializes the army by giving information to its actors
+   * Initializes the army by giving the armies information to its actors
    *
    */
   private void initializeArmy() {
@@ -65,6 +67,15 @@ public class Army {
         unit.setCurrentTerrain(this.currentTerrain);
       }
     });
+  }
+
+  /**
+   * A random actor in this army attacks a random actor in given army
+   *
+   * @param army The army to attack
+   */
+  public void act(Army army){
+    army.getRandom().act(army.getRandom());
   }
 
   /**
@@ -81,7 +92,7 @@ public class Army {
    *
    * @return The iterator of the collection of units
    */
-  public Iterator<Actor> getUnitIterator(){
+  public Iterator<Actor> getActorIterator(){
     return getAll().iterator();
   }
 
@@ -113,7 +124,9 @@ public class Army {
    * @return True if any number of units present, false if not.
    */
   public boolean hasHealthyActors() {
-    return (actors.stream().anyMatch(actor -> (actor instanceof Unit && ((Unit) actor).isAlive())));
+    return actors
+        .stream()
+        .anyMatch(actor -> (actor instanceof Unit unit && unit.isAlive()));
   }
 
   /**
@@ -124,8 +137,7 @@ public class Army {
     actors.forEach(actor -> {
       if(actor instanceof Unit unit){
         unit.setCurrentTerrain(this.currentTerrain);}
-    })
-    ;
+    });
   }
 
   /**
@@ -147,20 +159,13 @@ public class Army {
     if(!this.hasHealthyActors()){ // Guard condition
       return null;
     }
-    boolean found = false;
+    Actor randomActor = actors
+          .stream()
+          .filter(Actor::isAlive)
+          .toList()
+          .get(RandomFactory.getRandomInteger(actors.size()));
 
-    Actor desiredActor = null;
-
-    while(!found) {
-      Actor randomActor = actors.stream().toList().get(randomGenerator.nextInt(actors.size()));
-
-      if (randomActor.isAlive()) {
-        desiredActor = randomActor;
-        found = true;
-      }
-    }
-
-    return desiredActor;
+    return randomActor;
   }
 
   /**

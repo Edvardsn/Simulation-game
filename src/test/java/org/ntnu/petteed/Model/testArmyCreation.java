@@ -1,11 +1,10 @@
 package org.ntnu.petteed.Model;
 
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import org.junit.jupiter.api.Test;
-import org.ntnu.petteed.Model.Unit;
 
 /**
  * Unit-tests of the hand of cards class.
@@ -39,7 +38,7 @@ class testArmyCreation {
    */
   @Test
    void testCreatingArmy(){
-    ArrayList<Unit> testList = new ArrayList<>();
+    Collection<Actor> testList = new ArrayList<>();
     Army testArmy = new Army("test",testList);
   }
 
@@ -49,7 +48,7 @@ class testArmyCreation {
    */
   @Test
    void testArmyWithNullName(){
-    ArrayList<Unit> testList = new ArrayList<>();
+    Collection<Actor> testList = new ArrayList<>();
     assertThrows(IllegalArgumentException.class, () -> {
       new Army(null,testList);
     });

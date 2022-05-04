@@ -26,6 +26,16 @@ public class InfantryUnit extends Unit {
   }
 
   /**
+   * @param target Optional target for actions
+   */
+  @Override
+  public void act(Object target) {
+    if(target instanceof Unit unit){
+      attack(unit);
+    }
+  }
+
+  /**
    * Returns the attack bonus of the InfantryUnit
    *
    * @return The attack bonus

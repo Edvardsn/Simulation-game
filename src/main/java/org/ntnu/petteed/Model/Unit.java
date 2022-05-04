@@ -14,22 +14,13 @@ public abstract class Unit implements Actor {
   protected int health;
   protected final int attackValue;
   protected final int armour;
-  protected boolean isAlive = true;
-
-  Collection<Actor> friendlyActors;
-
-  public Collection<Actor> getFriendlyActors() {
-    return friendlyActors;
-  }
-
-  public void setFriendlyActors(Collection<Actor> friendlyActors) {
-    this.friendlyActors = friendlyActors;
-  }
-
-  protected int conditionalAttackValue = 0;
-  protected int conditionalDefenseValue = 0;
+  protected int temporaryAttackValue = 0;
+  protected int temporaryDefenseValue = 0;
   protected int receivedAttacks;
   protected int initiatedAttacks;
+  protected boolean isAlive = true;
+
+  Collection<Actor> friendlyActors = null;
   protected Terrain currentTerrain = null;
   public final EventManager eventManager;
 
@@ -76,6 +67,19 @@ public abstract class Unit implements Actor {
 
       this.setHealth(newHealth);
     }
+  }
+
+  /**
+   * Returns all actors which this unit considers friendly, or null if none.
+   *
+   * @return
+   */
+  public Collection<Actor> getFriendlyActors() {
+    return friendlyActors;
+  }
+
+  public void setFriendlyActors(Collection<Actor> friendlyActors) {
+    this.friendlyActors = friendlyActors;
   }
 
   /**
@@ -156,8 +160,8 @@ public abstract class Unit implements Actor {
    *
    * @return The value of the units conditional attack
    */
-  public int getConditionalAttackValue() {
-    return conditionalAttackValue;
+  public int getTemporaryAttackValue() {
+    return temporaryAttackValue;
   }
 
   /**
@@ -165,26 +169,26 @@ public abstract class Unit implements Actor {
    *
    * @return The value of the units conditional defense
    */
-  public int getConditionalDefenseValue() {
-    return conditionalDefenseValue;
+  public int getTemporaryDefenseValue() {
+    return temporaryDefenseValue;
   }
 
   /**
    * Sets a new value for the conditional attack value of the unit
    *
-   * @param conditionalAttackValue A new value for the conditional attack value of the unit
+   * @param temporaryAttackValue A new value for the conditional attack value of the unit
    */
-  public void setConditionalAttackValue(int conditionalAttackValue) {
-    this.conditionalAttackValue = conditionalAttackValue;
+  public void setTemporaryAttackValue(int temporaryAttackValue) {
+    this.temporaryAttackValue = temporaryAttackValue;
   }
 
   /**
    * Sets a new value for the conditional defense of the unit
    *
-   * @param conditionalDefenseValue A new value for the conditional defense of the unit
+   * @param temporaryDefenseValue A new value for the conditional defense of the unit
    */
-  public void setConditionalDefenseValue(int conditionalDefenseValue) {
-    this.conditionalDefenseValue = conditionalDefenseValue;
+  public void setTemporaryDefenseValue(int temporaryDefenseValue) {
+    this.temporaryDefenseValue = temporaryDefenseValue;
   }
 
   /**
@@ -272,7 +276,11 @@ public abstract class Unit implements Actor {
    * @return The value of the total resistance
    */
   public int getTotalResistances() {
-    return getResistBonus() + getArmour() + conditionalDefenseValue;
+    int newTotalResistance = getArmour() + getResistBonus() + temporaryDefenseValue;
+
+    temporaryDefenseValue = 0; // Resets the conditional defense value after every use
+
+    return newTotalResistance;
   }
 
   /**
@@ -281,6 +289,10 @@ public abstract class Unit implements Actor {
    * @return The total attack value of the unit
    */
   public int getTotalAttackDamage() {
-    return this.getAttackValue() + this.getAttackBonus() + conditionalAttackValue;
+    int newTotalAttackValue = getAttackValue() + this.getAttackBonus() + temporaryAttackValue;
+
+    temporaryAttackValue = 0;// Resets the conditional attack value after every use
+
+    return newTotalAttackValue;
   }
 }

@@ -3,8 +3,8 @@ package org.ntnu.petteed.Model.Units;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import org.ntnu.petteed.Model.ActionEventListener;
 import org.ntnu.petteed.Model.BurnEffect;
+import org.ntnu.petteed.Model.EventListener;
 import org.ntnu.petteed.Model.FreezeEffect;
 import org.ntnu.petteed.Model.Unit;
 
@@ -18,18 +18,8 @@ public class MageUnit extends Unit {
   private static final int ARMOUR_VALUE = 5;
   private final Random randomGenerator = new Random();
 
-  private final ActionEventListener[] spells = {(ActionEventListener) new BurnEffect(),new FreezeEffect()};
+  private final EventListener[] spells = {new BurnEffect(),new FreezeEffect()};
 
-  /**
-   * Does a roll on all available spells and returns a statusEffect
-   *
-   * @return A random status effect from the available spells
-   */
-  public ActionEventListener castRandomSpell(){
-    List<ActionEventListener> spellList = Arrays.stream(spells).toList();
-    int randomSpellIndex = randomGenerator.nextInt(spellList.size());
-    return spellList.get(randomSpellIndex);
-  }
 
   /**
    * Creates a mage unit
@@ -42,14 +32,24 @@ public class MageUnit extends Unit {
   }
 
   /**
-   * Attacks another unit and casts spell
-   *
-   * @param opponent {@code Unit} opponent, the unit to attack
+   * @param target Optional target for actions
    */
   @Override
-  protected void attack(Unit opponent) {
-    super.attack(opponent);
-    opponent.eventManager.addEventListener(castRandomSpell());
+  public void act(Object target) {
+    if(target instanceof Unit unit){
+      unit.eventManager.addEventListener(castRandomSpell());
+    }
+  }
+
+  /**
+   * Does a roll on all available spells and returns a statusEffect
+   *
+   * @return A random status effect from the available spells
+   */
+  public EventListener castRandomSpell(){
+    List<EventListener> spellList = Arrays.stream(spells).toList();
+    int randomSpellIndex = randomGenerator.nextInt(spellList.size());
+    return spellList.get(randomSpellIndex);
   }
 
   /**

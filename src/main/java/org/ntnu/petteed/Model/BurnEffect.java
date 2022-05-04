@@ -1,4 +1,4 @@
-package org.ntnu.petteed.Model.Effects;
+package org.ntnu.petteed.Model;
 
 import org.ntnu.petteed.Model.ActionEvent;
 import org.ntnu.petteed.Model.ActionEventListener;

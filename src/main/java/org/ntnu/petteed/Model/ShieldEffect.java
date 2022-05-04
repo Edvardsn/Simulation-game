@@ -1,4 +1,4 @@
-package org.ntnu.petteed.Model.Effects;
+package org.ntnu.petteed.Model;
 
 import org.ntnu.petteed.Model.HealthEvent;
 import org.ntnu.petteed.Model.HealthEventListener;

@@ -5,10 +5,10 @@ public class MockUnit extends Unit{
   /**
    * Creates an instance of Unit
    *
-   * @param name
-   * @param health
-   * @param attackValue
-   * @param armour
+   * @param name The name of the unit
+   * @param health The health of the unit
+   * @param attackValue The attack value of the unit
+   * @param armour The armour of the unit
    * @throws IllegalArgumentException If there are any invalid parameters
    */
   protected MockUnit(String name, int health, int attackValue, int armour) {
@@ -33,5 +33,15 @@ public class MockUnit extends Unit{
   @Override
   public int getResistBonus() {
     return 5;
+  }
+
+  /**
+   * @param target Optional target for actions
+   */
+  @Override
+  public void act(Object target) {
+    if(target instanceof Unit unit){
+      attack(unit);
+    }
   }
 }

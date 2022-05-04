@@ -50,16 +50,6 @@ public class CavalryUnit extends Unit {
   }
 
   /**
-   * Registers who are considered friendly to the actor
-   *
-   * @param actors The actors to be considered friendly
-   */
-  @Override
-  public void setFriendlyActors(Collection<Actor> actors) {
-    friendlyActors = actors;
-  }
-
-  /**
    * Returns the bonus attack
    *
    * @return The bonus attack

@@ -1,8 +1,4 @@
-package org.ntnu.petteed.Model.Effects;
-
-import org.ntnu.petteed.Model.ActionEvent;
-import org.ntnu.petteed.Model.ActionEventListener;
-import org.ntnu.petteed.Model.Unit;
+package org.ntnu.petteed.Model;
 
 /**
  * This class represents a Freeze debuff which is a Status effect that
