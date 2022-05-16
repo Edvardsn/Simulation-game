@@ -1,8 +1,8 @@
 package org.ntnu.petteed.Model;
 
 /**
- * Represents a collection of effects which holds information about anything that can impact
- * the combat during battle or alter a unit's capabilities.
+ * The {@code ActionEventListener} interface represents an object who wishes to know about events of the type
+ * {@code ActionEvent}.
  *
  * @author Petter Edvardsen
  * @version 02/04/22

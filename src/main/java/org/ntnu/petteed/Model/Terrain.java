@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * This class represents a terrain and what conditions follows when interacting in its environment.
  *
- * @author Petter Edvardsen
+ * @author Student Number
  * @version 16/04/22
  */
 public class Terrain{

@@ -25,15 +25,6 @@ public class InfantryUnit extends Unit {
     super(name, health, ATTACK_VALUE, ARMOUR_VALUE);
   }
 
-  /**
-   * @param target Optional target for actions
-   */
-  @Override
-  public void act(Object target) {
-    if(target instanceof Unit unit){
-      attack(unit);
-    }
-  }
 
   /**
    * Returns the attack bonus of the InfantryUnit

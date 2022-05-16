@@ -11,7 +11,7 @@ public class MockUnit extends Unit{
    * @param armour The armour of the unit
    * @throws IllegalArgumentException If there are any invalid parameters
    */
-  protected MockUnit(String name, int health, int attackValue, int armour) {
+  public MockUnit(String name, int health, int attackValue, int armour) {
     super(name, health, attackValue, armour);
   }
 

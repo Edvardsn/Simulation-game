@@ -9,7 +9,7 @@ import org.ntnu.petteed.Model.FreezeEffect;
 import org.ntnu.petteed.Model.Unit;
 
 /**
- * This class represents a Mage Unit
+ * This class represents a Mage Unit which has the unique ability to cast spells onto other units
  *
  */
 public class MageUnit extends Unit {
@@ -19,7 +19,6 @@ public class MageUnit extends Unit {
   private final Random randomGenerator = new Random();
 
   private final EventListener[] spells = {new BurnEffect(),new FreezeEffect()};
-
 
   /**
    * Creates a mage unit
@@ -36,6 +35,8 @@ public class MageUnit extends Unit {
    */
   @Override
   public void act(Object target) {
+    super.act(target);
+
     if(target instanceof Unit unit){
       unit.eventManager.addEventListener(castRandomSpell());
     }
@@ -48,7 +49,9 @@ public class MageUnit extends Unit {
    */
   public EventListener castRandomSpell(){
     List<EventListener> spellList = Arrays.stream(spells).toList();
+
     int randomSpellIndex = randomGenerator.nextInt(spellList.size());
+
     return spellList.get(randomSpellIndex);
   }
 

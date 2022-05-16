@@ -2,11 +2,16 @@ package org.ntnu.petteed.Model.Units;
 
 import java.util.List;
 import org.ntnu.petteed.Model.Actor;
-import org.ntnu.petteed.Model.Attack;
 import org.ntnu.petteed.Model.RandomFactory;
 import org.ntnu.petteed.Model.ShieldEffect;
 import org.ntnu.petteed.Model.Unit;
 
+/**
+ * This class represents the SupportUnit which is a unique unit that will buff its allies.
+ *
+ * @author Student number
+ * @version 04/05/22
+ */
 public class SupportUnit extends Unit {
 
   private static final int ATTACK_VALUE = 5;
@@ -30,12 +35,16 @@ public class SupportUnit extends Unit {
    */
   @Override
   public void act(Object target) {
-    shieldAlly();
+   shieldAlly();
   }
 
+  /**
+   * Applies a shield to a random ally
+   *
+   */
   public void shieldAlly(){
 
-    List<Actor> units = getFriendlyActors()
+    List<Actor> units = this.currentArmy.getAll()
         .stream()
         .filter(Unit.class::isInstance)
         .toList();
@@ -45,28 +54,6 @@ public class SupportUnit extends Unit {
     Unit ally = (Unit) units.get(randomIndex);
 
     ally.eventManager.addEventListener(new ShieldEffect());
-  }
-
-  /**
-   * Attacks another unit
-   *
-   * @param opponent {@code Unit} opponent, the unit to attack
-   */
-  @Override
-  protected void attack(Unit opponent) {
-    // SupportUnit does not engage in combat therefore does not have an option to attack nor receive
-    //attacks
-  }
-
-  /**
-   * Receives an attack from a source, can be overridden if chosen.
-   *
-   * @param attack The attack to receive
-   */
-  @Override
-  public void receiveAttack(Attack attack) {
-    // SupportUnit does not engage in combat therefore does not have an option to attack nor receive
-    //attacks
   }
 
   /**

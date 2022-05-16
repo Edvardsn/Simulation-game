@@ -7,7 +7,12 @@ import org.ntnu.petteed.Model.Units.CommanderUnit;
 import org.ntnu.petteed.Model.Units.InfantryUnit;
 import org.ntnu.petteed.Model.Units.MageUnit;
 import org.ntnu.petteed.Model.Units.RangedUnit;
+import org.ntnu.petteed.Model.Units.SupportUnit;
 
+/**
+ * A factory used to create instances of units
+ *
+ */
 public class UnitFactory {
 
   private static UnitFactory instance = null;
@@ -51,6 +56,10 @@ public class UnitFactory {
     return new MageUnit(name, health);
   }
 
+  public static Unit createSupportUnit(String name,int health){
+    return new SupportUnit(name, health);
+  }
+
   /**
    * Creates a list of units of specified type, Name and Health.
    *
@@ -60,18 +69,21 @@ public class UnitFactory {
    * @param unitType The class of the units
    * @return A {@code List} of the units created
    */
+  // !!!!!! Sjekk at break i case
   public static Collection<Actor> createUnits(int numberOfUnits, String name, int health, UnitType unitType)
      {
        int counter = 0;
+
        Collection<Actor> listOfUnits = new ArrayList<>();
 
        while(counter < numberOfUnits) {
          switch (unitType) {
-           case INFANTRYUNIT -> listOfUnits.add(new InfantryUnit(name, health));
-           case RANGEDUNIT -> listOfUnits.add(new RangedUnit(name, health));
-           case CAVALRYUNIT -> listOfUnits.add(new CavalryUnit(name, health));
-           case COMMANDERUNIT -> listOfUnits.add(new CommanderUnit(name, health));
-           case MAGEUNIT -> listOfUnits.add(new MageUnit(name, health));
+           case INFANTRY_UNIT -> listOfUnits.add(new InfantryUnit(name, health));
+           case RANGED_UNIT -> listOfUnits.add(new RangedUnit(name, health));
+           case CAVALRY_UNIT -> listOfUnits.add(new CavalryUnit(name, health));
+           case COMMANDER_UNIT -> listOfUnits.add(new CommanderUnit(name, health));
+           case MAGE_UNIT -> listOfUnits.add(new MageUnit(name, health));
+           case SUPPORT_UNIT -> listOfUnits.add(new SupportUnit(name, health));
          }
 
          counter++;

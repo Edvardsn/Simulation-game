@@ -3,7 +3,6 @@ package org.ntnu.petteed;
 import org.ntnu.petteed.Model.Army;
 import org.ntnu.petteed.Model.Battle;
 import org.ntnu.petteed.Model.Terrain;
-import org.ntnu.petteed.Model.Unit;
 import org.ntnu.petteed.Model.UnitFactory;
 import org.ntnu.petteed.Model.UnitType;
 
@@ -21,8 +20,8 @@ public class WargamesApp {
    */
   public static void main(String[] args) {
     try {
-      Army humans = new Army("Humans", UnitFactory.createUnits(10,"Dude", 100, UnitType.INFANTRYUNIT));
-      Army orcs = new Army("Orcs",UnitFactory.createUnits(10,"Dude", 100, UnitType.INFANTRYUNIT));
+      Army humans = new Army("Humans", UnitFactory.createUnits(10,"Dude", 100, UnitType.INFANTRY_UNIT));
+      Army orcs = new Army("Orcs",UnitFactory.createUnits(10,"Dude", 100, UnitType.INFANTRY_UNIT));
       Battle battle = new Battle(humans, orcs,new Terrain("FOREST"));
 
       Army winningArmy = battle.simulate();

@@ -38,18 +38,6 @@ public class CavalryUnit extends Unit {
   }
 
   /**
-   * Acts on given target
-   *
-   * @param target The target to act upon
-   */
-  @Override
-  public void act(Object target) {
-    if(target instanceof Unit unit){
-      this.attack(unit);
-    }
-  }
-
-  /**
    * Returns the bonus attack
    *
    * @return The bonus attack

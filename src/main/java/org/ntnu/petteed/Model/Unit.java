@@ -1,7 +1,5 @@
 package org.ntnu.petteed.Model;
 
-import java.util.Collection;
-
 /**
  * A class that represents a single unit and all of its characteristics
  *
@@ -20,10 +18,9 @@ public abstract class Unit implements Actor {
   protected int initiatedAttacks;
   protected boolean isAlive = true;
 
-  Collection<Actor> friendlyActors = null;
+  protected Army currentArmy = null;
   protected Terrain currentTerrain = null;
   public final EventManager eventManager;
-
 
   /**
    * Creates an instance of Unit
@@ -53,33 +50,44 @@ public abstract class Unit implements Actor {
   }
 
   /**
+   * The default action of any unit
+   *
+   * @param target Optional target for actions
+   */
+  @Override
+  public void act(Object target) {
+    eventManager.notifyListeners(new ActionEvent(this));
+
+    if(target instanceof Unit unit){
+      attack(unit);
+    }
+  }
+
+  /**
    * Assigns a new value to the health of a unit
    *
    * @param newHealth, the new value of health
    */
   public void setHealth(int newHealth) {
+
+    eventManager.notifyListeners(new HealthEvent(this));
+
     if (newHealth < 0) { // Could e.g be a death event
       this.health = 0;
       isAlive = false;
-
-    } else if(newHealth < getHealth()){ // In the event that a unit loses health
-      eventManager.notifyListeners(new HealthEvent(this));
-
+    }else {
       this.setHealth(newHealth);
     }
   }
 
-  /**
-   * Returns all actors which this unit considers friendly, or null if none.
-   *
-   * @return
-   */
-  public Collection<Actor> getFriendlyActors() {
-    return friendlyActors;
-  }
 
-  public void setFriendlyActors(Collection<Actor> friendlyActors) {
-    this.friendlyActors = friendlyActors;
+  /**
+   * Returns the army the unit is member of, null if no current army.
+   *
+   * @param currentArmy The army to be set as current army
+   */
+  public void setCurrentArmy(Army currentArmy) {
+    this.currentArmy = currentArmy;
   }
 
   /**
@@ -115,7 +123,7 @@ public abstract class Unit implements Actor {
   }
 
   /**
-   * Receives an attack from a source, can be overridden if chosen.
+   * Receives an attack from a source
    *
    * @param attack The attack to receive
    */
@@ -127,7 +135,6 @@ public abstract class Unit implements Actor {
     }
 
     incrementReceivedAttacks();
-    // Attack dør her?
   }
 
   /**

@@ -13,7 +13,6 @@ import org.ntnu.petteed.Model.Units.*;
  * - Actors
  * - Terrain
  *
- *
  */
 public class Army {
 
@@ -63,7 +62,7 @@ public class Army {
   private void initializeArmy() {
     this.actors.forEach(actor -> {
       if (actor instanceof Unit unit ){
-        unit.setFriendlyActors(this.getAll());
+        unit.setCurrentArmy(this);
         unit.setCurrentTerrain(this.currentTerrain);
       }
     });
@@ -159,6 +158,7 @@ public class Army {
     if(!this.hasHealthyActors()){ // Guard condition
       return null;
     }
+
     Actor randomActor = actors
           .stream()
           .filter(Actor::isAlive)

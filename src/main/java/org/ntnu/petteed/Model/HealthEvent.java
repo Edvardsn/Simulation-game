@@ -1,7 +1,7 @@
 package org.ntnu.petteed.Model;
 
 /**
- * This class represents an event that is triggered if the health value of a given unit is reduced
+ * This class represents an event that is triggered if the health value of a given unit is modified
  * and the unit is still alive afterwards.
  *
  * An increase in health does not trigger a health event.

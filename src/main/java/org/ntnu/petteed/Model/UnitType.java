@@ -2,9 +2,10 @@ package org.ntnu.petteed.Model;
 
 public enum UnitType {
 
-  INFANTRYUNIT("InfantryUnit"),RANGEDUNIT("RangedUnit"),CAVALRYUNIT("CavalryUnit"),COMMANDERUNIT("CommanderUnit"),MAGEUNIT("MageUnit");
+  INFANTRY_UNIT("InfantryUnit"), RANGED_UNIT("RangedUnit"), CAVALRY_UNIT("CavalryUnit"), COMMANDER_UNIT("CommanderUnit"),
+  MAGE_UNIT("MageUnit"),SUPPORT_UNIT("SupportUnit");
 
-  private String unitType;
+  private final String typeOfUnit;
 
   /**
    * Creates the unit type corresponding to given enum
@@ -12,7 +13,7 @@ public enum UnitType {
    * @param unitType The type of unit to refer to
    */
   UnitType(String unitType) {
-    this.unitType = unitType;
+    this.typeOfUnit = unitType;
   }
 
   /**
@@ -21,6 +22,6 @@ public enum UnitType {
   @Override
   public String toString()
   {
-    return unitType;
+    return typeOfUnit;
   }
 }

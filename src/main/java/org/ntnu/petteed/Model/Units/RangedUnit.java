@@ -25,16 +25,6 @@ public class RangedUnit extends Unit {
   }
 
   /**
-   * @param target Optional target for actions
-   */
-  @Override
-  public void act(Object target) {
-    if(target instanceof Unit unit){
-      attack(unit);
-    }
-  }
-  
-  /**
    * Returns the attack bonus of the unit
    *
    * @return The attack bonus

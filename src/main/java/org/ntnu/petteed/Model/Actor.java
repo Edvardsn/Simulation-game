@@ -1,6 +1,10 @@
 package org.ntnu.petteed.Model;
 
 
+/**
+ * The actor interface represents objects who have any kind of action
+ *
+ */
 public interface Actor {
 
   /**
@@ -8,10 +12,10 @@ public interface Actor {
    */
   void act(Object target);
 
+
   /**
-   * Returns whether an actor is dead or alive
-   *
-   * @return True if the actor is alive, false if not.
+   * Checks whether the actor is alive or not.
    */
   boolean isAlive();
+
 }

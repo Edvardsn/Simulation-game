@@ -1,109 +1,235 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
-  All rights reserved. Use is subject to license terms.
-
-  This file is available and licensed under the following license:
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions
-  are met:
-
-  - Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
-  - Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in
-    the documentation and/or other materials provided with the distribution.
-  - Neither the name of Oracle Corporation nor the names of its
-    contributors may be used to endorse or promote products derived
-    from this software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
--->
-
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
+<?import io.github.palexdev.materialfx.controls.MFXIconWrapper?>
+<?import io.github.palexdev.materialfx.controls.MFXSlider?>
+<?import io.github.palexdev.materialfx.controls.MFXTableView?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import org.controlsfx.control.CheckListView?>
-<?import org.controlsfx.control.SegmentedButton?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <AnchorPane prefHeight="301.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0">
          <children>
-            <CheckListView fx:id="ArmyListView" layoutX="417.0" layoutY="47.0" prefHeight="250.0" prefWidth="172.0" />
-            <Text fx:id="ArmyOverviewText" layoutX="471.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Overview">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Text>
-            <SplitPane dividerPositions="0.19960474308300397" layoutX="18.0" layoutY="44.0" orientation="VERTICAL" prefHeight="255.0" prefWidth="377.0">
-              <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="85.0" prefWidth="375.0">
+            <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1164.0" spacing="30.0">
+               <children>
+                  <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="1040.0" spacing="30.0">
                      <children>
-                        <Text fx:id="ArmyNameNext" layoutX="22.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Army name:" />
-                        <TextField fx:id="ArmyNameField" layoutX="108.0" layoutY="11.0" prefHeight="26.0" prefWidth="155.0" text="Beatles" />
+                        <FlowPane alignment="TOP_CENTER" prefHeight="35.0" prefWidth="756.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Army ">
+                                 <font>
+                                    <Font size="26.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </FlowPane>
+                        <MFXTableView prefHeight="548.0" prefWidth="982.0" />
                      </children>
-                  </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="368.0">
-                     <children>
-                        <Text fx:id="UnitNameText" layoutX="33.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unit name:" />
-                        <TextField fx:id="UnitNameTextField" layoutX="105.0" layoutY="9.0" text="Poor man" />
-                        <CheckBox layoutX="14.0" layoutY="72.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="97.0" text="InfantryUnit" />
-                        <SegmentedButton layoutX="103.0" layoutY="155.0" prefHeight="27.0" prefWidth="136.0" />
-                        <CheckBox layoutX="15.0" layoutY="115.0" mnemonicParsing="false" snapToPixel="false" text="RangedUnit" />
-                        <CheckBox layoutX="116.0" layoutY="115.0" mnemonicParsing="false" text="CavalryUnit" />
-                        <CheckBox layoutX="14.0" layoutY="160.0" mnemonicParsing="false" text="MageUnit" />
-                        <CheckBox layoutX="116.0" layoutY="72.0" mnemonicParsing="false" text="CommanderUnit" />
-                        <Button layoutX="297.0" layoutY="77.0" mnemonicParsing="false" text="Add" />
-                        <Button layoutX="298.0" layoutY="138.0" mnemonicParsing="false" text="Edit" />
-                        <Button layoutX="118.0" layoutY="157.0" mnemonicParsing="false" text="Button" />
-                        <Button layoutX="172.0" layoutY="158.0" mnemonicParsing="false" text="Button" />
-                     </children>
-                  </AnchorPane>
-              </items>
-            </SplitPane>
-            <Text layoutX="32.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Army" />
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </HBox>
          </children>
-      </AnchorPane>
+      </StackPane>
    </center>
    <top>
-      <Pane prefHeight="41.0" prefWidth="600.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
+      <StackPane prefHeight="93.0" prefWidth="1280.0" style="-fx-background-color: #36454f;" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="237.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Army">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
+            <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="86.0" prefWidth="1280.0" StackPane.alignment="TOP_CENTER">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Army">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+                  <FontIcon iconColor="WHITE" iconLiteral="eli-group" iconSize="25" selectionFill="BLACK" />
+                  <MFXIconWrapper />
+               </children>
+               <padding>
+                  <Insets top="30.0" />
+               </padding>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.5526315569877625" green="0.1253654956817627" blue="0.1253654956817627" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </FlowPane>
          </children>
-      </Pane>
+      </StackPane>
    </top>
    <bottom>
-      <AnchorPane prefHeight="39.0" prefWidth="600.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
-         <children>
-            <Button layoutX="532.0" layoutY="5.0" mnemonicParsing="false" text="Delete" />
-            <Button layoutX="470.0" layoutY="5.0" mnemonicParsing="false" text="Reset" />
-            <Button layoutX="408.0" layoutY="5.0" mnemonicParsing="false" text="Load" />
-            <ButtonBar layoutX="85.0" prefHeight="40.0" prefWidth="200.0" />
-         </children>
-      </AnchorPane>
+      <ButtonBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="1280.0" style="-fx-background-color: #36454f;" BorderPane.alignment="CENTER">
+        <buttons>
+            <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" style="-fx-background-color: green;" text="Load" textFill="WHITE">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="eli-folder-open" iconSize="15" />
+               </graphic>
+            </Button>
+            <Button alignment="BASELINE_LEFT" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" style="-fx-background-color: orange;" text="Reset">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="eli-repeat" iconSize="15" />
+               </graphic>
+            </Button>
+        </buttons>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+      </ButtonBar>
    </bottom>
+   <left>
+      <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="673.0" prefWidth="320.0" spacing="10.0" style="-fx-background-color: #708090;" BorderPane.alignment="CENTER">
+         <children>
+            <FlowPane alignment="CENTER" prefHeight="49.0" prefWidth="420.0">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Text>
+               </children>
+            </FlowPane>
+            <HBox alignment="BASELINE_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="10.0">
+               <children>
+                  <MFXTextField floatingText="Army name" floatingTextGap="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </HBox>
+            <Line endX="-0.833343505859375" startX="-319.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
+            </Line>
+            <FlowPane>
+               <children>
+                  <MFXTextField floatingText="Unit name" floatingTextGap="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="200.0">
+                     <FlowPane.margin>
+                        <Insets left="10.0" />
+                     </FlowPane.margin>
+                  </MFXTextField>
+               </children>
+            </FlowPane>
+            <FlowPane alignment="TOP_CENTER" prefHeight="499.0" prefWidth="420.0" style="-fx-background-color: #708090;">
+               <children>
+                  <FlowPane alignment="CENTER" prefHeight="33.0" prefWidth="320.0" rowValignment="TOP">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a unit type:" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </FlowPane>
+                  <StackPane prefHeight="176.0" prefWidth="320.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="320.0" spacing="10.0">
+                           <children>
+                              <VBox prefHeight="229.0" prefWidth="156.0" spacing="40.0">
+                                 <children>
+                                    <MFXCheckbox text="InfantryUnit" textFill="WHITE" />
+                                    <MFXCheckbox text="MageUnit" textFill="WHITE" />
+                                    <MFXCheckbox text="CommanderUnit" textFill="WHITE" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="20.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox prefHeight="216.0" prefWidth="216.0" spacing="40.0">
+                                 <children>
+                                    <MFXCheckbox text="RangedUnit" textFill="WHITE" />
+                                    <MFXCheckbox text="CavalryUnit" textFill="WHITE" />
+                                    <MFXCheckbox text="SupportUnit" textFill="WHITE" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                           <StackPane.margin>
+                              <Insets top="40.0" />
+                           </StackPane.margin>
+                        </HBox>
+                     </children>
+                  </StackPane>
+                  <FlowPane hgap="20.0" prefHeight="47.0" prefWidth="282.0">
+                     <children>
+                        <MFXTextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="131.0" promptText="Amount to add" />
+                        <MFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" minWidth="33.0" prefHeight="32.0" prefWidth="33.0" style="-fx-background-color: green;" text="Add">
+                           <graphic>
+                              <FontIcon iconColor="WHITE" iconLiteral="eli-plus" iconSize="12" />
+                           </graphic>
+                        </MFXButton>
+                        <MFXButton contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: red;" text="Button" textFill="WHITE">
+                           <graphic>
+                              <FontIcon iconColor="WHITE" iconLiteral="eli-remove" />
+                           </graphic>
+                        </MFXButton>
+                     </children>
+                     <FlowPane.margin>
+                        <Insets top="60.0" />
+                     </FlowPane.margin>
+                  </FlowPane>
+                  <MFXSlider alternativeUnitIncrement="20.0" max="10.0" minorTicksCount="2" popupSide="OTHER_SIDE" tickUnit="10.0" value="5.0">
+                     <FlowPane.margin>
+                        <Insets right="150.0" />
+                     </FlowPane.margin>
+                  </MFXSlider>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </FlowPane>
+         </children>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+      </VBox>
+   </left>
 </BorderPane>
