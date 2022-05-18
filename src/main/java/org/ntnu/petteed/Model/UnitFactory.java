@@ -61,6 +61,30 @@ public class UnitFactory {
   }
 
   /**
+   * Creates unit of specified type, Name and Health.
+   *
+   * @param name The name of the unit
+   * @param health The health of the unit
+   * @param unitType The class of the unit
+   * @return The unit created
+   */
+  public static Unit createSingleUnit(String name, int health, UnitType unitType)
+  {
+    Unit desiredUnit = null;
+
+      switch (unitType) {
+        case INFANTRY_UNIT -> desiredUnit = new InfantryUnit(name, health);
+        case RANGED_UNIT -> desiredUnit = new RangedUnit(name, health);
+        case CAVALRY_UNIT -> desiredUnit = new CavalryUnit(name, health);
+        case COMMANDER_UNIT -> desiredUnit = new CommanderUnit(name, health);
+        case MAGE_UNIT -> desiredUnit = new MageUnit(name, health);
+        case SUPPORT_UNIT -> desiredUnit = new SupportUnit(name, health);
+      }
+
+    return desiredUnit;
+  }
+
+  /**
    * Creates a list of units of specified type, Name and Health.
    *
    * @param numberOfUnits The number of units to create exclusive given number

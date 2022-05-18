@@ -17,7 +17,7 @@ public enum UnitType {
   }
 
   /**
-   * @return The command word as a string.
+   * @return The Unit type as a string.
    */
   @Override
   public String toString()

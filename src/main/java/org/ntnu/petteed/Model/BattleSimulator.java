@@ -1,5 +1,6 @@
 package org.ntnu.petteed.Model;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 public interface BattleSimulator {
@@ -7,9 +8,9 @@ public interface BattleSimulator {
   /**
    * Creates a unit
    *
-   * @param unit The unit to create
+   * @param name The name of the unit to create
    */
-  void createUnit(Unit unit);
+  void createUnit(String name,UnitType unitType);
 
   /**
    * Removes a unit
@@ -21,16 +22,10 @@ public interface BattleSimulator {
   /**
    * Creates an army
    *
-   * @param army The army to create
+   * @param name The name of the new army
+   * @param actors The actors in the new army
    */
-  void createArmy(Army army);
-
-  /**
-   * Deletes an army
-   *
-   * @param army The army to delete
-   */
-  void deleteArmy(Army army);
+  void createArmy(String name, Collection<Actor> actors);
 
   /**
    * Clears any current army being edited on
@@ -51,7 +46,7 @@ public interface BattleSimulator {
    *
    * @return The members of the battle
    */
-  Iterator<Actor> getBattleMembers();
+  Iterator<Battle> getBattles();
 
   /**
    * Initiates a battle
@@ -61,5 +56,5 @@ public interface BattleSimulator {
   Army battle();
 
 
-
+  Army getCurrentArmy();
 }

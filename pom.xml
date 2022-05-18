@@ -35,7 +35,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <!-- TODO: Set your main class here -->
-                    <mainClass>org.ntnu.petteed.WargamesApp</mainClass>
+                    <mainClass>org.ntnu.petteed.BattleSimulatorApp</mainClass>
                 </configuration>
             </plugin>
 

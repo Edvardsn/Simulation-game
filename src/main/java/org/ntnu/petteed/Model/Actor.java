@@ -12,7 +12,6 @@ public interface Actor {
    */
   void act(Object target);
 
-
   /**
    * Checks whether the actor is alive or not.
    */
