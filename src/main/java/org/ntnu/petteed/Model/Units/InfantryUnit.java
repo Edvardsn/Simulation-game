@@ -26,6 +26,14 @@ public class InfantryUnit extends Unit implements Actor {
     super(name, health, ATTACK_VALUE, ARMOUR_VALUE);
   }
 
+  /**
+   * Creates a copy of the InfantryUnit
+   *
+   * @param unit The unit to copy
+   */
+  public InfantryUnit(Unit unit){
+    super(unit);
+  }
 
   /**
    * Returns the attack bonus of the InfantryUnit
@@ -57,4 +65,13 @@ public class InfantryUnit extends Unit implements Actor {
     return finalResistanceBonus;
   }
 
+  /**
+   * Copies the Actor
+   *
+   * @return A copied version of the actor
+   */
+  @Override
+  public Actor copy() {
+    return new InfantryUnit(this);
+  }
 }

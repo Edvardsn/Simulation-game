@@ -9,8 +9,7 @@ public class Simulator implements BattleSimulator {
 
   private Battle currentBattle;
 
-  private final List<Army> armiesActorRegister;
-  private final List<Collection<Actor>> createdActorRegister;
+  private final List<Army> armyRegister;
 
   private Army currentArmy;
 
@@ -18,11 +17,8 @@ public class Simulator implements BattleSimulator {
   private Army secondArmy;
 
   public Simulator() {
-    this.createdActorRegister = new ArrayList<>();
-    this.armiesActorRegister = new ArrayList<>();
-
+    this.armyRegister = new ArrayList<>();
     this.currentArmy = new Army("Army",new ArrayList<>());
-
     this.currentBattle = null;
   }
 
@@ -32,9 +28,9 @@ public class Simulator implements BattleSimulator {
    * @param name The name of the unit to create
    */
   public void addActors(int numberOfActors,String name, int health, ActorType actorType){
-    this.currentArmy.getActors().addAll(UnitFactory.createUnits(numberOfActors, name,health,actorType));
-
-    this.createdActorRegister.add(UnitFactory.createUnits(numberOfActors, name,health,actorType));
+    this.currentArmy
+        .getActors()
+        .addAll(ActorFactory.createUnits(numberOfActors, name,health,actorType));
   }
 
   /**
@@ -60,13 +56,21 @@ public class Simulator implements BattleSimulator {
 
     if(getNumberOfArmies() == 1){
       this.secondArmy = newArmy;
-      this.armiesActorRegister.add(new Army(name,createdActorRegister.get(0)));
+      this.armyRegister.add(secondArmy.copy());
     }
 
     if(getNumberOfArmies() < 1){
       this.firstArmy = newArmy;
-      this.armiesActorRegister.add(new Army(name,createdActorRegister.get(1)));
+      this.armyRegister.add(firstArmy.copy());
     }
+  }
+
+  public void setFirstArmy(Army firstArmy) {
+    this.firstArmy = firstArmy;
+  }
+
+  public void setSecondArmy(Army secondArmy) {
+    this.secondArmy = secondArmy;
   }
 
   /**
@@ -106,7 +110,7 @@ public class Simulator implements BattleSimulator {
    */
   @Override
   public int getNumberOfArmies() {
-    return this.armiesActorRegister.size();
+    return this.armyRegister.size();
   }
 
   /**
@@ -123,8 +127,8 @@ public class Simulator implements BattleSimulator {
       percentage = 1;
     }
     else{
-      percentage = 1 - (getPercentageOfActorsAliveArmyOne() / 2) +
-          (getPercentageOfActorsAliveArmyTwo() / 2);
+      percentage = 1 - ((getPercentageOfActorsAliveArmyOne() / 2) +
+          (getPercentageOfActorsAliveArmyTwo() / 2));
     }
 
     return percentage;
@@ -173,7 +177,7 @@ public class Simulator implements BattleSimulator {
    */
   @Override
   public List<Army> getArmiesRegister() {
-    return this.armiesActorRegister;
+    return this.armyRegister;
   }
 
   public Army getFirstArmy() {
@@ -229,7 +233,7 @@ public class Simulator implements BattleSimulator {
    */
   @Override
   public Army battle() {
-    Army winningArmy = getCurrentBattle().simulate();
+    Army winningArmy = getCurrentBattle().battle();
 
     return winningArmy;
   }

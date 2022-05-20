@@ -3,6 +3,8 @@ package org.ntnu.petteed.Model;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * This class serves the purpose of managing subscribers/listeners that wishes to be notified in the
@@ -22,8 +24,8 @@ public class EventManager {
    *
    */
   public EventManager() {
-    listeners = new HashSet<>();
-    listenersToBeRemoved = new HashSet<>();
+    listeners = new CopyOnWriteArraySet<>();
+    listenersToBeRemoved = new CopyOnWriteArraySet<>();
   }
 
   /**
@@ -71,7 +73,15 @@ public class EventManager {
    */
   public void notifyListeners(Event event){
 
-    listenersToBeRemoved.forEach(listeners::remove);
+    Iterator<EventListener> removeableEventlistenersIterator = listenersToBeRemoved.iterator();
+
+    while(removeableEventlistenersIterator.hasNext()){
+      EventListener eventListener = removeableEventlistenersIterator.next();
+
+      listenersToBeRemoved.remove(eventListener);
+    }
+
+    //listenersToBeRemoved.forEach(listeners::remove);
 
     Iterator<EventListener> eventListenerIterator = listeners.iterator();
 

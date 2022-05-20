@@ -95,13 +95,18 @@ public class SimulationController {
    *
    */
   public void resetCombat(){
-    this.simulator.getFirstArmy().getActors().clear();
-    this.simulator.getFirstArmy().getActors().addAll(this.simulator.getArmiesRegister().get(0).getActors());
 
-    this.simulator.getSecondArmy().getActors().clear();
-    this.simulator.getSecondArmy().getActors().addAll(this.simulator.getArmiesRegister().get(1).getActors());
+    // Resets first army
+    this.simulator.setFirstArmy(this.simulator.getArmiesRegister().get(0));
+    this.simulator.getArmiesRegister().set(0,this.simulator.getFirstArmy().copy());
 
+    // Resets second army
+    this.simulator.setSecondArmy((this.simulator.getArmiesRegister().get(1)));
+    this.simulator.getArmiesRegister().set(1,this.simulator.getSecondArmy().copy());
+
+    // Create the new battle
     this.simulator.createBattle((String) terrainComboBox.getSelectedItem());
+
     updateAllGraphicalElements();
   }
 
@@ -118,7 +123,7 @@ public class SimulationController {
    * Simulates a battle between the armies in the simulator
    *
    */
-  public void simulateBattle(){
+  public void simulateBattle() throws InterruptedException {
     this.simulator.createBattle((String) terrainComboBox.getSelectedItem());
 
     Army winningArmy = this.simulator.battle();

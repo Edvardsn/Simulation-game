@@ -44,4 +44,14 @@ public class MockUnit extends Unit{
       attack(unit);
     }
   }
+
+  /**
+   * Copies the Actor
+   *
+   * @return A copied version of the actor
+   */
+  @Override
+  public Actor copy() {
+    return null;
+  }
 }

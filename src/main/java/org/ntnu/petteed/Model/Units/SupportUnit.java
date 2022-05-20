@@ -29,6 +29,15 @@ public class SupportUnit extends Unit {
   }
 
   /**
+   * Copy consturctor for supportUnit
+   *
+   * @param copy The unit to copy
+   */
+  public SupportUnit(Unit copy){
+    super(copy);
+  }
+
+  /**
    * Represents when an entity acts
    *
    * @param target Optional target for actions
@@ -36,6 +45,16 @@ public class SupportUnit extends Unit {
   @Override
   public void act(Object target) {
    shieldAlly();
+  }
+
+  /**
+   * Copies the Actor
+   *
+   * @return A copied version of the actor
+   */
+  @Override
+  public Actor copy() {
+    return new SupportUnit(this);
   }
 
   /**

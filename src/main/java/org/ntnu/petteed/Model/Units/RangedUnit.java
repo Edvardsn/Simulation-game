@@ -1,5 +1,6 @@
 package org.ntnu.petteed.Model.Units;
 
+import org.ntnu.petteed.Model.Actor;
 import org.ntnu.petteed.Model.Unit;
 
 /**
@@ -22,6 +23,15 @@ public class RangedUnit extends Unit {
    */
   public RangedUnit(String name, int health) {
     super(name, health, ATTACK_VALUE, ARMOUR_VALUE);
+  }
+
+  /**
+   * Copy constructor for RangedUnit
+   *
+   * @param unit The unit to copy
+   */
+  public RangedUnit(Unit unit){
+    super(unit);
   }
 
   /**
@@ -61,4 +71,13 @@ public class RangedUnit extends Unit {
     return resistBonus;
   }
 
+  /**
+   * Copies the Actor
+   *
+   * @return A copied version of the actor
+   */
+  @Override
+  public Actor copy() {
+    return new RangedUnit(this);
+  }
 }

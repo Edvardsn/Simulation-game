@@ -50,7 +50,7 @@ public class Battle {
    *
    * @return {@code Army}, Returns the winning army
    */
-  public Army simulate() {
+  public Army battle() {
 
     boolean battling = true;
     Army winner = null;
@@ -76,6 +76,7 @@ public class Battle {
     }
     return winner;
   }
+
 
   /**
    * Returns a collection of the members of the battle

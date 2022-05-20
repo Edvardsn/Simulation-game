@@ -3,6 +3,7 @@ package org.ntnu.petteed.Model.Units;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import org.ntnu.petteed.Model.Actor;
 import org.ntnu.petteed.Model.BurnEffect;
 import org.ntnu.petteed.Model.EventListener;
 import org.ntnu.petteed.Model.FreezeEffect;
@@ -31,6 +32,14 @@ public class MageUnit extends Unit {
   }
 
   /**
+   * Copy constructor of MageUnit
+   *
+   * @param unit The unit to copy
+   */
+  public MageUnit(Unit unit){
+    super(unit);
+  }
+  /**
    * @param target Optional target for actions
    */
   @Override
@@ -40,6 +49,16 @@ public class MageUnit extends Unit {
     if(target instanceof Unit unit){
       unit.eventManager.addEventListener(castRandomSpell());
     }
+  }
+
+  /**
+   * Copies the Actor
+   *
+   * @return A copied version of the actor
+   */
+  @Override
+  public Actor copy() {
+    return new MageUnit(this);
   }
 
   /**

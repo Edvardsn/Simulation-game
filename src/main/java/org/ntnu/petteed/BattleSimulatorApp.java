@@ -17,8 +17,8 @@ public class BattleSimulatorApp {
   public static void main(String[] args) {
     MainWindow.main(args);
 //    try {
-//      Army humans = new Army("Humans", UnitFactory.createUnits(10,"Dude", 100, UnitType.INFANTRY_UNIT));
-//      Army orcs = new Army("Orcs",UnitFactory.createUnits(10,"Dude", 100, UnitType.INFANTRY_UNIT));
+//      Army humans = new Army("Humans", ActorFactory.createUnits(10,"Dude", 100, UnitType.INFANTRY_UNIT));
+//      Army orcs = new Army("Orcs",ActorFactory.createUnits(10,"Dude", 100, UnitType.INFANTRY_UNIT));
 //      Battle battle = new Battle(humans, orcs,new Terrain("FOREST"));
 //
 //      Army winningArmy = battle.simulate();
@@ -28,7 +28,7 @@ public class BattleSimulatorApp {
 //      System.out.println(e.getMessage());
 //    }
 //
-//    List<Unit> unitList = UnitFactory.createUnits(5,"test",100, UnitType.MAGEUNIT);
+//    List<Unit> unitList = ActorFactory.createUnits(5,"test",100, UnitType.MAGEUNIT);
 //    unitList.forEach(System.out::println);
   }
 }

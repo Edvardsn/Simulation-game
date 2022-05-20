@@ -112,7 +112,7 @@ public class FileHandler {
           String unitName = unitData.get(1);
           int unitHealth = Integer.parseInt(unitData.get(2));
 
-          Unit newUnit = UnitFactory.createSingleUnit(ActorType.valueOfString(unitType), unitName, unitHealth);
+          Actor newUnit = ActorFactory.createSingleUnit(ActorType.valueOfString(unitType), unitName, unitHealth);
           newArmy.addActor(newUnit);
         }
       }

@@ -38,6 +38,15 @@ public class CavalryUnit extends Unit {
   }
 
   /**
+   * Copy constructor for CavalryUnit
+   *
+   * @param unit The unit to copy
+   */
+  public CavalryUnit(Unit unit){
+    super(unit);
+  }
+
+  /**
    * Returns the bonus attack
    *
    * @return The bonus attack
@@ -73,4 +82,13 @@ public class CavalryUnit extends Unit {
     return finalResistanceBonus;
   }
 
+  /**
+   * Copies the Actor
+   *
+   * @return A copied version of the actor
+   */
+  @Override
+  public Actor copy() {
+    return new CavalryUnit(this);
+  }
 }

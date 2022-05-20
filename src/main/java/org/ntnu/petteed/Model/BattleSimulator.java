@@ -48,6 +48,12 @@ public interface BattleSimulator {
 
   public Army getSecondArmy();
 
+  public void setFirstArmy(Army firstArmy);
+
+  public void setSecondArmy(Army secondArmy);
+
+
+
   /**
    * Returns an iterator of the first army in the simulator
    *

@@ -1,6 +1,5 @@
 package org.ntnu.petteed.Model;
 
-import java.util.Objects;
 
 /**
  * A class that represents a single unit and all of its characteristics
@@ -52,6 +51,42 @@ public abstract class Unit implements Actor {
     this.receivedAttacks = 0;
     this.initiatedAttacks = 0;
     this.eventManager = new EventManager();
+  }
+
+  public int getReceivedAttacks() {
+    return receivedAttacks;
+  }
+
+  public int getInitiatedAttacks() {
+    return initiatedAttacks;
+  }
+
+  public Army getCurrentArmy() {
+    return currentArmy;
+  }
+
+  public EventManager getEventManager() {
+    return eventManager;
+  }
+
+  /**
+   * Creates a copy of given unit
+   *
+   * @param unit The unit to copy
+   */
+  protected Unit(Unit unit){
+    this.name = unit.getName();
+    this.health = unit.getHealth();
+    this.attackValue = unit.getAttackValue();
+    this.armour = unit.getArmour();
+    this.temporaryAttackValue = unit.getTemporaryAttackValue();
+    this.temporaryDefenseValue = unit.getTemporaryDefenseValue();
+    this.receivedAttacks = unit.getReceivedAttacks();
+    this.initiatedAttacks = unit.getInitiatedAttacks();
+    this.currentArmy = unit.getCurrentArmy();
+    this.eventManager = unit.getEventManager();
+    this.isAlive = unit.isAlive();
+    this.currentTerrain = unit.getCurrentTerrain();
   }
 
   /**
@@ -117,7 +152,7 @@ public abstract class Unit implements Actor {
    */
   protected void attack(Unit opponent) {
 
-    if (opponent != null && this.isAlive() && !(opponent.equals(this))) {
+    if (opponent != null && this.isAlive() && !(opponent.equals(this))){ //!(opponent.equals(this)
 
       eventManager.notifyListeners(new ActionEvent(this));
 
@@ -213,6 +248,7 @@ public abstract class Unit implements Actor {
     return "Unit{" + "name='" + name + '\'' + ", health=" + health + ", attack=" + attackValue +
         ", armour=" + armour + '}';
   }
+
 
   /**
    * Returns the current terrain a unit occupies

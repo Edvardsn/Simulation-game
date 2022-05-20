@@ -1,7 +1,5 @@
 package org.ntnu.petteed.Model.Units;
 
-import org.ntnu.petteed.Model.Unit;
-
 /**
  * Represents a unit of the Commander type
  *

@@ -13,25 +13,25 @@ import org.ntnu.petteed.Model.Units.SupportUnit;
  * A factory used to create instances of units
  *
  */
-public class UnitFactory {
+public class ActorFactory {
 
-  private static UnitFactory instance = null;
+  private static ActorFactory instance = null;
 
   /**
    * Creates a unit factory
    *
    */
-  private UnitFactory(){
+  private ActorFactory(){
   }
 
   /**
-   * Creates an instance of UnitFactory given that no other instance exists.
+   * Creates an instance of ActorFactory given that no other instance exists.
    *
    * @return The new or existing unit factory
    */
-  public static UnitFactory getInstance() {
+  public static ActorFactory getInstance() {
     if (instance == null) {
-      instance = new UnitFactory();
+      instance = new ActorFactory();
     }
     return instance;
   }
@@ -58,6 +58,16 @@ public class UnitFactory {
 
   public static Unit createSupportUnit(String name,int health){
     return new SupportUnit(name, health);
+  }
+
+  /**
+   * Returns a copy of given actor
+   *
+   * @param actor The actor to create a new instance of
+   * @return A copy of the given actor
+   */
+  public static Actor copy(Actor actor){
+    return actor.copy();
   }
 
   /**

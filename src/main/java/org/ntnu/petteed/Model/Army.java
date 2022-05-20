@@ -69,16 +69,34 @@ public class Army {
   public Army(Army army){
     this.name = army.getName();
     this.actors = army.getCopiedActors();
-    this.currentTerrain = new Terrain(army.getCurrentTerrain().getTerrainName());
+    if(this.currentTerrain != null){
+      this.currentTerrain = new Terrain(army.getCurrentTerrain().getTerrainName());
+    }
   }
 
+  /**
+   * Copies actors in army
+   *
+   * @return A list of army's copied actors
+   */
   private ArrayList<Actor> getCopiedActors() {
+
     ArrayList<Actor> copiedActors = new ArrayList<>();
 
     for(Actor actor : actors){
-      copiedActors.add(actor.copy());
+      copiedActors.add(ActorFactory.copy(actor));
     }
 
+    return copiedActors;
+  }
+
+  /**
+   * Returns a copy of this army
+   *
+   * @return A copy of this army
+   */
+  public Army copy(){
+    return new Army(this);
   }
 
   /**
