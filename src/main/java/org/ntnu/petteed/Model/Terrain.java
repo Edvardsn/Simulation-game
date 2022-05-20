@@ -14,7 +14,7 @@ public class Terrain{
   private final String terrainName;
 
   private final int STANDARD_TERRAIN_VALUE = 4;
-  private static final String[] terrainIdentities = {"FOREST","PLAINS","HILLS"};
+  private static final String[] terrainIdentities = {"Forest","Plains","Hills"};
 
   private final HashMap<String,Integer> terrainValue;
 

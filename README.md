@@ -2,6 +2,9 @@
 prosjekt-wargames-2022-Edvardsn created by GitHub Classroom
 A game called Wargame
 
+
+håndtering av flere armeer, system for å lagre nåværende armeer må da endres.
+
 Spørsmål:
 
 Random klasse, random factory

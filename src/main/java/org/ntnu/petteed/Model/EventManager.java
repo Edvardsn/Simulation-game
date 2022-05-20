@@ -2,12 +2,11 @@ package org.ntnu.petteed.Model;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * This class serves the purpose of managing subscribers/listeners that wishes to be notified in the
  * event of any change in state regarding other objects.
- *
- * Only deals with actionEvents for now, but can easily be expanded.
  *
  * @author Student number
  * @version 02/05/22
@@ -16,12 +15,15 @@ public class EventManager {
 
   private final Collection<EventListener> listeners;
 
+  private final Collection<EventListener> listenersToBeRemoved;
+
   /**
    * Creates an event manager
    *
    */
   public EventManager() {
     listeners = new HashSet<>();
+    listenersToBeRemoved = new HashSet<>();
   }
 
   /**
@@ -59,7 +61,7 @@ public class EventManager {
    *                   <code>Listener </code> to be removed.
    */
   public void removeEventListener(EventListener listener) {
-    this.listeners.remove(listener);
+    this.listenersToBeRemoved.add(listener);
   }
 
   /**
@@ -68,15 +70,54 @@ public class EventManager {
    * @param event The event to notify the listeners
    */
   public void notifyListeners(Event event){
-    if(event instanceof ActionEvent actionEvent){
-      listeners.stream()
-          .filter(ActionEventListener.class::isInstance)
-          .forEach(eventListener -> ((ActionEventListener) eventListener).handleActionEvent(actionEvent));
+
+    listenersToBeRemoved.forEach(listeners::remove);
+
+    Iterator<EventListener> eventListenerIterator = listeners.iterator();
+
+    while(eventListenerIterator.hasNext()){
+
+      EventListener eventListener = eventListenerIterator.next();
+
+      if(eventListener instanceof ActionEventListener actionEventListener && (event instanceof ActionEvent actionEvent)){
+        actionEventListener.handleActionEvent(actionEvent);
+      }
+
+      if(eventListener instanceof HealthEventListener healthEventListener && (event instanceof HealthEvent healthEvent)){
+          healthEventListener.handleHealthEvent(healthEvent);
+      }
     }
-    if(event instanceof HealthEvent healthEvent){
-      listeners.stream()
-          .filter(HealthEventListener.class::isInstance)
-          .forEach(eventListener -> ((HealthEventListener) eventListener).handleHealthEvent(healthEvent));
-    }
+
+//    if(event instanceof ActionEvent actionEvent){
+//
+//      for(Iterator<EventListener> eventListenerIterator = listeners.iterator(); eventListenerIterator.hasNext();){
+//
+//        EventListener eventListener = eventListenerIterator.next();
+//
+//        if(!(eventListener instanceof ActionEvent actionEvent1)) {
+//          eventListenerIterator.remove(eventListener);
+//        }
+//
+//        if(eventListener instanceof  ActionEventListener actionEventListener){
+//          actionEventListener.handleActionEvent(actionEvent);
+//        }
+//      }
+//      listeners.stream()
+//          .filter(ActionEventListener.class::isInstance)
+//          .forEach(eventListener -> ((ActionEventListener) eventListener).handleActionEvent(actionEvent));
+//    }
+//    if(event instanceof HealthEvent healthEvent){
+//      for(Iterator<EventListener> eventListenerIterator = listeners.iterator(); eventListenerIterator.hasNext();){
+//
+//        EventListener eventListener = eventListenerIterator.next();
+//
+//        if(eventListener instanceof  HealthEventListener healthEventListener){
+//          healthEventListener.handleHealthEvent(healthEvent);
+//        }
+//      }
+
+//      listeners.stream()
+//          .filter(HealthEventListener.class::isInstance)
+//          .forEach(eventListener -> ((HealthEventListener) eventListener).handleHealthEvent(healthEvent));
   }
 }

@@ -38,6 +38,7 @@ public class RandomFactory {
    * @return The random value
    */
   public static int getRandomInteger(int integer){
+    RandomFactory.getInstance();
     return randomGenerator.nextInt(integer);
   }
 

@@ -1,5 +1,6 @@
 package org.ntnu.petteed.Model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -23,20 +24,6 @@ public class Army {
   /**
    * Creates and instance of an Army
    *
-   * @param name The name of the army
-   *
-   */
-  public Army(String name) throws IllegalArgumentException {
-    if (name != null) {
-      this.name = name;
-    } else {
-      throw new IllegalArgumentException("Cannot create an Army without a name");
-    }
-  }
-
-  /**
-   * Creates and instance of an Army
-   *
    * @param name  The name of the army
    * @param actors The list of units in the army
    *
@@ -53,6 +40,45 @@ public class Army {
     } else {
       throw new IllegalArgumentException("Cannot create an Army without any units");
     }
+  }
+
+  /**
+   * Creates and instance of an Army without actors
+   *
+   * @param name The name of the army
+   *
+   */
+  public Army(String name) throws IllegalArgumentException {
+    if (name != null) {
+      this.name = name;
+    } else {
+      throw new IllegalArgumentException("Cannot create an Army without a name");
+    }
+  }
+
+
+  public Terrain getCurrentTerrain() {
+    return currentTerrain;
+  }
+
+  /**
+   * Copy constructor for copying another army
+   *
+   * @param army The army to copy
+   */
+  public Army(Army army){
+    this.name = army.getName();
+    this.actors = army.getCopiedActors();
+    this.currentTerrain = new Terrain(army.getCurrentTerrain().getTerrainName());
+  }
+
+  private ArrayList<Actor> getCopiedActors() {
+    ArrayList<Actor> copiedActors = new ArrayList<>();
+
+    for(Actor actor : actors){
+      copiedActors.add(actor.copy());
+    }
+
   }
 
   /**
@@ -74,7 +100,9 @@ public class Army {
    * @param army The army to attack
    */
   public void act(Army army){
-    army.getRandom().act(army.getRandom());
+    if(this.getRandom() != null && army.getRandom() != null){
+      this.getRandom().act(army.getRandom());
+    }
   }
 
   /**
@@ -82,7 +110,7 @@ public class Army {
    *
    * @return The unis in the army
    */
-  public Collection<Actor> getAll() {
+  public Collection<Actor> getActors() {
     return actors;
   }
 
@@ -91,29 +119,29 @@ public class Army {
    *
    * @return The iterator of the collection of units
    */
-  public Iterator<Actor> getActorIterator(){
-    return getAll().iterator();
+  public Iterator<Actor> getArmyActorIterator(){
+    return getActors().iterator();
   }
 
   /**
    * Adds a unit to the army
    *
-   * @param unit The unit to be added
+   * @param actor The unit to be added
    */
-  public void addUnit(Unit unit){
-    if(unit != null){
-      getAll().add(unit);
+  public void addActor(Actor actor){
+    if(actor != null){
+      getActors().add(actor);
     }
   }
 
   /**
    * Removes the specified unit from army
    *
-   * @param unit Unit to be removed
+   * @param actor Unit to be removed
    */
-  public void remove(Unit unit) {
-    if (unit != null) {
-      actors.remove(unit);
+  public void remove(Actor actor) {
+    if (actor != null) {
+      actors.remove(actor);
     }
   }
 
@@ -159,11 +187,12 @@ public class Army {
       return null;
     }
 
-    Actor randomActor = actors
+    List<Actor> aliveActors = actors
           .stream()
           .filter(Actor::isAlive)
-          .toList()
-          .get(RandomFactory.getRandomInteger(actors.size()));
+          .toList();
+
+    Actor randomActor = aliveActors.get(RandomFactory.getRandomInteger(aliveActors.size()));
 
     return randomActor;
   }
@@ -262,4 +291,4 @@ public class Army {
         "}'";
   }
 
-}
+  }

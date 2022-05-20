@@ -63,16 +63,16 @@ public class UnitFactory {
   /**
    * Creates unit of specified type, Name and Health.
    *
+   * @param actorType The class of the unit
    * @param name The name of the unit
    * @param health The health of the unit
-   * @param unitType The class of the unit
    * @return The unit created
    */
-  public static Unit createSingleUnit(String name, int health, UnitType unitType)
+  public static Unit createSingleUnit(ActorType actorType, String name, int health)
   {
     Unit desiredUnit = null;
 
-      switch (unitType) {
+      switch (actorType) {
         case INFANTRY_UNIT -> desiredUnit = new InfantryUnit(name, health);
         case RANGED_UNIT -> desiredUnit = new RangedUnit(name, health);
         case CAVALRY_UNIT -> desiredUnit = new CavalryUnit(name, health);
@@ -90,18 +90,18 @@ public class UnitFactory {
    * @param numberOfUnits The number of units to create exclusive given number
    * @param name The name of the units
    * @param health The health of the units
-   * @param unitType The class of the units
+   * @param actorType The class of the units
    * @return A {@code List} of the units created
    */
   // !!!!!! Sjekk at break i case
-  public static Collection<Actor> createUnits(int numberOfUnits, String name, int health, UnitType unitType)
+  public static Collection<Actor> createUnits(int numberOfUnits, String name, int health, ActorType actorType)
      {
        int counter = 0;
 
        Collection<Actor> listOfUnits = new ArrayList<>();
 
        while(counter < numberOfUnits) {
-         switch (unitType) {
+         switch (actorType) {
            case INFANTRY_UNIT -> listOfUnits.add(new InfantryUnit(name, health));
            case RANGED_UNIT -> listOfUnits.add(new RangedUnit(name, health));
            case CAVALRY_UNIT -> listOfUnits.add(new CavalryUnit(name, health));

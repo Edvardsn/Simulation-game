@@ -32,8 +32,8 @@ public class Battle {
    * @param armyTwo The second battling army
    */
   public Battle(Army armyOne, Army armyTwo, Terrain battleTerrain) throws IllegalArgumentException {
-    if (armyOne.getAll() == null ||
-        armyTwo.getAll() == null) {
+    if (armyOne.getActors() == null ||
+        armyTwo.getActors() == null) {
       throw new IllegalArgumentException(
           "Invalid parameters in constructor for Battle");
     } else {

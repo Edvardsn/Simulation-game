@@ -44,7 +44,7 @@ public class SupportUnit extends Unit {
    */
   public void shieldAlly(){
 
-    List<Actor> units = this.currentArmy.getAll()
+    List<Actor> units = this.currentArmy.getActors()
         .stream()
         .filter(Unit.class::isInstance)
         .toList();

@@ -17,4 +17,11 @@ public interface Actor {
    */
   boolean isAlive();
 
+  /**
+   * Copies the Actor
+   *
+   * @return A copied version of the actor
+   */
+  Actor copy();
+
 }

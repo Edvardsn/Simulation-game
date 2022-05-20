@@ -1,6 +1,6 @@
 package org.ntnu.petteed.Model;
 
-public enum UnitType {
+public enum ActorType {
 
   INFANTRY_UNIT("InfantryUnit"), RANGED_UNIT("RangedUnit"), CAVALRY_UNIT("CavalryUnit"), COMMANDER_UNIT("CommanderUnit"),
   MAGE_UNIT("MageUnit"),SUPPORT_UNIT("SupportUnit");
@@ -12,7 +12,7 @@ public enum UnitType {
    *
    * @param unitType The type of unit to refer to
    */
-  UnitType(String unitType) {
+  ActorType(String unitType) {
     this.typeOfUnit = unitType;
   }
 
@@ -24,4 +24,20 @@ public enum UnitType {
   {
     return typeOfUnit;
   }
+
+  /**
+   * Returns the UnitType corresponding to given string
+   *
+   * @param string The string which unitType to get value of
+   * @return The unittype of the string, or null if nonexistent.
+   */
+  public static ActorType valueOfString(String string){
+    for(ActorType type : values()){
+      if(type.toString().equals(string)){
+        return type;
+      }
+    }
+    return null;
+  }
+
 }

@@ -1,5 +1,7 @@
 package org.ntnu.petteed.Model;
 
+import java.util.Objects;
+
 /**
  * A class that represents a single unit and all of its characteristics
  *
@@ -42,6 +44,9 @@ public abstract class Unit implements Actor {
     } else {
       this.health = health;
     }
+    if(health == 0){
+      this.isAlive = false;
+    }
     this.attackValue = attackValue;
     this.armour = armour;
     this.receivedAttacks = 0;
@@ -72,11 +77,11 @@ public abstract class Unit implements Actor {
 
     eventManager.notifyListeners(new HealthEvent(this));
 
-    if (newHealth < 0) { // Could e.g be a death event
+    if (newHealth < 0 || newHealth == 0) { // Could e.g be a death event
       this.health = 0;
       isAlive = false;
     }else {
-      this.setHealth(newHealth);
+      this.health = newHealth;
     }
   }
 
@@ -302,4 +307,17 @@ public abstract class Unit implements Actor {
 
     return newTotalAttackValue;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Unit)) {
+      return false;
+    }
+    Unit unit = (Unit) o;
+    return getName().equals(unit.getName()) && currentArmy.equals(unit.currentArmy);
+  }
+
 }
