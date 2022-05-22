@@ -164,7 +164,7 @@ public class Army {
   public boolean hasHealthyActors() {
     return actors
         .stream()
-        .anyMatch(actor -> (actor instanceof Unit unit && unit.isAlive()));
+        .anyMatch(Actor::isAlive);
   }
 
   /**

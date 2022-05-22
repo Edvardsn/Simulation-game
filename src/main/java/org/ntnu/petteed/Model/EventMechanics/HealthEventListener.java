@@ -6,8 +6,4 @@ package org.ntnu.petteed.Model.EventMechanics;
  *
  */
 public interface HealthEventListener extends EventListener{
-
-  @Override
-  void handleEvent(Event event);
-
 }

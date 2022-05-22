@@ -145,13 +145,13 @@ public abstract class Unit implements Actor {
    */
   protected void attack(Unit opponent) {
 
-    if (opponent != null && this.isAlive() && !(opponent.equals(this))){ //!(opponent.equals(this)
+    if (opponent != null && this.isAlive() && !(opponent.equals(this))){
 
       eventManager.notifyListeners(new ActionEvent(this));
 
-      opponent.receiveAttack(new Attack(this.getTotalAttackDamage())); // endre navn
+      opponent.receiveAttack(new Attack(this.getTotalAttackDamage()));
 
-      this.incrementInitiatedAttacks(); // Registers initiated attack
+      incrementInitiatedAttacks(); // Registers initiated attack
     }
   }
 
