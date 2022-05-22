@@ -4,7 +4,7 @@ import java.io.IOException;
 
 /**
  * A InvalidInputException is an exception that indicates that invalid data has been
- * used as an input.
+ * inside file used as an input.
  */
 public class InvalidFileDataException extends IOException {
 

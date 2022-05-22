@@ -1,9 +1,15 @@
 package org.ntnu.petteed.Model;
 
+
+/**
+ * This class represents a "Mock Unit" which has the purpose of testing the unit class
+ * given that its abstract.
+ *
+ */
 public class MockUnit extends Unit{
 
   /**
-   * Creates an instance of Unit
+   * Creates an instance of MockUnit
    *
    * @param name The name of the unit
    * @param health The health of the unit
@@ -16,13 +22,23 @@ public class MockUnit extends Unit{
   }
 
   /**
+   * Copy constructor for the mock unit
+   *
+   * @param unit The unit to copy
+   */
+  public MockUnit(MockUnit unit){
+    super(unit);
+  }
+
+
+  /**
    * Returns the attack bonus of the unit
    *
    * @return The attack bonus of the unit
    */
   @Override
   public int getAttackBonus() {
-    return 5;
+    return 0;
   }
 
   /**
@@ -32,7 +48,7 @@ public class MockUnit extends Unit{
    */
   @Override
   public int getResistBonus() {
-    return 5;
+    return 0;
   }
 
   /**
@@ -52,6 +68,6 @@ public class MockUnit extends Unit{
    */
   @Override
   public Actor copy() {
-    return null;
+    return new MockUnit(this);
   }
 }

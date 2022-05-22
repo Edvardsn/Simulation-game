@@ -7,12 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import org.ntnu.petteed.Model.Units.*;
 
-
 /**
- * Represents an army of Units
- *
- * - Actors
- * - Terrain
+ * This class represents an army of Actors
  *
  */
 public class Army {
@@ -29,13 +25,12 @@ public class Army {
    *
    */
   public Army(String name, Collection<Actor> actors) throws IllegalArgumentException {
-    if (name != null && actors != null) {
+    if (name != null && !name.isBlank() && actors != null) {
       this.name = name;
       this.actors = actors;
 
-      initializeArmy();
-
-    } else if (name == null) { // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! OR BLANK
+      updateArmy();
+    } else if (name == null || name.isBlank()) {
       throw new IllegalArgumentException("Cannot create an Army without a name");
     } else {
       throw new IllegalArgumentException("Cannot create an Army without any units");
@@ -49,16 +44,11 @@ public class Army {
    *
    */
   public Army(String name) throws IllegalArgumentException {
-    if (name != null) {
+    if (name != null && !name.isBlank()) {
       this.name = name;
     } else {
       throw new IllegalArgumentException("Cannot create an Army without a name");
     }
-  }
-
-
-  public Terrain getCurrentTerrain() {
-    return currentTerrain;
   }
 
   /**
@@ -69,6 +59,7 @@ public class Army {
   public Army(Army army){
     this.name = army.getName();
     this.actors = army.getCopiedActors();
+
     if(this.currentTerrain != null){
       this.currentTerrain = new Terrain(army.getCurrentTerrain().getTerrainName());
     }
@@ -100,10 +91,10 @@ public class Army {
   }
 
   /**
-   * Initializes the army by giving the armies information to its actors
+   * Updates the army by giving the armies information to its actors
    *
    */
-  private void initializeArmy() {
+  private void updateArmy() {
     this.actors.forEach(actor -> {
       if (actor instanceof Unit unit ){
         unit.setCurrentArmy(this);
@@ -149,6 +140,8 @@ public class Army {
   public void addActor(Actor actor){
     if(actor != null){
       getActors().add(actor);
+
+      updateArmy();
     }
   }
 
@@ -186,13 +179,24 @@ public class Army {
   }
 
   /**
+   * Returns the current terrain of the army
+   *
+   * @return The current Terrain
+   */
+  public Terrain getCurrentTerrain() {
+    return currentTerrain;
+  }
+
+  /**
    * Sets the current terrain the army is occupying
    *
    * @param currentTerrain The new value of terrain
    */
   public void setCurrentTerrain(Terrain currentTerrain) {
-    this.currentTerrain = currentTerrain;
-    assignTerrain();
+    if(currentTerrain != null){
+      this.currentTerrain = currentTerrain;
+      assignTerrain();
+    }
   }
 
   /**
@@ -268,32 +272,22 @@ public class Army {
         .toList();
   }
 
-  /**
-   * Checks whether an army is equal to this
-   *
-   * @param o The object to check if equal to this
-   * @return True if the same, false if not.
-   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (!(o instanceof Army)) {
       return false;
     }
     Army army = (Army) o;
-    return Objects.equals(name, army.name) && Objects.equals(actors, army.actors);
+    return Objects.equals(getActors(), army.getActors()) &&
+        Objects.equals(getCurrentTerrain(), army.getCurrentTerrain());
   }
 
-  /**
-   * Returns a hashcode representing the army
-   *
-   * @return A hashcode representing the army
-   */
   @Override
   public int hashCode() {
-    return Objects.hash(name, actors);
+    return Objects.hash(getName());
   }
 
   /**

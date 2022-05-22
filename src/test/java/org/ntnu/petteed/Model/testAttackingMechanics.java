@@ -3,6 +3,8 @@ package org.ntnu.petteed.Model;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 import org.ntnu.petteed.Model.Units.CavalryUnit;
 import org.ntnu.petteed.Model.Units.InfantryUnit;
@@ -10,15 +12,23 @@ import org.ntnu.petteed.Model.Units.RangedUnit;
 
 
 /**
+ * This class performs the following tests to ensure that all attacking mechanics is behaving as intended.
+ *
  * Positive tests:
- * - test whether units have correct health after attacking
- * - test whether health is set to the right value
+ * <ul>
+ *   <li>testCorrectHealthAfterAttack, tests that another actor has correct health after an attack</li>
+ *   <li>testNonNegativeHealth, tests that the health cannot be set to a negative value</li>
+ *   <li>testRangedDefensiveBonus, tests that the ranged defensive bonus gives the right values</li>
+ *   <li>testCavalryOffensiveBonus, tests that the cavalry offensive bonus gives the right values</li>
+ * </ul>
  *-
  *
  * Negative tests:
- * ......
- *
- *  TEST UNIT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ABSTRACT
+ * <ul>
+ *   <li>testCannotAttackItself, tests that a unit cannot attack itself</li>
+ *   <li>testAttackingWhileDead, tests that a unit cannot attack whilst dead</li>
+ *   <li>testAttackingNull, tests that a unit cannot attack null</li>
+ * </ul>
  *
  */
 
@@ -30,8 +40,8 @@ public class testAttackingMechanics {
    */
   @Test
   public void testCorrectHealthAfterAttack() {
-    Unit attacker = new InfantryUnit("testGuy", 100);
-    Unit receiver = new InfantryUnit("poorVictim", 100);
+    Unit attacker = new MockUnit("attacker", 100,10,10);
+    Unit receiver = new MockUnit("reciver", 100,10,10);
 
     attacker.attack(receiver);
 
@@ -43,11 +53,11 @@ public class testAttackingMechanics {
    *
    */
   @Test
-   void testSetCorrectHealthValue() {
-    Unit unit = new InfantryUnit("unitsen", 100);
-    unit.setHealth(50);
+   void testNonNegativeHealthValue() {
+    Unit unit = new MockUnit("unit", 100,1,1);
+    unit.setHealth(-20);
 
-    assertEquals(50, unit.getHealth());
+    assertEquals(0, unit.getHealth());
   }
 
   /**
@@ -56,7 +66,7 @@ public class testAttackingMechanics {
    */
   @Test
    void testRangedUnitDefensiveBonus() {
-    RangedUnit unit1 = new RangedUnit("unisten", 100);
+    RangedUnit unit1 = new RangedUnit("unit", 100);
     RangedUnit unit2 = new RangedUnit("test", 100);
 
     assertEquals(6, unit1.getResistBonus()); // Checking resist bonus on first received attack
@@ -76,7 +86,7 @@ public class testAttackingMechanics {
    *
    */
   @Test
-   void testCavalryUnitAttackBonus() {
+   void testCavalryUnitOffensiveBonus() {
     CavalryUnit unit1 = new CavalryUnit("unit1", 100);
     CavalryUnit unit2 = new CavalryUnit("unit2", 100);
 
@@ -92,8 +102,8 @@ public class testAttackingMechanics {
    *
    */
   @Test
-   void testAttackingMyself(){
-    InfantryUnit unit = new InfantryUnit("unisten",100);
+   void testCannotAttackItself(){
+    MockUnit unit = new MockUnit("unit",100,1,1);
     unit.attack(unit);
     assertEquals(100,unit.getHealth());
   }
@@ -104,8 +114,8 @@ public class testAttackingMechanics {
    */
   @Test
    void testAttackingWhileDead(){
-    CavalryUnit unit1 = new CavalryUnit("unit1", 0);
-    CavalryUnit unit2 = new CavalryUnit("unit2", 100);
+    MockUnit unit1 = new MockUnit("unit1", 0,1,1);
+    MockUnit unit2 = new MockUnit("unit2", 100,1,1);
 
     unit1.attack(unit2);
     assertEquals(100,unit2.getHealth());
@@ -117,7 +127,7 @@ public class testAttackingMechanics {
    */
   @Test
    void testAttackingNull(){
-    Unit unit = new InfantryUnit("unitsen", 100);
+    Unit unit = new MockUnit("unitsen", 100,1,1);
     unit.attack(null);
   }
 }

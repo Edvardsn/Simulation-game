@@ -5,13 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Represents a battle between two armies
- *
- * Info:
- * - Armies
- * - Army dead?
- * - Armies fight
- * - Terrain of battle
+ * Represents a battle between two armies and its surrounding information
  *
  */
 public class Battle {
@@ -35,14 +29,18 @@ public class Battle {
     if (armyOne.getActors() == null ||
         armyTwo.getActors() == null) {
       throw new IllegalArgumentException(
-          "Invalid parameters in constructor for Battle");
-    } else {
+          "Cannot create a battle without two valid armies");
+    }
+      if(battleTerrain == null || battleTerrain.getTerrainName().isBlank()){
+        throw new IllegalArgumentException("Cannot create a battle in a nonexistent terrain");
+      }
+
       this.armyOne = armyOne;
       this.armyTwo = armyTwo;
       this.terrain = battleTerrain;
 
       assignTerrain();
-    }
+
   }
 
   /**
@@ -60,15 +58,15 @@ public class Battle {
       armiesBattle();
 
       switch (getCombatScenario()) {
+        case TIE -> {
+          battling = false;
+        }
         case ARMY_ONE_WINNER -> {
           winner = armyOne;
           battling = false;
         }
         case ARMY_TWO_WINNER -> {
           winner = armyTwo;
-          battling = false;
-        }
-        case TIE -> {
           battling = false;
         }
         default -> {}
@@ -99,7 +97,7 @@ public class Battle {
   }
 
   /**
-   * Initiates one iteration of a battle between the two armies in the battle
+   * Initiates one random iteration of an action between the two armies in the battle
    *
    */
   public void armiesBattle() {
@@ -121,15 +119,40 @@ public class Battle {
 
     int scenario = 0;
 
-    if (!this.armyTwo.hasHealthyActors()) {
-      scenario = ARMY_ONE_WINNER;
+    if (!(this.armyOne.hasHealthyActors()) && !(this.armyTwo.hasHealthyActors())){
+      scenario = TIE;
     } else if (!this.armyOne.hasHealthyActors()) {
       scenario = ARMY_TWO_WINNER;
-    } else if (!(this.armyOne.hasHealthyActors()) && !(this.armyTwo.hasHealthyActors())) {
-      scenario = TIE;
+    } else if (!this.armyTwo.hasHealthyActors()) {
+      scenario = ARMY_ONE_WINNER;
     }
 
     return scenario;
   }
 
+  /**
+   * Returns the army number one in the battle
+   *
+   * @return The army number one in the battle
+   */
+  public Army getArmyOne() {
+    return armyOne;
+  }
+  /**
+   * Returns the army number two in the battle
+   *
+   * @return The army number two in the battle
+   */
+  public Army getArmyTwo() {
+    return armyTwo;
+  }
+
+  /**
+   * Returns the terrain of the battle
+   *
+   * @return The terrain of the battle
+   */
+  public Terrain getTerrain() {
+    return terrain;
+  }
 }

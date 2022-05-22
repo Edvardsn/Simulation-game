@@ -7,7 +7,7 @@ import org.ntnu.petteed.Model.Unit;
  * Represents a unit of the Infantry type
  *
  */
-public class InfantryUnit extends Unit implements Actor {
+public class InfantryUnit extends Unit {
 
   private static final int ATTACK_VALUE = 15;
   private static final int ARMOUR_VALUE = 10;

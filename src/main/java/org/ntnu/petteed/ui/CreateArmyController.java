@@ -160,9 +160,9 @@ public class CreateArmyController {
    * Updates the observableList to the current state of the simulator
    *
    */
-  private void updateObeservableList() {
+  private void updateObeservableList()  {
     this.actorObservableList.clear();
-    this.actorObservableList.addAll(this.simulator.getCurrentArmy().getActors());
+    this.actorObservableList.addAll(this.simulator.getCurrentHighlightedActors());
   }
 
   /**
@@ -184,6 +184,8 @@ public class CreateArmyController {
         clearCurrentArmy();
 
         this.simulator.importArmy(loadedArmy);
+        this.armyNameField.setText(loadedArmy.getName());
+        this.armyNameLabel.setText(loadedArmy.getName());
 
         updateObeservableList();
 
@@ -193,41 +195,63 @@ public class CreateArmyController {
     }
   }
 
-  public void exportArmyButtonPressed(ActionEvent actionEvent){
-    FileChooser fileChooser = new FileChooser();
-    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
-    fileChooser.getExtensionFilters().add(extFilter);
+  /**
+   * Exports the current army to a CSV file
+   *
+   * @param actionEvent The event triggering the export
+   */
+  public void exportArmyButtonPressed(ActionEvent actionEvent) throws IOException {
+    if(this.simulator.validCurrentArmy()) {
 
-    File file = fileChooser.showSaveDialog(null);
-    if(file != null){
-      try{
-        FileHandler.writeToFile(file,simulator.getCurrentArmy());
-      } catch (IOException e) {
-        e.printStackTrace();
+      FileChooser fileChooser = new FileChooser();
+      FileChooser.ExtensionFilter extFilter =
+          new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
+      fileChooser.getExtensionFilters().add(extFilter);
+
+
+      File file = fileChooser.showSaveDialog(null);
+      if (file != null) {
+        try {
+
+          FileHandler.writeToFile(file,
+              new Army(getArmyNameFieldText(), this.simulator.getCurrentHighlightedActors()));
+          this.simulator.resetArmy();
+          updateObeservableList();
+
+
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
     }
   }
+
 
   /**
    * Adds a given number of actors based on the data obtained from the user
    *
    */
   public void addActorButtonPressed(){
+    try {
+      if (getSelectedMfxCheckboxes().count() > 1 ||
+          getSelectedMfxCheckboxes().findAny().isEmpty()) {
+        showCheckBoxAlert();
+      } else {
+        String unitType = getSelectedMfxCheckboxes().findFirst().get().getText();
+        int unitAmount = Integer.parseInt(getUnitAmountFieldText());
+        String unitName = getUnitNameField();
+        int unitHealth = Integer.parseInt(getUnitHealthFieldText());
 
-    if(getSelectedMfxCheckboxes().count() > 1 || getSelectedMfxCheckboxes().findAny().isEmpty()){
-      showCheckBoxAlert();
-    }
-    else{
-      String unitType = getSelectedMfxCheckboxes().findFirst().get().getText();
-      int unitAmount = Integer.parseInt(unitAmountField.getText());
-      String unitName = unitNameField.getText();
-      int unitHealth = Integer.parseInt(unitHealthField.getText());
+        this.simulator.addActors(unitAmount, unitName, unitHealth,
+            ActorType.valueOfString(unitType));
 
-      this.simulator.addActors(unitAmount,unitName,unitHealth,ActorType.valueOfString(unitType));
-
-      updateObeservableList();
+        updateObeservableList();
+      }
+    } catch (IllegalArgumentException exception){
+      showUserInputAlert(exception.getMessage());
     }
   }
+
 
   /**
    * Returns a stream of the current selected Checkboxes related to actor creation
@@ -264,13 +288,33 @@ public class CreateArmyController {
    * Creates the current army being edited
    *
    */
-  public void finishArmyButtonPressed(ActionEvent event){
-    this.simulator.createArmy(armyNameField.getText(),simulator.getCurrentArmy().getActors());
-    clearCurrentArmy();
+  public void finishArmyButtonPressed(ActionEvent event) throws IOException {
+    try{
+      this.simulator.createArmy(getArmyNameFieldText());
+      clearCurrentArmy();
+      this.armyNameField.clear();
+      this.armyNameLabel.setText("Second Army");
 
-    if(this.simulator.getNumberOfArmies() == 2){
-      openSimulationScene(event);
+      if(this.simulator.getNumberOfArmies() == 2){
+        openSimulationScene(event);
+      }
     }
+   catch (IOException e){
+      showUserInputAlert(e.getMessage());
+   }
+  }
+
+  /**
+   * Alerts the user when invalid input has been input
+   *
+   * @param message A message of what triggered the input alert
+   */
+  private void showUserInputAlert(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Input Error");
+    alert.setHeaderText("Input Error");
+    alert.setContentText(message);
+    alert.showAndWait();
   }
 
   /**
@@ -297,8 +341,6 @@ public class CreateArmyController {
    * @param event The event where the user presses the template button
    */
   public void templateButtonPressed(ActionEvent event) {
-    clearCurrentArmy();
-
     this.simulator.addActors(5,"Infantry",100, ActorType.INFANTRY_UNIT);
     this.simulator.addActors(3,"Ranged",100, ActorType.RANGED_UNIT);
     this.simulator.addActors(3,"Cavalry",100, ActorType.CAVALRY_UNIT);
@@ -314,17 +356,43 @@ public class CreateArmyController {
    *
    * @param keyEvent The event where the user enters the army's new name
    */
-  public void updateArmyName(KeyEvent keyEvent) {
-    String armyName = armyNameField.getText();
+  public void updateArmyName(KeyEvent keyEvent) throws IOException {
+    String armyName = getArmyNameFieldText();
     armyNameLabel.setText(armyName);
   }
 
   /**
-   * Returns the list of observable actors
+   * Returns the string value of the army name field in the GUI.
    *
-   * @return The list of observable actors
+   * @return The name in the army name field
+   * @throws IllegalArgumentException
    */
-  public ObservableList<Actor> getActorObservableList() {
-    return actorObservableList;
+  private String getArmyNameFieldText() throws IOException {
+    if(this.armyNameField.getText().isBlank() || this.armyNameField.getText() == null ){
+      throw new IOException("An army needs a name to be created");
+    }
+    return armyNameField.getText();
   }
+
+  private String getUnitNameField() {
+    if(unitNameField.getText().isBlank()){
+      throw new IllegalArgumentException("Cannot create a unit without a name, please enter a name");
+    }
+    return this.unitNameField.getText();
+  }
+
+  private String getUnitHealthFieldText() {
+    if(unitHealthField.getText().isBlank()){
+      throw new IllegalArgumentException("Cannot create a unit without any health, please enter a valid value");
+    }
+    return this.unitHealthField.getText();
+  }
+
+  private String getUnitAmountFieldText() {
+    if(unitAmountField.getText().isBlank() || Integer.parseInt(unitAmountField.getText()) <= 0){
+      throw new IllegalArgumentException("Invalid amount of units to be created entered, please enter a valid amount");
+    }
+    return this.unitAmountField.getText();
+  }
+
 }

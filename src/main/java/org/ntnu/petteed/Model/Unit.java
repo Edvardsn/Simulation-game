@@ -1,11 +1,15 @@
 package org.ntnu.petteed.Model;
 
+import java.util.Objects;
+import org.ntnu.petteed.Model.EventMechanics.ActionEvent;
+import org.ntnu.petteed.Model.EventMechanics.EventManager;
+import org.ntnu.petteed.Model.EventMechanics.HealthEvent;
 
 /**
- * A class that represents a single unit and all of its characteristics
+ * A class that represents a single unit which is an actor that engages in combat
  *
  * @author Student number
- * @version 03/05/22
+ * @version 21/05/22
  */
 public abstract class Unit implements Actor {
 
@@ -33,40 +37,29 @@ public abstract class Unit implements Actor {
    * @throws IllegalArgumentException If there are any invalid parameters
    */
   protected Unit(String name, int health, int attackValue, int armour) {
-    if (name != null) {
-      this.name = name;
-    } else {
+    if (name == null) {
       throw new IllegalArgumentException("Name as null is not a valid name");
     }
     if (health < 0) {
       throw new IllegalArgumentException("Cannot create a unit with negative health");
-    } else {
-      this.health = health;
     }
     if(health == 0){
       this.isAlive = false;
     }
+    if(attackValue < 0){
+      throw new IllegalArgumentException("Cannot create a unit with negative attack value");
+    }
+    if(armour < 0){
+      throw new IllegalArgumentException("Cannot create a unit with negative armour value");
+    }
+
+    this.name = name;
+    this.health = health;
     this.attackValue = attackValue;
     this.armour = armour;
     this.receivedAttacks = 0;
     this.initiatedAttacks = 0;
     this.eventManager = new EventManager();
-  }
-
-  public int getReceivedAttacks() {
-    return receivedAttacks;
-  }
-
-  public int getInitiatedAttacks() {
-    return initiatedAttacks;
-  }
-
-  public Army getCurrentArmy() {
-    return currentArmy;
-  }
-
-  public EventManager getEventManager() {
-    return eventManager;
   }
 
   /**
@@ -168,13 +161,15 @@ public abstract class Unit implements Actor {
    * @param attack The attack to receive
    */
   public void receiveAttack(Attack attack){
-    int trueDamage = attack.damage() - getTotalResistances();
+    if(attack != null){
+      int trueDamage = attack.damage() - getTotalResistances();
 
-    if(trueDamage > 0) {
-      this.setHealth(this.getHealth() - trueDamage);
+      if(trueDamage > 0) {
+        this.setHealth(this.getHealth() - trueDamage);
+      }
+
+      incrementReceivedAttacks();
     }
-
-    incrementReceivedAttacks();
   }
 
   /**
@@ -265,7 +260,9 @@ public abstract class Unit implements Actor {
    * @param currentTerrain The new value of terrain
    */
   public void setCurrentTerrain(Terrain currentTerrain) {
-    this.currentTerrain = currentTerrain;
+    if(currentTerrain != null){
+      this.currentTerrain = currentTerrain;
+    }
   }
 
   /**
@@ -344,6 +341,42 @@ public abstract class Unit implements Actor {
     return newTotalAttackValue;
   }
 
+  /**
+   * Returns the number of recivedAttacks
+   *
+   * @return The number of recivedAttacks
+   */
+  public int getReceivedAttacks() {
+    return receivedAttacks;
+  }
+
+  /**
+   * Returns the number of initiatedAttacks
+   *
+   * @return The number of initiatedAttacks
+   */
+  public int getInitiatedAttacks() {
+    return initiatedAttacks;
+  }
+
+  /**
+   * Returns the current army of the unit
+   *
+   * @return The current army of the unit
+   */
+  public Army getCurrentArmy() {
+    return currentArmy;
+  }
+
+  /**
+   * Returns the eventmanager of the unit
+   *
+   * @return The eventmanager of the unit
+   */
+  public EventManager getEventManager() {
+    return eventManager;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -353,7 +386,27 @@ public abstract class Unit implements Actor {
       return false;
     }
     Unit unit = (Unit) o;
-    return getName().equals(unit.getName()) && currentArmy.equals(unit.currentArmy);
+    return getHealth() == unit.getHealth() && getAttackValue() == unit.getAttackValue() &&
+        getArmour() == unit.getArmour() &&
+        getTemporaryAttackValue() == unit.getTemporaryAttackValue() &&
+        getTemporaryDefenseValue() == unit.getTemporaryDefenseValue() &&
+        getReceivedAttacks() == unit.getReceivedAttacks() &&
+        getInitiatedAttacks() == unit.getInitiatedAttacks() && isAlive() == unit.isAlive() &&
+        getName().equals(unit.getName()) &&
+        (getCurrentArmy() == unit.getCurrentArmy()) &&
+        Objects.equals(getCurrentTerrain(), unit.getCurrentTerrain()) &&
+        getEventManager().equals(unit.getEventManager());
   }
 
+  /**
+   * Returns a hascode of the Unit
+   *
+   * @return A hascode of the Unit
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(getName(), getHealth(), getAttackValue(), getArmour(),
+        getTemporaryAttackValue(), getTemporaryDefenseValue(), getReceivedAttacks(),
+        getInitiatedAttacks(), isAlive(), getCurrentArmy(), getCurrentTerrain(), getEventManager());
+  }
 }

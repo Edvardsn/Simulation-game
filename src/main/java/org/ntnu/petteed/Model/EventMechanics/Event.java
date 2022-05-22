@@ -1,4 +1,4 @@
-package org.ntnu.petteed.Model;
+package org.ntnu.petteed.Model.EventMechanics;
 
 /**
  * This class represents an event that has the aim of conveying information between objects when
@@ -9,7 +9,7 @@ package org.ntnu.petteed.Model;
  */
 public abstract class Event {
 
-  private final Object context;
+  private Object context = null;
 
   /**
    * Creates an event
@@ -17,7 +17,9 @@ public abstract class Event {
    * @param context Context regarding the event if needed
    */
   protected Event(Object context){
-    this.context = context;
+    if(context != null){
+      this.context = context;
+    }
   }
 
   /**

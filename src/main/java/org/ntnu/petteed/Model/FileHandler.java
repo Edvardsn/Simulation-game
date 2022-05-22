@@ -18,11 +18,15 @@ import java.util.List;
  */
 public class FileHandler {
 
-  // All available inputTypes to be read in from file, has to be manually changed
-  private static final String[] validInputTypes = {"InfantryUnit","RangedUnit","CavalryUnit","MageUnit","CommanderUnit","SupportUnit"};
   private static final String INFO_SEPARATOR = ",";
 
-  /**!!!!!!!!!!!!!!!!!!!!!!!!!!!!! try with resources
+  /**
+   *  Private constructor, all methods are static and do not require an instance of Filehandler
+   */
+  private FileHandler(){
+  }
+
+  /**
    * Writes the specifications of an Army to a given file
    *
    * @param file The file to write to
@@ -30,36 +34,36 @@ public class FileHandler {
    * @throws IOException If no file is not found
    */
   public static void writeToFile(File file, Army army) throws IOException {
-    FileWriter writer = new FileWriter(file);
-    PrintWriter printWriter = new PrintWriter(writer);
+    try( FileWriter writer = new FileWriter(file);
+         PrintWriter printWriter = new PrintWriter(writer);)
+    {
+      printWriter.println(army.getName()); // Prints the first line with army name
 
-    printWriter.println(army.getName()); // Prints the first line with army name
+      Iterator<Actor> armyActorIterator = army.getArmyActorIterator(); // Uses and iterator to only give access to reading information
 
-    Iterator<Actor> armyActorIterator = army.getArmyActorIterator(); // Uses and iterator to only give access to reading information
+      while (armyActorIterator.hasNext()) {
+        Actor actor = armyActorIterator.next();
 
-    while (armyActorIterator.hasNext()) {
-      Actor actor = armyActorIterator.next();
+        String actorType = actor.getClass().getSimpleName() + INFO_SEPARATOR;
 
-      String actorType = actor.getClass().getSimpleName() + INFO_SEPARATOR;
+        printWriter.print(actorType);
 
-      printWriter.print(actorType);
+        if(actor instanceof Unit unit) {
+          printWriter.print(unit.getName() +
+              INFO_SEPARATOR);
+        }
+        else{
+          printWriter.print(INFO_SEPARATOR + "Unknown" + INFO_SEPARATOR);
+        }
 
-      if(actor instanceof Unit unit) {
-        printWriter.print(unit.getName() +
-            INFO_SEPARATOR);
-      }
-      else{
-        printWriter.print(INFO_SEPARATOR + "Unknown" + INFO_SEPARATOR);
-      }
-
-      if(actor instanceof Unit unit){
-        printWriter.println(unit.getHealth());
-      }
-      else{
-        printWriter.println("NaN");
+        if(actor instanceof Unit unit){
+          printWriter.println(unit.getHealth());
+        }
+        else{
+          printWriter.println("NaN");
+        }
       }
     }
-    printWriter.close();
   }
 
   /**
@@ -76,8 +80,8 @@ public class FileHandler {
       String[] lineData = string.split(INFO_SEPARATOR);
 
        validData = Arrays.stream(lineData).noneMatch(data -> (data == null || data.isBlank()));
-    }
 
+    }
     return validData;
   }
 

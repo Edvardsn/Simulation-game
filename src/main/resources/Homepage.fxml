@@ -88,16 +88,6 @@
    </top>
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #36454f;" BorderPane.alignment="CENTER">
-        <buttons>
-          <Button fx:id="infoButton" contentDisplay="RIGHT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="31.0" prefWidth="77.0" style="-fx-background-color: #6495ED;" text="Info" textFill="WHITE">
-               <graphic>
-                  <FontIcon iconColor="WHITE" iconLiteral="eli-question-sign" iconSize="15" />
-               </graphic>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-        </buttons>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>

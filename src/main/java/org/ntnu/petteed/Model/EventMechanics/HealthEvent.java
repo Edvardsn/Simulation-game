@@ -1,4 +1,4 @@
-package org.ntnu.petteed.Model;
+package org.ntnu.petteed.Model.EventMechanics;
 
 /**
  * This class represents an event that is triggered if the health value of a given unit is modified
@@ -13,7 +13,7 @@ public class HealthEvent extends Event{
    *
    * @param context Context regarding the event if needed
    */
-  protected HealthEvent(Object context) {
+  public HealthEvent(Object context) {
     super(context);
   }
 }

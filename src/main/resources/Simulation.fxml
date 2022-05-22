@@ -150,13 +150,6 @@
       <HBox BorderPane.alignment="CENTER">
          <children>
             <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="640.0" style="-fx-background-color: #36454f;" HBox.hgrow="ALWAYS">
-              <buttons>
-                  <MFXButton fx:id="mainMenuButton" contentDisplay="GRAPHIC_ONLY" prefHeight="32.0" style="-fx-background-color: red;" text="Main Menu">
-                     <graphic>
-                        <FontIcon fill="WHITE" iconLiteral="eli-home" iconSize="20" />
-                     </graphic>
-                  </MFXButton>
-              </buttons>
                <HBox.margin>
                   <Insets />
                </HBox.margin>

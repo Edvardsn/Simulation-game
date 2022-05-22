@@ -3,7 +3,7 @@ package org.ntnu.petteed.Model.Units;
 import java.util.List;
 import org.ntnu.petteed.Model.Actor;
 import org.ntnu.petteed.Model.RandomFactory;
-import org.ntnu.petteed.Model.ShieldEffect;
+import org.ntnu.petteed.Model.Effects.ShieldEffect;
 import org.ntnu.petteed.Model.Unit;
 
 /**
@@ -62,17 +62,19 @@ public class SupportUnit extends Unit {
    *
    */
   public void shieldAlly(){
+    if(this.currentArmy != null){
+      List<Actor> actors = this.currentArmy.getActors()
+          .stream()
+          .filter(Unit.class::isInstance)
+          .filter(actor -> !(actor.equals(this)))
+          .toList();
 
-    List<Actor> units = this.currentArmy.getActors()
-        .stream()
-        .filter(Unit.class::isInstance)
-        .toList();
+      int randomIndex = RandomFactory.getRandomInteger(actors.size());
 
-    int randomIndex = RandomFactory.getRandomInteger(units.size());
+      Unit ally = (Unit) actors.get(randomIndex);
 
-    Unit ally = (Unit) units.get(randomIndex);
-
-    ally.eventManager.addEventListener(new ShieldEffect());
+      ally.eventManager.addEventListener(new ShieldEffect());
+    }
   }
 
   /**

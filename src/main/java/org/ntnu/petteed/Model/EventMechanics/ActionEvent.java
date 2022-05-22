@@ -1,4 +1,4 @@
-package org.ntnu.petteed.Model;
+package org.ntnu.petteed.Model.EventMechanics;
 
 /**
  * This class represents an event that occurs whenever a unit initiates an action

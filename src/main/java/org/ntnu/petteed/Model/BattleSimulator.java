@@ -1,5 +1,6 @@
 package org.ntnu.petteed.Model;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -26,9 +27,8 @@ public interface BattleSimulator {
    * Creates an army
    *
    * @param name The name of the army to create
-   * @param actors The actors in the army
    */
-  void createArmy(String name,Collection<Actor> actors);
+  void createArmy(String name) throws IOException;
 
   /**
    * Adds an army to the simulator
@@ -37,12 +37,6 @@ public interface BattleSimulator {
    */
   void importArmy(Army army);
 
-  /**
-   * Returns the current army highlighted in the simulator
-   *
-   * @return The current army highlighted in the simulator
-   */
-  Army getCurrentArmy();
 
   public Army getFirstArmy();
 
@@ -116,6 +110,10 @@ public interface BattleSimulator {
    */
   void createBattle(String battleterrain);
 
+  Army getCurrentArmy() throws IOException;
+
+  public Collection<Actor> getCurrentHighlightedActors();
+
   /**
    *  Returns the members of a battle if created
    *
@@ -130,4 +128,7 @@ public interface BattleSimulator {
    */
   Army battle();
 
+  void incrementCurrentArmyIndex();
+
+  boolean validCurrentArmy() throws IOException;
 }

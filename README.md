@@ -5,6 +5,8 @@ A game called Wargame
 
 håndtering av flere armeer, system for å lagre nåværende armeer må da endres.
 
+Reformat kode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 Spørsmål:
 
 Random klasse, random factory

@@ -4,9 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-import org.ntnu.petteed.Model.Units.InfantryUnit;
 
 /**
+ * This class performs the following tests to ensure that the Unit class is behaving as intended.
+ *
  * Positive tests:
  * <ul>
  * <li>testUnitValues, tests that a unit can be created with valid fields.</li>
@@ -15,10 +16,12 @@ import org.ntnu.petteed.Model.Units.InfantryUnit;
  * <ul>
  * <li> testUnitWithNullName, tests that a unit cannot be created with null as a name.</li>
  * <li> testUnitWithNegativeAttack, tests that a unit cannot have negative attack when created. </li>
+ * <li> testUnitWithNegativeArmour, tests that a unit cannot have negative armour when created. </li>
+ * <li> testUnitReceiveNullAttack, tests that a unit can receive a null attack with no exceptions thrown</li>
  *</ul>
  */
 
- class testUnitCreation {
+ class testUnit {
 
   /**
    * Tests that a unit can be created with valid fields.
@@ -26,10 +29,10 @@ import org.ntnu.petteed.Model.Units.InfantryUnit;
    */
   @Test
    void testUnitValues() {
-    Unit unit = new InfantryUnit("unitsen", 100);
+    Unit unit = new MockUnit("unit", 100,15,10);
 
     assertEquals(100, unit.getHealth());
-    assertEquals("unitsen", unit.getName());
+    assertEquals("unit", unit.getName());
     assertEquals(15, unit.getAttackValue());
     assertEquals(10, unit.getArmour());
   }
@@ -41,7 +44,7 @@ import org.ntnu.petteed.Model.Units.InfantryUnit;
   @Test
    void testUnitWithNullName() {
       assertThrows(IllegalArgumentException.class, ()-> {
-        Unit unit = new InfantryUnit(null, 100);
+        Unit unit = new MockUnit(null, 100,1,1);
       });
   }
 
@@ -52,7 +55,17 @@ import org.ntnu.petteed.Model.Units.InfantryUnit;
   @Test
    void testUnitWithNegativeAttack(){
     assertThrows(IllegalArgumentException.class, ()->{
-      Unit unit = new InfantryUnit("Test",-100);
+      Unit unit = new MockUnit("Test",100,-10,15);
     });
+  }
+
+ /**
+  * Tests that a unit who recives a null attack won't throw an exception
+  *
+  */
+ @Test
+ void testUnitRecieveNullAttack(){
+   Unit unit = new MockUnit("Test", 100,1,1);
+   unit.receiveAttack(null);
   }
 }

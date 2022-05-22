@@ -2,11 +2,11 @@ package org.ntnu.petteed.Model.Units;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import org.ntnu.petteed.Model.Actor;
-import org.ntnu.petteed.Model.BurnEffect;
-import org.ntnu.petteed.Model.EventListener;
-import org.ntnu.petteed.Model.FreezeEffect;
+import org.ntnu.petteed.Model.Effects.BurnEffect;
+import org.ntnu.petteed.Model.EventMechanics.EventListener;
+import org.ntnu.petteed.Model.Effects.FreezeEffect;
+import org.ntnu.petteed.Model.RandomFactory;
 import org.ntnu.petteed.Model.Unit;
 
 /**
@@ -17,7 +17,6 @@ public class MageUnit extends Unit {
 
   private static final int ATTACK_VALUE = 5;
   private static final int ARMOUR_VALUE = 5;
-  private final Random randomGenerator = new Random();
 
   private final EventListener[] spells = {new BurnEffect(),new FreezeEffect()};
 
@@ -39,6 +38,7 @@ public class MageUnit extends Unit {
   public MageUnit(Unit unit){
     super(unit);
   }
+
   /**
    * @param target Optional target for actions
    */
@@ -69,7 +69,7 @@ public class MageUnit extends Unit {
   public EventListener castRandomSpell(){
     List<EventListener> spellList = Arrays.stream(spells).toList();
 
-    int randomSpellIndex = randomGenerator.nextInt(spellList.size());
+    int randomSpellIndex = RandomFactory.getRandomInteger(spellList.size());
 
     return spellList.get(randomSpellIndex);
   }
@@ -91,13 +91,6 @@ public class MageUnit extends Unit {
    */
   @Override
   public int getResistBonus() {
-
-    int resistBonus = 0;
-
-    if (receivedAttacks < 2) {
-      resistBonus += 4 - (2 * receivedAttacks);
-    }
-
-    return resistBonus;
+    return 0;
   }
 }

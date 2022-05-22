@@ -108,6 +108,7 @@ public class SimulationController {
     this.simulator.createBattle((String) terrainComboBox.getSelectedItem());
 
     updateAllGraphicalElements();
+    armyWinnerText.setText("Winner: ");
   }
 
   /**
@@ -123,7 +124,7 @@ public class SimulationController {
    * Simulates a battle between the armies in the simulator
    *
    */
-  public void simulateBattle() throws InterruptedException {
+  public void simulateBattle() {
     this.simulator.createBattle((String) terrainComboBox.getSelectedItem());
 
     Army winningArmy = this.simulator.battle();

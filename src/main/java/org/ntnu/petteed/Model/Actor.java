@@ -4,7 +4,6 @@ package org.ntnu.petteed.Model;
 /**
  * The actor interface represents objects who have any kind of action
  *
- * !!!!!!!!!!!!!! cloneable interface
  */
 public interface Actor {
 
