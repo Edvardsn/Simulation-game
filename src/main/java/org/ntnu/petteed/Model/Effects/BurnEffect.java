@@ -1,6 +1,5 @@
 package org.ntnu.petteed.Model.Effects;
 
-import org.ntnu.petteed.Model.EventMechanics.ActionEvent;
 import org.ntnu.petteed.Model.EventMechanics.ActionEventListener;
 import org.ntnu.petteed.Model.EventMechanics.Event;
 import org.ntnu.petteed.Model.Unit;
@@ -38,8 +37,7 @@ public class BurnEffect implements ActionEventListener {
    */
   @Override
   public void handleEvent(Event event) {
-    if (event.getContext() instanceof Unit unit
-        && event instanceof ActionEvent) {
+    if (event.getContext() instanceof Unit unit) {
       applyEffect(unit);
     }
   }

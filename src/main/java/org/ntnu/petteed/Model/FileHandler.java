@@ -67,21 +67,25 @@ public class FileHandler {
   }
 
   /**
-   * Checks if the data in list of strings is valid
+   * Checks if the data in list of strings is valid according to CSV format
    *
    * @param stringList The list of data to check
    * @return True if valid data, false if not.
    */
-  public static boolean validStringData(List<String> stringList)  {
+  public static boolean validCSVStringData(List<String> stringList)  {
     boolean validData = true;
 
-    for(String string : stringList){
+    int dataIndex = 0;
 
-      String[] lineData = string.split(INFO_SEPARATOR);
+    while(dataIndex < stringList.size() && validData == true){
+      String[] lineData = stringList.get(dataIndex).split(INFO_SEPARATOR);
 
-       validData = Arrays.stream(lineData).noneMatch(data -> (data == null || data.isBlank()));
+      validData = Arrays.stream(lineData).noneMatch(data -> (data == null || data.isBlank()));
 
+      dataIndex++;
     }
+
+
     return validData;
   }
 
@@ -99,7 +103,7 @@ public class FileHandler {
 
     List<String> fileLines = Files.readAllLines(file.toPath());
 
-    if (!validStringData(fileLines)) {
+    if (!validCSVStringData(fileLines)) {
       throw new InvalidFileDataException("Empty data fields in given file");
     }
     else
@@ -121,8 +125,9 @@ public class FileHandler {
         }
       }
       catch (IllegalArgumentException e){
-        throw new InvalidFileDataException(e.getMessage());
+        throw new InvalidFileDataException("Error while reading file: " + e.getMessage());
       }
+
       }
 
     return newArmy;

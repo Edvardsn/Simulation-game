@@ -1,13 +1,20 @@
 package org.ntnu.petteed.ui;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import org.ntnu.petteed.Model.BattleSimulator;
 import org.ntnu.petteed.Model.Simulator;
 
+/**
+ * The main window which assigns necessary information to controllers and starts the application
+ *
+ */
 public class MainWindow extends Application {
 
   private static final int DEFUALT_WIDTH = 1500;
@@ -60,6 +67,12 @@ public class MainWindow extends Application {
     homePageLoader.setController(homePageController);
     homePageController.setNextScene(createArmyScene);
 
+    // Sets up warning upon exit
+    this.primaryStage.setOnCloseRequest(event -> {
+      event.consume();
+      exitApplication(this.primaryStage);
+    });
+
     this.primaryStage.setTitle("Battle simulator");
     this.primaryStage.setMinHeight(DEFUALT_HEIGHT);
     this.primaryStage.setMinWidth(DEFUALT_WIDTH);
@@ -67,6 +80,23 @@ public class MainWindow extends Application {
     this.primaryStage.setScene(homePageScene);
     this.primaryStage.show();
 
+  }
+
+  /**
+   * Closes the application when the exit button is pressed.
+   * Creates a dialog to choose whether to exit or not.
+   *
+   * @param stage The stage to close.
+   */
+  protected void exitApplication(Stage stage) {
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Exit");
+    alert.setHeaderText("You are about to exit Battle Simulator!");
+    alert.setContentText("Are you sure you want to exit?");
+
+    if(alert.showAndWait().get() == ButtonType.OK) {
+      stage.close();
+    }
   }
 
   public static void main(String[] args) {

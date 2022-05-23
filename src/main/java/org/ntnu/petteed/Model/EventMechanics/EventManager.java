@@ -20,7 +20,7 @@ public class EventManager {
    *
    */
   public EventManager() {
-    listeners = new CopyOnWriteArraySet<>(); // Thread safe collection
+    listeners = new CopyOnWriteArraySet<>(); // Thread safe collection to prevent CurrentModificationException
   }
 
   /**

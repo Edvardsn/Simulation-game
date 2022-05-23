@@ -1,6 +1,5 @@
 package org.ntnu.petteed.Model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,11 +7,11 @@ import java.util.List;
 
 public class Simulator implements BattleSimulator {
 
-  private Battle currentBattle;
+  private Battle battle;
 
   private final List<Army> armyRegister;
-  private int currentArmyIndex = 0;
   private Collection<Actor> currentHighlightedActors;
+  private int currentArmyIndex = 0;
 
   private Army firstArmy;
   private Army secondArmy;
@@ -20,7 +19,7 @@ public class Simulator implements BattleSimulator {
   public Simulator() {
     this.armyRegister = new ArrayList<>();
     this.currentHighlightedActors = new ArrayList<>();
-    this.currentBattle = null;
+    this.battle = null;
   }
 
   /**
@@ -31,7 +30,8 @@ public class Simulator implements BattleSimulator {
    * @param health The health of the actors
    * @param actorType The type of actors to crate
    */
-  public void addActors(int numberOfActors,String name, int health, ActorType actorType){
+  @Override
+  public void addActors(int numberOfActors,String name, int health, ActorType actorType) throws IllegalArgumentException{
     this.currentHighlightedActors.addAll(ActorFactory.createUnits(numberOfActors, name,health,actorType));
   }
 
@@ -52,9 +52,9 @@ public class Simulator implements BattleSimulator {
    * @param name   The name of the army to create
    */
   @Override
-  public void createArmy(String name) throws IOException {
-    if(!validCurrentArmy()){
-      throw new IOException("Cannot create army with no units");
+  public void createArmy(String name) throws IllegalArgumentException {
+    if(!validHighlightedArmy()){
+      throw new IllegalArgumentException("Cannot create army with no units");
     }
 
     Army newArmy = new Army(name, currentHighlightedActors);
@@ -76,10 +76,9 @@ public class Simulator implements BattleSimulator {
   /**
    * Checks if the current army as input is valid
    *
-   * @throws IOException If the current army as input is invalid
    * @return True if valid current army, false if not.
    */
-  public boolean validCurrentArmy()  {
+  public boolean validHighlightedArmy()  {
     boolean validArmy = !currentHighlightedActors.isEmpty();
 
     return validArmy;
@@ -111,6 +110,11 @@ public class Simulator implements BattleSimulator {
   @Override
   public Iterator<Actor> getSecondArmyActorIterator() {
     return this.secondArmy.getArmyActorIterator();
+  }
+
+  @Override
+  public Iterator<Army> getArmyRegisterIterator() {
+    return armyRegister.iterator();
   }
 
   /**
@@ -180,15 +184,6 @@ public class Simulator implements BattleSimulator {
     return percentageAlive;
   }
 
-  /**
-   * Returns a collection of all the armies in the simulator
-   *
-   * @return A collection of all the armies in the simulator
-   */
-  @Override
-  public List<Army> getArmiesRegister() {
-    return this.armyRegister;
-  }
 
   public Army getFirstArmy() {
     return firstArmy;
@@ -226,12 +221,27 @@ public class Simulator implements BattleSimulator {
   }
 
   /**
+   * Resets the simulator state to before combat was initiated
+   *
+   */
+  @Override
+  public void resetCombat() {
+    setFirstArmy(armyRegister.get(0).copy());
+    setSecondArmy(armyRegister.get(1).copy());
+  }
+
+  /**
    * Created actors by the user
    *
    * @return The created actors by the user
    */
   public Collection<Actor> getCurrentHighlightedActors() {
     return currentHighlightedActors;
+  }
+
+  @Override
+  public Iterator<Actor> getCurrentlyHighlightedActorsIterator() {
+    return getCurrentHighlightedActors().iterator();
   }
 
   /**
@@ -241,12 +251,7 @@ public class Simulator implements BattleSimulator {
    */
   @Override
   public void createBattle(String battleTerrain) {
-    currentBattle= new Battle(firstArmy,secondArmy,new Terrain(battleTerrain));
-  }
-
-  @Override
-  public Army getCurrentArmy() {
-    return armyRegister.get(currentArmyIndex);
+    battle = new Battle(firstArmy,secondArmy,new Terrain(battleTerrain));
   }
 
   /**
@@ -255,8 +260,8 @@ public class Simulator implements BattleSimulator {
    * @return The members of the battle
    */
   @Override
-  public Battle getCurrentBattle() {
-    return currentBattle;
+  public Battle getBattle() {
+    return battle;
   }
 
   /**
@@ -266,12 +271,11 @@ public class Simulator implements BattleSimulator {
    */
   @Override
   public Army battle() {
-    Army winningArmy = getCurrentBattle().battle();
+    Army winningArmy = getBattle().battle();
 
     return winningArmy;
   }
 
-  @Override
   public void incrementCurrentArmyIndex() {
     if(this.currentArmyIndex != 0){
       this.currentArmyIndex += 1;

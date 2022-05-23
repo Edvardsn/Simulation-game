@@ -15,27 +15,20 @@ import org.ntnu.petteed.Model.Units.SupportUnit;
  */
 public class ActorFactory {
 
-  private static ActorFactory instance = null;
-
   /**
-   * Creates a unit factory
+   * Creates an instance of ActorFactory
    *
    */
   private ActorFactory(){
   }
 
   /**
-   * Creates an instance of ActorFactory given that no other instance exists.
+   * Creates an InfantryUnit
    *
-   * @return The new or existing unit factory
+   * @param name The name of the unit
+   * @param health The health of the unit
+   * @return the new {@code InfantryUnit}
    */
-  public static ActorFactory getInstance() {
-    if (instance == null) {
-      instance = new ActorFactory();
-    }
-    return instance;
-  }
-
   public static Unit createInfantryUnit(String name, int health){
     return new InfantryUnit(name, health);
   }
@@ -97,15 +90,14 @@ public class ActorFactory {
   /**
    * Creates a list of units of specified type, Name and Health.
    *
-   * @param numberOfUnits The number of units to create exclusive given number
+   * @param numberOfUnits The number of units to create (Inclusive 0, Exclusive number n)
    * @param name The name of the units
    * @param health The health of the units
    * @param actorType The class of the units
    * @return A {@code List} of the units created
    */
-  // !!!!!! Sjekk at break i case
   public static Collection<Actor> createUnits(int numberOfUnits, String name, int health, ActorType actorType)
-     {
+  {
        int counter = 0;
 
        Collection<Actor> listOfUnits = new ArrayList<>();

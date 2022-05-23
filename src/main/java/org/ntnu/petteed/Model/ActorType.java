@@ -1,5 +1,8 @@
 package org.ntnu.petteed.Model;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum ActorType {
 
   INFANTRY_UNIT("InfantryUnit"), RANGED_UNIT("RangedUnit"), CAVALRY_UNIT("CavalryUnit"), COMMANDER_UNIT("CommanderUnit"),
@@ -28,16 +31,35 @@ public enum ActorType {
   /**
    * Returns the UnitType corresponding to given string
    *
-   * @param string The string which unitType to get value of
-   * @return The unittype of the string, or null if nonexistent.
+   * @param identification The string which unitType to get value of
+   * @return The Actortype corresponding to the string, or null if nonexistent.
+   * @throws IllegalArgumentException if no matching type to given identification
    */
-  public static ActorType valueOfString(String string){
-    for(ActorType type : values()){
-      if(type.toString().equals(string)){
-        return type;
+  public static ActorType valueOfString(String identification) throws IllegalArgumentException{
+    List<ActorType> types = Arrays.stream(values()).toList();
+
+    ActorType matchingType = null;
+
+    int index = 0;
+
+    boolean found = false;
+
+    while(!found && index < types.size()){
+
+      if(types.get(index).toString().equals(identification)){
+
+        matchingType = types.get(index);
+
+        found = true;
       }
+      index++;
     }
-    return null;
+
+    if(matchingType == null){
+      throw new IllegalArgumentException("No matching Actortype");
+    }
+
+    return matchingType;
   }
 
 }

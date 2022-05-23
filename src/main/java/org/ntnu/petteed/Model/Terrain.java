@@ -33,7 +33,7 @@ public class Terrain{
           STANDARD_TERRAIN_VALUE));
     }
     else{
-      throw new IllegalArgumentException("Invalid name in Terrain Constructor");
+      throw new IllegalArgumentException("Invalid type of terrain");
     }
   }
 

@@ -7,7 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Stream;
+import java.util.Iterator;
+import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -162,7 +163,7 @@ public class CreateArmyController {
    */
   private void updateObeservableList()  {
     this.actorObservableList.clear();
-    this.actorObservableList.addAll(this.simulator.getCurrentHighlightedActors());
+    this.actorObservableList.addAll(getCurrentHighlightedActors());
   }
 
   /**
@@ -190,7 +191,7 @@ public class CreateArmyController {
         updateObeservableList();
 
       } catch (IOException e) {
-        e.printStackTrace();
+        showUserInputAlert("Unable to load army: " + e.getMessage());
       }
     }
   }
@@ -200,8 +201,8 @@ public class CreateArmyController {
    *
    * @param actionEvent The event triggering the export
    */
-  public void exportArmyButtonPressed(ActionEvent actionEvent) throws IOException {
-    if(this.simulator.validCurrentArmy()) {
+  public void exportArmyButtonPressed(ActionEvent actionEvent) {
+    if(this.simulator.validHighlightedArmy()) {
 
       FileChooser fileChooser = new FileChooser();
       FileChooser.ExtensionFilter extFilter =
@@ -214,7 +215,7 @@ public class CreateArmyController {
         try {
 
           FileHandler.writeToFile(file,
-              new Army(getArmyNameFieldText(), this.simulator.getCurrentHighlightedActors()));
+              new Army(getArmyNameFieldText(),getCurrentHighlightedActors()));
           this.simulator.resetArmy();
           updateObeservableList();
 
@@ -223,6 +224,9 @@ public class CreateArmyController {
           e.printStackTrace();
         }
       }
+    }
+    else{
+      showUserInputAlert("Cannot export an empty army");
     }
   }
 
@@ -233,11 +237,7 @@ public class CreateArmyController {
    */
   public void addActorButtonPressed(){
     try {
-      if (getSelectedMfxCheckboxes().count() > 1 ||
-          getSelectedMfxCheckboxes().findAny().isEmpty()) {
-        showCheckBoxAlert();
-      } else {
-        String unitType = getSelectedMfxCheckboxes().findFirst().get().getText();
+        String unitType = getSelectedCheckbox();
         int unitAmount = Integer.parseInt(getUnitAmountFieldText());
         String unitName = getUnitNameField();
         int unitHealth = Integer.parseInt(getUnitHealthFieldText());
@@ -246,49 +246,17 @@ public class CreateArmyController {
             ActorType.valueOfString(unitType));
 
         updateObeservableList();
-      }
+
     } catch (IllegalArgumentException exception){
       showUserInputAlert(exception.getMessage());
     }
-  }
-
-
-  /**
-   * Returns a stream of the current selected Checkboxes related to actor creation
-   *
-   * @return A stream of the current selected Checkboxes related to actor creation
-   */
-  private Stream<MFXCheckbox> getSelectedMfxCheckboxes() {
-    Collection<MFXCheckbox> mfxCheckboxes =  new ArrayList<>();
-
-    mfxCheckboxes.add(infantryUnitCheckBox);
-    mfxCheckboxes.add(rangedUnitCheckBox);
-    mfxCheckboxes.add(cavalryUnitCheckBox);
-    mfxCheckboxes.add(commanderUnitCheckBox);
-    mfxCheckboxes.add(mageUnitCheckBox);
-    mfxCheckboxes.add(supportUnitCheckBox);
-
-    Stream<MFXCheckbox> selectedMfxCheckboxes = mfxCheckboxes.stream().filter(mfxCheckbox -> mfxCheckbox.isSelected());
-    return selectedMfxCheckboxes;
-  }
-
-  /**
-   * Shows the user an alert related to invalid number of checkboxes marked
-   *
-   */
-  private void showCheckBoxAlert() {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Creation Error");
-    alert.setHeaderText("Invalid number of marked Checkboxes");
-    alert.setContentText("Please select one checkbox when creating units");
-    alert.showAndWait();
   }
 
   /**
    * Creates the current army being edited
    *
    */
-  public void finishArmyButtonPressed(ActionEvent event) throws IOException {
+  public void finishArmyButtonPressed(ActionEvent event)  {
     try{
       this.simulator.createArmy(getArmyNameFieldText());
       clearCurrentArmy();
@@ -299,7 +267,7 @@ public class CreateArmyController {
         openSimulationScene(event);
       }
     }
-   catch (IOException e){
+   catch (IllegalArgumentException e){
       showUserInputAlert(e.getMessage());
    }
   }
@@ -355,25 +323,52 @@ public class CreateArmyController {
    * Updates the name of the Army being created
    *
    * @param keyEvent The event where the user enters the army's new name
+   * @throws IllegalArgumentException if the army field has an invalid value
    */
-  public void updateArmyName(KeyEvent keyEvent) throws IOException {
+  public void updateArmyName(KeyEvent keyEvent) throws IllegalArgumentException{
     String armyName = getArmyNameFieldText();
     armyNameLabel.setText(armyName);
+  }
+
+  /**
+   * Gets the current highlighted actors from the simulator
+   *
+   * @return The current highlighted actors from the simulator
+   */
+  public Collection<Actor> getCurrentHighlightedActors(){
+
+    Collection<Actor> highlightedActors = new ArrayList<>();
+
+    Iterator<Actor> currentActorsIterator = this.simulator.getCurrentlyHighlightedActorsIterator();
+
+    while(currentActorsIterator.hasNext()){
+      Actor actor = currentActorsIterator.next();
+
+      highlightedActors.add(actor);
+    }
+
+    return highlightedActors;
   }
 
   /**
    * Returns the string value of the army name field in the GUI.
    *
    * @return The name in the army name field
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException if the army field has an invalid value
    */
-  private String getArmyNameFieldText() throws IOException {
+  private String getArmyNameFieldText() throws IllegalArgumentException {
     if(this.armyNameField.getText().isBlank() || this.armyNameField.getText() == null ){
-      throw new IOException("An army needs a name to be created");
+      throw new IllegalArgumentException("An army needs a name to be created");
     }
     return armyNameField.getText();
   }
 
+  /**
+   * Returns the text of the unit name field
+   *
+   * @return The text of the unit name field
+   * @throws IllegalArgumentException if the name field has an invalid value
+   */
   private String getUnitNameField() {
     if(unitNameField.getText().isBlank()){
       throw new IllegalArgumentException("Cannot create a unit without a name, please enter a name");
@@ -381,18 +376,85 @@ public class CreateArmyController {
     return this.unitNameField.getText();
   }
 
+  /**
+   * Returns the value of the unit health field
+   *
+   * @return The value of the unit health field
+   * @throws IllegalArgumentException if the amount field has an invalid value
+   */
   private String getUnitHealthFieldText() {
     if(unitHealthField.getText().isBlank()){
       throw new IllegalArgumentException("Cannot create a unit without any health, please enter a valid value");
     }
+
+    try{
+      Integer.parseInt(unitHealthField.getText());
+    } catch(NumberFormatException exception){
+      throw new IllegalArgumentException("Please enter a numeric value for the unit's health");
+    }
+
     return this.unitHealthField.getText();
   }
 
+  /**
+   * Returns the value of the unit amount field
+   *
+   * @return The value of the unit amount field
+   * @throws IllegalArgumentException if the amount field has an invalid value
+   */
   private String getUnitAmountFieldText() {
-    if(unitAmountField.getText().isBlank() || Integer.parseInt(unitAmountField.getText()) <= 0){
+    if(unitAmountField.getText().isBlank()){
       throw new IllegalArgumentException("Invalid amount of units to be created entered, please enter a valid amount");
     }
+
+    try{
+      Integer.parseInt(unitAmountField.getText());
+    } catch(NumberFormatException exception){
+      throw new IllegalArgumentException("Please enter a numeric value for the amount of units to be created");
+    }
     return this.unitAmountField.getText();
+  }
+
+  /**
+   * Returns the name of the checkbox selected
+   *
+   * @return The name of the selected checkbox
+   * @throws IllegalArgumentException if no checkbox or more than one checkbox is selected
+   */
+  public String getSelectedCheckbox(){
+
+    Collection<MFXCheckbox> mfxCheckboxes = getMfxCheckboxes();
+
+    Optional<MFXCheckbox> selectedBox = mfxCheckboxes
+        .stream()
+        .filter(MFXCheckbox::isSelected)
+        .findFirst();
+
+    if(selectedBox.isPresent()){
+      return selectedBox.get().getText();
+    }
+    else{
+      throw new IllegalArgumentException("Invalid number of checkboxes marked");
+    }
+  }
+
+  /**
+   * Returns a collection of the Checkboxes related to actor creation
+   *
+   * @return A collection of the Checkboxes related to actor creation
+   */
+  private Collection<MFXCheckbox> getMfxCheckboxes() {
+
+    Collection<MFXCheckbox> mfxCheckboxes =  new ArrayList<>();
+
+    mfxCheckboxes.add(infantryUnitCheckBox);
+    mfxCheckboxes.add(rangedUnitCheckBox);
+    mfxCheckboxes.add(cavalryUnitCheckBox);
+    mfxCheckboxes.add(commanderUnitCheckBox);
+    mfxCheckboxes.add(mageUnitCheckBox);
+    mfxCheckboxes.add(supportUnitCheckBox);
+
+    return mfxCheckboxes;
   }
 
 }

@@ -50,8 +50,7 @@ public class FreezeEffect implements ActionEventListener {
    */
   @Override
   public void handleEvent(Event event) {
-    if(event.getContext() instanceof  Unit unit
-        && event instanceof ActionEvent actionEvent){
+    if(event.getContext() instanceof  Unit unit){
       applyEffect(unit);
     }
   }

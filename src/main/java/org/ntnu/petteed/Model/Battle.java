@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Represents a battle between two armies and its surrounding information
+ * Represents a battle between two armies
  *
  */
 public class Battle {

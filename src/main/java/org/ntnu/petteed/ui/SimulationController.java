@@ -4,10 +4,12 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXProgressBar;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
+import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -17,13 +19,18 @@ import org.ntnu.petteed.Model.Actor;
 import org.ntnu.petteed.Model.Army;
 import org.ntnu.petteed.Model.BattleSimulator;
 
+/**
+ * This class represents the controller for the Simulation page. The controller controls the
+ * simulation of battles and how the user navigates the application to and from the page.
+ *
+ */
 public class SimulationController {
 
   private Scene returnScene;
 
   private BattleSimulator simulator;
 
-
+  // Labels
   @FXML
   private BorderPane borderPane;
   @FXML
@@ -44,7 +51,10 @@ public class SimulationController {
   private MFXComboBox terrainComboBox;
   private ObservableList<String> terrainChoices = FXCollections.observableArrayList();
 
+  @FXML
   private MFXButton resetCombatButton;
+  @FXML
+  private MFXButton simulateBattleButton;
 
   // Table army two
   @FXML
@@ -75,40 +85,22 @@ public class SimulationController {
    *
    */
   public void initialize(){
+    // Terrain checkboxes
     terrainChoices.add("Forest");
     terrainChoices.add("Hills");
     terrainChoices.add("Plains");
     terrainComboBox.setItems(terrainChoices);
 
+    // Table first army
     armyOneTable.setItems(armyOneObservableList);
     armyOneNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     armyOneHealthColumn.setCellValueFactory(new PropertyValueFactory<>("health"));
 
+    // Table second Army
     armyTwoTable.setItems(armyTwoObservableList);
     armyTwoNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     armyTwoHealthColumn.setCellValueFactory(new PropertyValueFactory<>("health"));
 
-  }
-
-  /**
-   *  Resets combat to the state in which simulation was initially
-   *
-   */
-  public void resetCombat(){
-
-    // Resets first army
-    this.simulator.setFirstArmy(this.simulator.getArmiesRegister().get(0));
-    this.simulator.getArmiesRegister().set(0,this.simulator.getFirstArmy().copy());
-
-    // Resets second army
-    this.simulator.setSecondArmy((this.simulator.getArmiesRegister().get(1)));
-    this.simulator.getArmiesRegister().set(1,this.simulator.getSecondArmy().copy());
-
-    // Create the new battle
-    this.simulator.createBattle((String) terrainComboBox.getSelectedItem());
-
-    updateAllGraphicalElements();
-    armyWinnerText.setText("Winner: ");
   }
 
   /**
@@ -121,16 +113,44 @@ public class SimulationController {
   }
 
   /**
+   *  Resets combat to the state in which simulation was initially
+   *
+   */
+  public void resetCombat(){
+    try{
+      this.simulator.resetCombat();
+
+      // Create the new battle
+      this.simulator.createBattle((String)this.terrainComboBox.getSelectedItem());
+
+      updateAllGraphicalElements();
+
+      armyWinnerText.setText("Winner: ");
+    }
+     catch (Exception e){
+      showUserInputAlert("Unable to reset current combat");
+    }
+  }
+
+  /**
    * Simulates a battle between the armies in the simulator
    *
    */
   public void simulateBattle() {
-    this.simulator.createBattle((String) terrainComboBox.getSelectedItem());
+    try{
+      this.simulator.createBattle((String) terrainComboBox.getSelectedItem());
 
-    Army winningArmy = this.simulator.battle();
-    updateAllGraphicalElements();
+      Army winningArmy = this.simulator.battle();
 
-    armyWinnerText.setText("The Winner is " + winningArmy.getName() + "!");
+      updateAllGraphicalElements();
+
+      armyWinnerText.setText("The Winner is " + winningArmy.getName() + "!");
+
+    }
+    catch (IllegalArgumentException e){
+      showUserInputAlert(e.getMessage());
+    }
+
   }
 
   /**
@@ -139,18 +159,35 @@ public class SimulationController {
    */
   public void updateAllGraphicalElements() {
 
-    armyOneName.setText(this.simulator.getFirstArmy().getName());
-    armyTwoName.setText(this.simulator.getSecondArmy().getName());
+    Iterator<Army> armyIterator = simulator.getArmyRegisterIterator();
+
+    Army firstArmy = armyIterator.next();
+    Army secondArmy = armyIterator.next();
+
+    armyOneName.setText(firstArmy.getName());
+    armyTwoName.setText(secondArmy.getName());
 
     armyOneAliveIndicator.setProgress(this.simulator.getPercentageOfActorsAliveArmyOne());
     armyTwoAliveIndicator.setProgress(this.simulator.getPercentageOfActorsAliveArmyTwo());
     battleProgressIndicator.setProgress(this.simulator.getTotalPercentageOfActorsAlive());
 
-    if (this.simulator.getArmiesRegister() != null) {
-      armyOneObservableList.clear();
-      armyTwoObservableList.clear();
-      armyOneObservableList.addAll(simulator.getFirstArmy().getActors());
-      armyTwoObservableList.addAll(simulator.getSecondArmy().getActors());
-    }
+    armyOneObservableList.clear();
+    armyTwoObservableList.clear();
+
+    armyOneObservableList.addAll(firstArmy.getActors());
+    armyTwoObservableList.addAll(secondArmy.getActors());
+  }
+
+  /**
+   * Alerts the user when invalid input has been input
+   *
+   * @param message A message of what triggered the input alert
+   */
+  private void showUserInputAlert(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Input Error");
+    alert.setHeaderText("Input Error");
+    alert.setContentText(message);
+    alert.showAndWait();
   }
 }

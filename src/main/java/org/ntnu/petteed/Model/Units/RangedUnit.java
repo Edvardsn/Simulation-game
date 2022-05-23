@@ -9,10 +9,10 @@ import org.ntnu.petteed.Model.Unit;
  */
 public class RangedUnit extends Unit {
 
-  private final static int ATTACK_VALUE = 15;
-  private final static int ARMOUR_VALUE = 8;
-  private final static int BASE_ATTACK_BONUS = 3;
-  private final static int BASE_RESIST_BONUS = 2;
+  private static final int ATTACK_VALUE = 15;
+  private static final int ARMOUR_VALUE = 8;
+  private static final int BASE_ATTACK_BONUS = 3;
+  private static final int BASE_RESIST_BONUS = 2;
 
 
   /**

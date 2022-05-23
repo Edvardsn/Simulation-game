@@ -1,10 +1,11 @@
 package org.ntnu.petteed.Model;
 
-import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
+/**
+ * This is an interface which reflects the current functionality of the backend of the program.
+ *
+ */
 public interface BattleSimulator {
 
   /**
@@ -28,7 +29,7 @@ public interface BattleSimulator {
    *
    * @param name The name of the army to create
    */
-  void createArmy(String name) throws IOException;
+  void createArmy(String name);
 
   /**
    * Adds an army to the simulator
@@ -37,16 +38,7 @@ public interface BattleSimulator {
    */
   void importArmy(Army army);
 
-
-  public Army getFirstArmy();
-
-  public Army getSecondArmy();
-
-  public void setFirstArmy(Army firstArmy);
-
-  public void setSecondArmy(Army secondArmy);
-
-
+  boolean validHighlightedArmy();
 
   /**
    * Returns an iterator of the first army in the simulator
@@ -61,6 +53,8 @@ public interface BattleSimulator {
    * @return The second army of the simulator
    */
   Iterator<Actor> getSecondArmyActorIterator();
+
+  public Iterator<Army> getArmyRegisterIterator();
 
   /**
    * Returns a number of the current amount of armies in the simulator
@@ -91,11 +85,10 @@ public interface BattleSimulator {
   double getPercentageOfActorsAliveArmyTwo();
 
   /**
-   * Returns a collection of all the armies in the simulator
+   * Resets the simulator to the state before combat
    *
-   * @return A collection of all the armies in the simulator
    */
-  List<Army> getArmiesRegister();
+  void resetCombat();
 
   /**
    * Clears any current army being edited on
@@ -110,16 +103,14 @@ public interface BattleSimulator {
    */
   void createBattle(String battleterrain);
 
-  Army getCurrentArmy() throws IOException;
-
-  public Collection<Actor> getCurrentHighlightedActors();
+  Iterator<Actor> getCurrentlyHighlightedActorsIterator();
 
   /**
    *  Returns the members of a battle if created
    *
    * @return The members of the battle
    */
-  Battle getCurrentBattle();
+  Battle getBattle();
 
   /**
    * Initiates a battle
@@ -128,7 +119,4 @@ public interface BattleSimulator {
    */
   Army battle();
 
-  void incrementCurrentArmyIndex();
-
-  boolean validCurrentArmy() throws IOException;
 }

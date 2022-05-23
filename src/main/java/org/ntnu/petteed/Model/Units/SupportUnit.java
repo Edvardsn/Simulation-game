@@ -29,7 +29,7 @@ public class SupportUnit extends Unit {
   }
 
   /**
-   * Copy consturctor for supportUnit
+   * Copy constructor for supportUnit
    *
    * @param copy The unit to copy
    */
