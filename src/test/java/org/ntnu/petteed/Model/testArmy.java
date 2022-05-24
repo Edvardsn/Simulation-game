@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  * Positive tests:
  * <ul>
  *   <li>testCreatingArmy, tests that an Army is created with valid fields </li>
- *   <li>testCreationOfDistinctCopy, tests that the army returns a copy with same fields</li>
+ *   <li>testCreationOfDistinctCopy, tests that the army returns a distinct copy with same fields</li>
  *   <li>testActorAdded, tests that an actor is added successfully to the army</li>
  *   <li>testActorRemoved, tests that an actor is remove successfully from the army</li>
  *   <li>testGetInfantryUnits, tests that the army returns infantry units on method call</li>
@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  *    <li>testArmyNotWithNullName, test that an Army cannot be created without a name</li>
  *    <li>testArmyWithNonBlankName, tests that the Army will not be created with a blank name</li>
  *    <li>testArmyNotWithoutUnits, tests that an Army cannot be created with null units</li>
- *    <li>testGetRandomIsNotNull, tests that getRandom will not return a null value</li>
+ *    <li>testGetRandomIsNotNull, tests that getRandom will not return a null value if no actors present</li>
  *    <li>testGetRandomIsNotDead, tests that getRandom cannot return a dead actor</li>
  *  </ul>
  */
@@ -57,16 +57,21 @@ class testArmy {
    */
   @Test
   void testCreationOfDistinctCopy(){
-    Army testArmy = new Army("test",createTestActors());
+    Army originalArmy = new Army("test",createTestActors());
     
-    Army copiedArmy = testArmy.copy();
+    Army copiedArmy = originalArmy.copy();
 
     // Extra data not to be included in original army
     copiedArmy.addActor(new MockUnit("extraUnit",1,1,1));
     copiedArmy.setCurrentTerrain(new Terrain("Hills"));
 
-    assertNotEquals(testArmy.getActors(),copiedArmy.getActors());
-    assertNotEquals(testArmy.getCurrentTerrain(),copiedArmy.getCurrentTerrain());
+    MockUnit actorNotToBeAddedInOriginal = new MockUnit("Not to be included in original",1,1,1);
+
+    copiedArmy.addActor(new MockUnit(actorNotToBeAddedInOriginal));
+
+    assertNotEquals(originalArmy.getActors(),copiedArmy.getActors());
+    assertNotEquals(originalArmy.getCurrentTerrain(),copiedArmy.getCurrentTerrain());
+    assertFalse(originalArmy.getActors().contains(actorNotToBeAddedInOriginal));
   }
 
   /**
@@ -213,7 +218,7 @@ class testArmy {
   }
 
   /**
-   * Tests that getRandom will never return null
+   * Tests that getRandom will not return null if not present
    *
    */
   @Test

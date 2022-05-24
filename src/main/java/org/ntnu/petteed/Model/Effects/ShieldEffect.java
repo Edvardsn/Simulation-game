@@ -9,6 +9,7 @@ import org.ntnu.petteed.Model.Unit;
  * This class represents the shield effect which is an effect that gives shields an actor for
  * specified amount of damage
  *
+ * @author Nr. 10049
  */
 public class ShieldEffect implements HealthEventListener {
 

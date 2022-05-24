@@ -8,7 +8,7 @@ import org.ntnu.petteed.Model.EventMechanics.HealthEvent;
 /**
  * A class that represents a single unit which is an actor that engages in combat
  *
- * @author Student number
+ * @author Nr. 10049
  * @version 21/05/22
  */
 public abstract class Unit implements Actor {
@@ -105,7 +105,7 @@ public abstract class Unit implements Actor {
 
     eventManager.notifyListeners(new HealthEvent(this));
 
-    if (newHealth < 0 || newHealth == 0) { // Could e.g be a death event
+    if (newHealth < 0 || newHealth == 0) {
       this.health = 0;
       isAlive = false;
     }else {
@@ -151,6 +151,8 @@ public abstract class Unit implements Actor {
 
       opponent.receiveAttack(new Attack(this.getTotalAttackDamage()));
 
+      this.resetConditionalAttack();
+
       incrementInitiatedAttacks(); // Registers initiated attack
     }
   }
@@ -168,7 +170,9 @@ public abstract class Unit implements Actor {
         this.setHealth(this.getHealth() - trueDamage);
       }
 
-      incrementReceivedAttacks();
+      this.resetConditionalDefense();
+
+      incrementReceivedAttacks(); // Registers received attack
     }
   }
 
@@ -198,7 +202,7 @@ public abstract class Unit implements Actor {
   }
 
   /**
-   * Returns the value of the units conditional defense
+   * Returns the value of the units conditional attack
    *
    * @return The value of the units conditional attack
    */
@@ -231,6 +235,22 @@ public abstract class Unit implements Actor {
    */
   public void setTemporaryDefenseValue(int temporaryDefenseValue) {
     this.temporaryDefenseValue = temporaryDefenseValue;
+  }
+
+  /**
+   * Resets the conditional combat values of the unit
+   *
+   */
+  private void resetConditionalAttack() {
+    this.temporaryAttackValue = 0;
+  }
+
+  /**
+   * Resets the conditional defensive values of the unit
+   *
+   */
+  private void resetConditionalDefense() {
+    this.temporaryDefenseValue = 0;
   }
 
   /**
@@ -323,8 +343,6 @@ public abstract class Unit implements Actor {
   public int getTotalResistances() {
     int newTotalResistance = getArmour() + getResistBonus() + temporaryDefenseValue;
 
-    temporaryDefenseValue = 0; // Resets the conditional defense value after every use
-
     return newTotalResistance;
   }
 
@@ -335,8 +353,6 @@ public abstract class Unit implements Actor {
    */
   public int getTotalAttackDamage() {
     int newTotalAttackValue = getAttackValue() + this.getAttackBonus() + temporaryAttackValue;
-
-    temporaryAttackValue = 0;// Resets the conditional attack value after every use
 
     return newTotalAttackValue;
   }
@@ -377,6 +393,12 @@ public abstract class Unit implements Actor {
     return eventManager;
   }
 
+  /**
+   * Checks if an object is equal to this
+   *
+   * @param o The object to check
+   * @return True if the same object, false if not.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {

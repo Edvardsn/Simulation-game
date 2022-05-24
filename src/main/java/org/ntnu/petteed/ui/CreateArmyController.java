@@ -102,20 +102,6 @@ public class CreateArmyController {
     actorHealthColumn.setCellValueFactory(new PropertyValueFactory<>("health"));
     actorAttackColumn.setCellValueFactory(new PropertyValueFactory<>("attackValue"));
     actorArmourColumn.setCellValueFactory(new PropertyValueFactory<>("armour"));
-
-  }
-
-  /**
-   * Opens the simulation scene
-   *
-   * @param actionEvent
-   */
-  public void openSimulationScene(ActionEvent actionEvent) {
-    Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-    primaryStage.hide();
-    primaryStage.setMaximized(true);
-    primaryStage.setScene(simulationScene);
-    primaryStage.show();
   }
 
   /**
@@ -146,6 +132,19 @@ public class CreateArmyController {
   }
 
   /**
+   * Opens the simulation scene
+   *
+   * @param actionEvent The event triggering scene change
+   */
+  public void openSimulationScene(ActionEvent actionEvent) {
+    Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+    primaryStage.hide();
+    primaryStage.setMaximized(true);
+    primaryStage.setScene(simulationScene);
+    primaryStage.show();
+  }
+
+  /**
    * Opens the return scene
    *
    * @param actionEvent The event which triggers the transition
@@ -161,9 +160,48 @@ public class CreateArmyController {
    * Updates the observableList to the current state of the simulator
    *
    */
-  private void updateObeservableList()  {
+  private void updateObservableList()  {
     this.actorObservableList.clear();
-    this.actorObservableList.addAll(getCurrentHighlightedActors());
+    this.actorObservableList.addAll(getTemporaryActors());
+  }
+
+  /**
+   * Adds a given number of actors based on the data obtained from the user
+   *
+   */
+  public void addActorButtonPressed(){
+    try {
+      String unitType = getSelectedCheckbox();
+      int unitAmount = Integer.parseInt(getUnitAmountFieldText());
+      String unitName = getUnitNameField();
+      int unitHealth = Integer.parseInt(getUnitHealthFieldText());
+
+      this.simulator.addActors(unitAmount, unitName, unitHealth,
+          ActorType.valueOfString(unitType));
+
+      updateObservableList();
+
+    } catch (IllegalArgumentException exception){
+      showUserInputAlert(exception.getMessage());
+    }
+  }
+
+  /**
+   * Removes the current selected actor in the tableview
+   *
+   */
+  public void removeActorButtonPressed(){
+    this.simulator.removeActor(this.armyUnitTable.getSelectionModel().getSelectedItem());
+    updateObservableList();
+  }
+
+  /**
+   * Resets the current army being created
+   *
+   */
+  public void clearCurrentArmy(){
+    this.simulator.resetArmy();
+    actorObservableList.clear();
   }
 
   /**
@@ -188,7 +226,7 @@ public class CreateArmyController {
         this.armyNameField.setText(loadedArmy.getName());
         this.armyNameLabel.setText(loadedArmy.getName());
 
-        updateObeservableList();
+        updateObservableList();
 
       } catch (IOException e) {
         showUserInputAlert("Unable to load army: " + e.getMessage());
@@ -202,7 +240,7 @@ public class CreateArmyController {
    * @param actionEvent The event triggering the export
    */
   public void exportArmyButtonPressed(ActionEvent actionEvent) {
-    if(this.simulator.validHighlightedArmy()) {
+    if(this.simulator.existsTemporaryActors()) {
 
       FileChooser fileChooser = new FileChooser();
       FileChooser.ExtensionFilter extFilter =
@@ -214,10 +252,9 @@ public class CreateArmyController {
       if (file != null) {
         try {
 
-          FileHandler.writeToFile(file,
-              new Army(getArmyNameFieldText(),getCurrentHighlightedActors()));
+          FileHandler.writeToFile(file, new Army(getArmyNameFieldText(),getTemporaryActors()));
           this.simulator.resetArmy();
-          updateObeservableList();
+          updateObservableList();
 
 
         } catch (IOException e) {
@@ -230,25 +267,24 @@ public class CreateArmyController {
     }
   }
 
-
   /**
-   * Adds a given number of actors based on the data obtained from the user
+   * Creates a template army
    *
+   * @param event The event where the user presses the template button
    */
-  public void addActorButtonPressed(){
-    try {
-        String unitType = getSelectedCheckbox();
-        int unitAmount = Integer.parseInt(getUnitAmountFieldText());
-        String unitName = getUnitNameField();
-        int unitHealth = Integer.parseInt(getUnitHealthFieldText());
+  public void templateButtonPressed(ActionEvent event) {
+    try{
+      this.simulator.addActors(5,"Infantry",100, ActorType.INFANTRY_UNIT);
+      this.simulator.addActors(3,"Ranged",100, ActorType.RANGED_UNIT);
+      this.simulator.addActors(3,"Cavalry",100, ActorType.CAVALRY_UNIT);
+      this.simulator.addActors(1,"Mage",100, ActorType.MAGE_UNIT);
+      this.simulator.addActors(1,"Support",100, ActorType.SUPPORT_UNIT);
+      this.simulator.addActors(1,"Commander",150, ActorType.COMMANDER_UNIT);
 
-        this.simulator.addActors(unitAmount, unitName, unitHealth,
-            ActorType.valueOfString(unitType));
-
-        updateObeservableList();
-
-    } catch (IllegalArgumentException exception){
-      showUserInputAlert(exception.getMessage());
+      updateObservableList();
+    }
+    catch (IllegalArgumentException e){
+      showUserInputAlert(e.getMessage());
     }
   }
 
@@ -273,53 +309,6 @@ public class CreateArmyController {
   }
 
   /**
-   * Alerts the user when invalid input has been input
-   *
-   * @param message A message of what triggered the input alert
-   */
-  private void showUserInputAlert(String message) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Input Error");
-    alert.setHeaderText("Input Error");
-    alert.setContentText(message);
-    alert.showAndWait();
-  }
-
-  /**
-   * Removes the current selected actor in the tableview
-   *
-   */
-  public void removeActionButtonPressed(){
-    this.simulator.removeActor(this.armyUnitTable.getSelectionModel().getSelectedItem());
-    updateObeservableList();
-  }
-
-  /**
-   * Resets the current army being created
-   *
-   */
-  public void clearCurrentArmy(){
-    this.simulator.resetArmy();
-    actorObservableList.clear();
-  }
-
-  /**
-   * Creates a template army
-   *
-   * @param event The event where the user presses the template button
-   */
-  public void templateButtonPressed(ActionEvent event) {
-    this.simulator.addActors(5,"Infantry",100, ActorType.INFANTRY_UNIT);
-    this.simulator.addActors(3,"Ranged",100, ActorType.RANGED_UNIT);
-    this.simulator.addActors(3,"Cavalry",100, ActorType.CAVALRY_UNIT);
-    this.simulator.addActors(1,"Mage",100, ActorType.MAGE_UNIT);
-    this.simulator.addActors(1,"Support",100, ActorType.SUPPORT_UNIT);
-    this.simulator.addActors(1,"Commander",150, ActorType.COMMANDER_UNIT);
-
-    updateObeservableList();
-  }
-
-  /**
    * Updates the name of the Army being created
    *
    * @param keyEvent The event where the user enters the army's new name
@@ -335,11 +324,11 @@ public class CreateArmyController {
    *
    * @return The current highlighted actors from the simulator
    */
-  public Collection<Actor> getCurrentHighlightedActors(){
+  public Collection<Actor> getTemporaryActors(){
 
     Collection<Actor> highlightedActors = new ArrayList<>();
 
-    Iterator<Actor> currentActorsIterator = this.simulator.getCurrentlyHighlightedActorsIterator();
+    Iterator<Actor> currentActorsIterator = this.simulator.getTemporaryCreatedActorsIterator();
 
     while(currentActorsIterator.hasNext()){
       Actor actor = currentActorsIterator.next();
@@ -455,6 +444,19 @@ public class CreateArmyController {
     mfxCheckboxes.add(supportUnitCheckBox);
 
     return mfxCheckboxes;
+  }
+
+  /**
+   * Alerts the user when invalid input has been input
+   *
+   * @param message A message of what triggered the input alert
+   */
+  private void showUserInputAlert(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Input Error");
+    alert.setHeaderText("Input Error");
+    alert.setContentText(message);
+    alert.showAndWait();
   }
 
 }

@@ -10,7 +10,7 @@ import org.ntnu.petteed.Model.Units.RangedUnit;
 import org.ntnu.petteed.Model.Units.SupportUnit;
 
 /**
- * A factory used to create instances of units
+ * A factory used to create instances of actors
  *
  */
 public class ActorFactory {
@@ -33,22 +33,57 @@ public class ActorFactory {
     return new InfantryUnit(name, health);
   }
 
+  /**
+   * Creates a ranged unit
+   *
+   * @param name The name of the unit
+   * @param health The health of the unit
+   * @return The new Ranged unit
+   */
   public static Unit createRangedUnit(String name, int health){
     return new RangedUnit(name, health);
   }
 
+  /**
+   * Creates a Cavlary unit
+   *
+   * @param name The name of the unit
+   * @param health The health of the unit
+   * @return The new Cavalry unit
+   */
   public static Unit createCavalryUnit(String name, int health){
     return new CavalryUnit(name, health);
   }
 
+  /**
+   * Creates a Commander unit
+   *
+   * @param name The name of the unit
+   * @param health The health of the unit
+   * @return The new CommanderUnit
+   */
   public static Unit createCommanderUnit(String name, int health){
     return new CommanderUnit(name, health);
   }
 
+  /**
+   * Creates a Mage unit
+   *
+   * @param name The name of the unit
+   * @param health The health of the unit
+   * @return The new MageUnit
+   */
   public static Unit createMageUnit(String name, int health){
     return new MageUnit(name, health);
   }
 
+  /**
+   * Creates a SupportUnit
+   *
+   * @param name The name of the unit
+   * @param health The health of the unit
+   * @return The new SupportUnit
+   */
   public static Unit createSupportUnit(String name,int health){
     return new SupportUnit(name, health);
   }
@@ -103,14 +138,8 @@ public class ActorFactory {
        Collection<Actor> listOfUnits = new ArrayList<>();
 
        while(counter < numberOfUnits) {
-         switch (actorType) {
-           case INFANTRY_UNIT -> listOfUnits.add(new InfantryUnit(name, health));
-           case RANGED_UNIT -> listOfUnits.add(new RangedUnit(name, health));
-           case CAVALRY_UNIT -> listOfUnits.add(new CavalryUnit(name, health));
-           case COMMANDER_UNIT -> listOfUnits.add(new CommanderUnit(name, health));
-           case MAGE_UNIT -> listOfUnits.add(new MageUnit(name, health));
-           case SUPPORT_UNIT -> listOfUnits.add(new SupportUnit(name, health));
-         }
+
+       listOfUnits.add(ActorFactory.createSingleUnit(actorType, name, health));
 
          counter++;
        }

@@ -18,7 +18,6 @@ public class Battle {
   private static final int TIE = 3;
   private final Terrain terrain;
 
-
   /**
    * Creates an instance of a battle
    *
@@ -74,7 +73,6 @@ public class Battle {
     }
     return winner;
   }
-
 
   /**
    * Returns a collection of the members of the battle

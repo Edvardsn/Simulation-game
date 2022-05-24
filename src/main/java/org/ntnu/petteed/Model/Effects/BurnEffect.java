@@ -8,6 +8,7 @@ import org.ntnu.petteed.Model.Unit;
  * This class represents the Burn debuff which is a status effect that
  * inflicts damage over time (DOT) to a given unit.
  *
+ * @author Nr. 10049
  */
 public class BurnEffect implements ActionEventListener {
 

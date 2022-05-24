@@ -218,7 +218,7 @@
                               <FontIcon iconColor="WHITE" iconLiteral="eli-plus" iconSize="12" />
                            </graphic>
                         </MFXButton>
-                        <MFXButton fx:id="removeUnitButton" contentDisplay="GRAPHIC_ONLY" minWidth="33.0" onAction="#removeActionButtonPressed" prefHeight="32.0" prefWidth="33.0" style="-fx-background-color: red;" text="Button" textFill="WHITE">
+                        <MFXButton fx:id="removeUnitButton" contentDisplay="GRAPHIC_ONLY" minWidth="33.0" onAction="#removeActorButtonPressed" prefHeight="32.0" prefWidth="33.0" style="-fx-background-color: red;" text="Button" textFill="WHITE">
                            <graphic>
                               <FontIcon iconColor="WHITE" iconLiteral="eli-remove" />
                            </graphic>

@@ -3,7 +3,7 @@ package org.ntnu.petteed;
 import org.ntnu.petteed.ui.MainWindow;
 
 /**
- * The application which the program runs on
+ * The application which the program runs from
  */
 public class BattleSimulatorApp {
 

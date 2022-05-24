@@ -8,7 +8,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * This class serves the purpose of managing subscribers/listeners that wishes to be notified in the
  * event of any change in state regarding other objects.
  *
- * @author Student number
+ * @author Nr. 10049
  * @version 02/05/22
  */
 public class EventManager {

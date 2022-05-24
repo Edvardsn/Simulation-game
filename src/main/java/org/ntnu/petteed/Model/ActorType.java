@@ -3,6 +3,9 @@ package org.ntnu.petteed.Model;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Enums to identify Actor types
+ */
 public enum ActorType {
 
   INFANTRY_UNIT("InfantryUnit"), RANGED_UNIT("RangedUnit"), CAVALRY_UNIT("CavalryUnit"), COMMANDER_UNIT("CommanderUnit"),
@@ -29,7 +32,7 @@ public enum ActorType {
   }
 
   /**
-   * Returns the UnitType corresponding to given string
+   * Returns the ActorType corresponding to given string
    *
    * @param identification The string which unitType to get value of
    * @return The Actortype corresponding to the string, or null if nonexistent.

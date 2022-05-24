@@ -49,10 +49,6 @@ public class testFreezeEffect {
 
     FreezeEffect freezeEffect = new FreezeEffect();
 
-    int startAttackValue = unitToBeDebuffed.getAttackValue();
-
-    int intendedAttackValue = unitToBeDebuffed.getAttackValue() + freezeEffect.getAttackDebuff();
-
     unitToBeDebuffed.getEventManager().addEventListener(freezeEffect);
 
     unitToBeDebuffed.attack(unitToBeAttacked);

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 import org.ntnu.petteed.Model.Units.CavalryUnit;
 import org.ntnu.petteed.Model.Units.InfantryUnit;
 import org.ntnu.petteed.Model.Units.RangedUnit;
@@ -28,6 +29,7 @@ import org.ntnu.petteed.Model.Units.RangedUnit;
  *   <li>testCannotAttackItself, tests that a unit cannot attack itself</li>
  *   <li>testAttackingWhileDead, tests that a unit cannot attack whilst dead</li>
  *   <li>testAttackingNull, tests that a unit cannot attack null</li>
+ *   <li>testAttackNotHealingOpponent, Tests that a unit will not increase health value from attack if armour is larger than total attack </li>
  * </ul>
  *
  */
@@ -59,6 +61,24 @@ public class testAttackingMechanics {
 
     assertEquals(0, unit.getHealth());
   }
+
+  /**
+   * Tests that a unit will not increase health value from attack if armour is larger that
+   * total attack value
+   */
+  @Test
+  void testAttackNotHealingOpponent(){
+    int starthealth = 100;
+
+    Unit attacker = new MockUnit("attacker", 100,0,10);
+    Unit receiver = new MockUnit("reciver", starthealth,10,100);
+
+    attacker.attack(receiver);
+
+    assertEquals(starthealth,receiver.getHealth());
+  }
+
+
 
   /**
    * Tests the defensive bonus of the Rangedunit

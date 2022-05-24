@@ -11,9 +11,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class handles all file-related tasks (Only supporting CSV-format)
+ * This class handles all file-related tasks (Only supporting CSV-format and Units)
  *
- * @author Student Number
+ * @author Nr. 10049
  * @version 12/04/22
  */
 public class FileHandler {
@@ -37,9 +37,9 @@ public class FileHandler {
     try( FileWriter writer = new FileWriter(file);
          PrintWriter printWriter = new PrintWriter(writer);)
     {
-      printWriter.println(army.getName()); // Prints the first line with army name
+      printWriter.println(army.getName());
 
-      Iterator<Actor> armyActorIterator = army.getArmyActorIterator(); // Uses and iterator to only give access to reading information
+      Iterator<Actor> armyActorIterator = army.getArmyActorIterator();
 
       while (armyActorIterator.hasNext()) {
         Actor actor = armyActorIterator.next();

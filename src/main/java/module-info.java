@@ -9,6 +9,7 @@ module Wargames {
 
   opens org.ntnu.petteed.ui to javafx.fxml,javafx.graphics;
   exports org.ntnu.petteed.ui to javafx.graphics,javafx.fxml;
+
   exports org.ntnu.petteed.Model;
   exports org.ntnu.petteed.Model.EventMechanics;
   exports org.ntnu.petteed.Model.Effects;

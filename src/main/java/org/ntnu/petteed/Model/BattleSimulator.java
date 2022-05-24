@@ -3,7 +3,7 @@ package org.ntnu.petteed.Model;
 import java.util.Iterator;
 
 /**
- * This is an interface which reflects the current functionality of the backend of the program.
+ * This is an interface which reflects the current functionality of the program.
  *
  */
 public interface BattleSimulator {
@@ -38,7 +38,33 @@ public interface BattleSimulator {
    */
   void importArmy(Army army);
 
-  boolean validHighlightedArmy();
+  /**
+   * Returns the first army in the simulator
+   *
+   * @return The first army in the simulator
+   */
+  Army getFirstArmy();
+
+  /**
+   * Returns the second army in the simulator
+   *
+   * @return The second army in the simulator
+   */
+  Army getSecondArmy();
+
+  /**
+   * Returns whether there exists temporary actors
+   *
+   * @return True if a positive number of temporary actors, false if not.
+   */
+  boolean existsTemporaryActors();
+
+  /**
+   * Returns an iterator of the temporary created actors
+   *
+   * @return An iterator of the temporary created actors
+   */
+  Iterator<Actor> getTemporaryCreatedActorsIterator();
 
   /**
    * Returns an iterator of the first army in the simulator
@@ -54,7 +80,12 @@ public interface BattleSimulator {
    */
   Iterator<Actor> getSecondArmyActorIterator();
 
-  public Iterator<Army> getArmyRegisterIterator();
+  /**
+   * Returns an iterator of the army register in the simulator
+   *
+   * @return The iterator of the army register
+   */
+   Iterator<Army> getArmyRegisterIterator();
 
   /**
    * Returns a number of the current amount of armies in the simulator
@@ -103,12 +134,11 @@ public interface BattleSimulator {
    */
   void createBattle(String battleterrain);
 
-  Iterator<Actor> getCurrentlyHighlightedActorsIterator();
 
   /**
-   *  Returns the members of a battle if created
+   *  Returns a battle if created
    *
-   * @return The members of the battle
+   * @return The battle
    */
   Battle getBattle();
 
@@ -118,5 +148,4 @@ public interface BattleSimulator {
    * @return The winning army from the battle
    */
   Army battle();
-
 }

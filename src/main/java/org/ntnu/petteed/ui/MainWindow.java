@@ -34,8 +34,6 @@ public class MainWindow extends Application {
     this.simulator = new Simulator();
     this.primaryStage = primaryStage;
 
-    // LOADING REKKEFØLGE
-
     // Homepage
     FXMLLoader homePageLoader = new FXMLLoader(getClass().getResource("/Homepage.fxml"));
     Parent homePagePane = homePageLoader.load();
@@ -46,6 +44,7 @@ public class MainWindow extends Application {
     Parent simulationPagePane = simulationPageLoader.load();
     this.simulaitonScene = new Scene(simulationPagePane,DEFUALT_HEIGHT,DEFUALT_WIDTH);
 
+    // Simulation Controller
     SimulationController simulationController = simulationPageLoader.getController();
     simulationPageLoader.setController(simulationController);
     simulationController.setSimulator(this.simulator);
@@ -55,19 +54,19 @@ public class MainWindow extends Application {
     Parent armyCreationPane = createArmyPageLoader.load();
     this.createArmyScene = new Scene(armyCreationPane, DEFUALT_WIDTH, DEFUALT_HEIGHT);
 
-
+    // CreateArmy Controller
     CreateArmyController createArmyController = createArmyPageLoader.getController();
     createArmyPageLoader.setController(createArmyController);
     createArmyController.setSimulator(this.simulator);
     createArmyController.setReturnScene(this.homePageScene);
     createArmyController.setSimulationScene(simulaitonScene);
 
-    // Last because have to initialize all other page's first
+    // Homepage Controller
     HomePageController homePageController = homePageLoader.getController();
     homePageLoader.setController(homePageController);
     homePageController.setNextScene(createArmyScene);
 
-    // Sets up warning upon exit
+    // Sets warning upon exit
     this.primaryStage.setOnCloseRequest(event -> {
       event.consume();
       exitApplication(this.primaryStage);
@@ -79,7 +78,6 @@ public class MainWindow extends Application {
     this.primaryStage.setMaximized(false);
     this.primaryStage.setScene(homePageScene);
     this.primaryStage.show();
-
   }
 
   /**

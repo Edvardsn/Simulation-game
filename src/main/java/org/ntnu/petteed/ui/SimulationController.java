@@ -4,7 +4,6 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXProgressBar;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
-import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -150,8 +149,11 @@ public class SimulationController {
     catch (IllegalArgumentException e){
       showUserInputAlert(e.getMessage());
     }
-
+    catch(Exception e){
+      showUnexpectedErrorAlert("Unable to simulate combat");
+    }
   }
+
 
   /**
    * Updates the graphical elements of the page
@@ -159,14 +161,11 @@ public class SimulationController {
    */
   public void updateAllGraphicalElements() {
 
-    Iterator<Army> armyIterator = simulator.getArmyRegisterIterator();
+    // Updates labels
+    armyOneName.setText(this.simulator.getFirstArmy().getName());
+    armyTwoName.setText(this.simulator.getSecondArmy().getName());
 
-    Army firstArmy = armyIterator.next();
-    Army secondArmy = armyIterator.next();
-
-    armyOneName.setText(firstArmy.getName());
-    armyTwoName.setText(secondArmy.getName());
-
+    // Updates battle progress
     armyOneAliveIndicator.setProgress(this.simulator.getPercentageOfActorsAliveArmyOne());
     armyTwoAliveIndicator.setProgress(this.simulator.getPercentageOfActorsAliveArmyTwo());
     battleProgressIndicator.setProgress(this.simulator.getTotalPercentageOfActorsAlive());
@@ -174,8 +173,9 @@ public class SimulationController {
     armyOneObservableList.clear();
     armyTwoObservableList.clear();
 
-    armyOneObservableList.addAll(firstArmy.getActors());
-    armyTwoObservableList.addAll(secondArmy.getActors());
+    // Updates tableview
+    armyOneObservableList.addAll(this.simulator.getFirstArmy().getActors());
+    armyTwoObservableList.addAll(this.simulator.getSecondArmy().getActors());
   }
 
   /**
@@ -190,4 +190,18 @@ public class SimulationController {
     alert.setContentText(message);
     alert.showAndWait();
   }
+
+  /**
+   * Alerts the user of an unexcpected error
+   *
+   */
+  private void showUnexpectedErrorAlert(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Unexpected Error");
+    alert.setHeaderText("Unexcpected error Error");
+    alert.setContentText(message);
+    alert.showAndWait();
+  }
+
+
 }

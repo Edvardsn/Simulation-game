@@ -6,17 +6,17 @@ import java.util.HashMap;
 /**
  * This class represents a terrain and what conditions follows when interacting in its environment.
  *
- * @author Student Number
+ * @author Nr. 10049
  * @version 16/04/22
  */
 public class Terrain{
 
   private final String terrainName;
 
-  private final int STANDARD_TERRAIN_VALUE = 4;
+  private final int STANDARD_TERRAIN_BONUS = 4;
   private static final String[] terrainIdentities = {"Forest","Plains","Hills"};
 
-  private final HashMap<String,Integer> terrainValue;
+  private final HashMap<String,Integer> terrainBonus;
 
 
   /**
@@ -28,9 +28,9 @@ public class Terrain{
   public Terrain(String terrainName) {
     if(validTerrain(terrainName) && terrainName != null && !terrainName.isBlank())  {
       this.terrainName = terrainName;
-      terrainValue = new HashMap<>();
-      Arrays.stream(terrainIdentities).forEach(terrainId -> terrainValue.put(terrainId,
-          STANDARD_TERRAIN_VALUE));
+      terrainBonus = new HashMap<>();
+      Arrays.stream(terrainIdentities).forEach(terrainId -> terrainBonus.put(terrainId,
+          STANDARD_TERRAIN_BONUS));
     }
     else{
       throw new IllegalArgumentException("Invalid type of terrain");
@@ -63,6 +63,6 @@ public class Terrain{
    * @return The value of the terrain condition
    */
   public int getSpecificTerrainCondition(String terrainIdentity){
-    return terrainValue.get(terrainIdentity);
+    return terrainBonus.get(terrainIdentity);
   }
 }

@@ -5,20 +5,29 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * This class represents a simulator which brings about the functionality set out in the
+ * Battlesimulator interface, and interacts directly with the Model classes.
+ *
+ */
 public class Simulator implements BattleSimulator {
 
   private Battle battle;
 
   private final List<Army> armyRegister;
-  private Collection<Actor> currentHighlightedActors;
-  private int currentArmyIndex = 0;
+
+  private Collection<Actor> temporaryActors;
 
   private Army firstArmy;
   private Army secondArmy;
 
+  /**
+   * Creates an instance of the simulator
+   *
+   */
   public Simulator() {
     this.armyRegister = new ArrayList<>();
-    this.currentHighlightedActors = new ArrayList<>();
+    this.temporaryActors = new ArrayList<>();
     this.battle = null;
   }
 
@@ -32,7 +41,7 @@ public class Simulator implements BattleSimulator {
    */
   @Override
   public void addActors(int numberOfActors,String name, int health, ActorType actorType) throws IllegalArgumentException{
-    this.currentHighlightedActors.addAll(ActorFactory.createUnits(numberOfActors, name,health,actorType));
+    this.temporaryActors.addAll(ActorFactory.createUnits(numberOfActors, name,health,actorType));
   }
 
   /**
@@ -42,9 +51,8 @@ public class Simulator implements BattleSimulator {
    */
   @Override
   public void removeActor(Actor actor) {
-    this.currentHighlightedActors.remove(actor);
+    this.temporaryActors.remove(actor);
   }
-
 
   /**
    * Creates an army
@@ -53,11 +61,11 @@ public class Simulator implements BattleSimulator {
    */
   @Override
   public void createArmy(String name) throws IllegalArgumentException {
-    if(!validHighlightedArmy()){
+    if(!existsTemporaryActors()){
       throw new IllegalArgumentException("Cannot create army with no units");
     }
 
-    Army newArmy = new Army(name, currentHighlightedActors);
+    Army newArmy = new Army(name, temporaryActors);
 
     if(getNumberOfArmies() == 1){
       this.secondArmy = newArmy;
@@ -68,9 +76,6 @@ public class Simulator implements BattleSimulator {
       this.firstArmy = newArmy;
       this.armyRegister.add(firstArmy.copy());
     }
-
-    incrementCurrentArmyIndex();
-
   }
 
   /**
@@ -78,16 +83,24 @@ public class Simulator implements BattleSimulator {
    *
    * @return True if valid current army, false if not.
    */
-  public boolean validHighlightedArmy()  {
-    boolean validArmy = !currentHighlightedActors.isEmpty();
-
-    return validArmy;
+  public boolean existsTemporaryActors()  {
+    return !temporaryActors.isEmpty();
   }
 
+  /**
+   * Sets what army is considered the first army
+   *
+   * @param firstArmy The army to be considered first army
+   */
   public void setFirstArmy(Army firstArmy) {
     this.firstArmy = firstArmy;
   }
 
+  /**
+   * Sets what army is considered the second army
+   *
+   * @param secondArmy The army to be considered the second army
+   */
   public void setSecondArmy(Army secondArmy) {
     this.secondArmy = secondArmy;
   }
@@ -112,6 +125,11 @@ public class Simulator implements BattleSimulator {
     return this.secondArmy.getArmyActorIterator();
   }
 
+  /**
+   * Returns an iterator of the army register
+   *
+   * @return An iterator of the army register
+   */
   @Override
   public Iterator<Army> getArmyRegisterIterator() {
     return armyRegister.iterator();
@@ -128,9 +146,12 @@ public class Simulator implements BattleSimulator {
   }
 
   /**
-   * Returns the total number of actors alive in created armies
+   * Returns the percentage of actors alive in created armies in decimal form, or 1 if any army
+   * does not have any actors alive
    *
-   * @return The total number of actors alive in created armies
+   *
+   * @return The percentage of actors alive in created armies in decimal form, or 1 in any army
+   * does not have any actors alive
    */
   @Override
   public double getTotalPercentageOfActorsAlive() {
@@ -141,54 +162,46 @@ public class Simulator implements BattleSimulator {
       percentage = 1;
     }
     else{
-      percentage = 1 - ((getPercentageOfActorsAliveArmyOne() / 2) +
-          (getPercentageOfActorsAliveArmyTwo() / 2));
+      percentage = 1 - ((getPercentageOfActorsAliveArmyOne()  + getPercentageOfActorsAliveArmyTwo()) / 2);
     }
 
     return percentage;
   }
 
   /**
-   * Returns the number of actors alive in army one
+   * Returns the number of actors alive in army one in decimal form
    *
-   * @return The number of actors alive in army one
+   * @return The number of actors alive in army one in decimal form
    */
   @Override
   public double getPercentageOfActorsAliveArmyOne() {
-    double actorsAlive = this.firstArmy.getActors().stream().filter(Actor::isAlive).count();
-
-    int currentSize = this.firstArmy.getActors().size();
-
-    double onePercentage = currentSize / 100.0;
-
-    Double percentageAlive = (actorsAlive / onePercentage ) / 100;
-
-    return percentageAlive;
+   return this.firstArmy.getPercentageActorsAlive();
   }
 
   /**
-   * Returns the number of actors alive in army two
+   * Returns the number of actors alive in army two in decimal form
    *
-   * @return The number of actors alive in army two
+   * @return The number of actors alive in army two in decimal form
    */
   @Override
   public double getPercentageOfActorsAliveArmyTwo() {
-    double actorsAlive = this.secondArmy.getActors().stream().filter(Actor::isAlive).count();
-
-    int currentSize = this.secondArmy.getActors().size();
-
-    double onePercentage = currentSize / 100.0;
-
-    Double percentageAlive = (actorsAlive / onePercentage ) / 100;
-
-    return percentageAlive;
+    return this.secondArmy.getPercentageActorsAlive();
   }
 
-
+  /**
+   * Returns the first army
+   *
+   * @return The first army
+   */
   public Army getFirstArmy() {
     return firstArmy;
   }
 
+  /**
+   * Returns the second army
+   *
+   * @return The second army
+   */
   public Army getSecondArmy() {
     return secondArmy;
   }
@@ -203,21 +216,21 @@ public class Simulator implements BattleSimulator {
 
     if(getNumberOfArmies() == 1){
       this.secondArmy = army;
-      this.getCurrentHighlightedActors().addAll(army.getActors());
+      this.getTemporaryActors().addAll(army.getActors());
     }
 
     if(getNumberOfArmies() < 1){
       this.firstArmy = army;
-      this.getCurrentHighlightedActors().addAll(army.getActors());
+      this.getTemporaryActors().addAll(army.getActors());
     }
   }
 
   /**
-   * Clears any current army being edited on
+   * Replaces any current army being edited on
    */
   @Override
   public void resetArmy() {
-    this.currentHighlightedActors = new ArrayList<>();
+    this.temporaryActors = new ArrayList<>();
   }
 
   /**
@@ -231,21 +244,26 @@ public class Simulator implements BattleSimulator {
   }
 
   /**
-   * Created actors by the user
+   * Returns the collection of temporary actors created by the user
    *
-   * @return The created actors by the user
+   * @return The collection of temporary actors created by the user
    */
-  public Collection<Actor> getCurrentHighlightedActors() {
-    return currentHighlightedActors;
-  }
-
-  @Override
-  public Iterator<Actor> getCurrentlyHighlightedActorsIterator() {
-    return getCurrentHighlightedActors().iterator();
+  public Collection<Actor> getTemporaryActors() {
+    return temporaryActors;
   }
 
   /**
-   * Creates a battle to simulate
+   * Returns an iterator of the temporary actors currently created
+   *
+   * @return An iterator of the temporary actors currently created
+   */
+  @Override
+  public Iterator<Actor> getTemporaryCreatedActorsIterator() {
+    return getTemporaryActors().iterator();
+  }
+
+  /**
+   * Creates a battle with the first army and second army
    *
    * @param battleTerrain The terrain of the battle
    */
@@ -255,9 +273,9 @@ public class Simulator implements BattleSimulator {
   }
 
   /**
-   * Returns the members of a battle if created
+   * Returns the battle if created
    *
-   * @return The members of the battle
+   * @return The  battle
    */
   @Override
   public Battle getBattle() {
@@ -271,14 +289,13 @@ public class Simulator implements BattleSimulator {
    */
   @Override
   public Army battle() {
-    Army winningArmy = getBattle().battle();
+    Army winningArmy = null;
+
+    if(getBattle() != null){
+       winningArmy = getBattle().battle();
+    }
 
     return winningArmy;
   }
 
-  public void incrementCurrentArmyIndex() {
-    if(this.currentArmyIndex != 0){
-      this.currentArmyIndex += 1;
-    }
-  }
 }

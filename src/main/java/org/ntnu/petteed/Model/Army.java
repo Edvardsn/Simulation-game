@@ -77,7 +77,6 @@ public class Army {
     for(Actor actor : actors){
       copiedActors.add(ActorFactory.copy(actor));
     }
-
     return copiedActors;
   }
 
@@ -217,6 +216,26 @@ public class Army {
     Actor randomActor = aliveActors.get(RandomFactory.getRandomInteger(aliveActors.size()));
 
     return randomActor;
+  }
+
+  /**
+   * Returns the percentage of actors alive in army in decimal form
+   *
+   * @return The percentage in decimal form
+   */
+  public double getPercentageActorsAlive(){
+    double actorsAlive = this.getActors()
+        .stream()
+        .filter(Actor::isAlive)
+        .count();
+
+    int currentSize = this.getActors().size();
+
+    double onePercentage = currentSize / 100.0;
+
+    Double percentageAlive = (actorsAlive / onePercentage ) / 100.0;
+
+    return percentageAlive;
   }
 
   /**

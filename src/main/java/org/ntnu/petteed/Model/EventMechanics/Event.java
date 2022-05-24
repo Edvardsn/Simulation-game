@@ -4,7 +4,7 @@ package org.ntnu.petteed.Model.EventMechanics;
  * This class represents an event that has the aim of conveying information between objects when
  * certain events of a specific type happens.
  *
- * @author Student number
+ * @author Nr. 10049
  * @version 04/05/22
  */
 public abstract class Event {

@@ -9,7 +9,7 @@ import org.ntnu.petteed.Model.Unit;
 /**
  * This class represents the SupportUnit which is a unique unit that will buff its allies.
  *
- * @author Student number
+ * @author Nr. 10049
  * @version 04/05/22
  */
 public class SupportUnit extends Unit {

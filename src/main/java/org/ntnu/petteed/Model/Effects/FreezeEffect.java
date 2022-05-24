@@ -9,6 +9,7 @@ import org.ntnu.petteed.Model.Unit;
  * This class represents a Freeze debuff which is a Status effect that
  * assigns an attackdebuff to a unit.
  *
+ * @author Nr. 10049
  */
 public class FreezeEffect implements ActionEventListener {
 

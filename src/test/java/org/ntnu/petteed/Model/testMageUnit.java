@@ -16,7 +16,7 @@ import org.ntnu.petteed.Model.Units.MageUnit;
  *
  * Negative tests:
  * <ul>
- * <li> testAppliedSpellToNull, tests that no exception is thrown if attempted to apply to null</li>
+ * <li> testAppliedSpellToNull, tests that no Runtime exception is thrown if attempted to apply to null</li>
  *</ul>
  */
 public class testMageUnit {
@@ -37,7 +37,7 @@ public class testMageUnit {
   }
 
   /**
-   * Tests that if Mageunit acts upon null, no exception will be thrown
+   * Tests that if Mageunit acts upon null, no Runtime exception will be thrown
    *
    */
   @Test

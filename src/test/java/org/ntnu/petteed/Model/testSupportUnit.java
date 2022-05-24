@@ -15,7 +15,7 @@ import org.ntnu.petteed.Model.Units.SupportUnit;
  *
  * Negative tests:
  * <ul>
- * <li>testCurrentArmyIsNull, tests that an exception is not thrown when current army is null</li>
+ * <li>testCurrentArmyIsNull, tests that an Runtime exception is not thrown when current army is null</li>
  *</ul>
  */
 public class testSupportUnit {
